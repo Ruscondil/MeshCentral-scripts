@@ -17,17 +17,6 @@ def read_secrets(filename):
         print(f"Błąd podczas odczytu pliku YAML {filename}: {e}")
         return None
 
-secrets = read_secrets('secrets.yaml')
-if not secrets:
-    exit()
-
-login_user = secrets.get('login_user', None)
-login_pass = secrets.get('login_pass', None)
-url = secrets.get('url', None)
-polluks_ip = secrets.get('polluks_ip', None)
-polluks_login = secrets.get('polluks_login', None)
-polluks_password = secrets.get('polluks_password', None)
-
 def get_devices():
     try:
         # Uruchomienie komendy node
@@ -78,24 +67,34 @@ def power_on_selected_devices(devices):
         stderr=subprocess.PIPE, 
         text=True, 
         check=True)
+        print("Urządzenia zostały włączone")
         return result.stdout
     except subprocess.CalledProcessError as e:
         print("Wystąpił błąd przy uruchamianiu komendy:", e.stderr)
         return None
     
-def connect_and_click_button(device_name):
+def connectPolluks():
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    try:
+        ssh.connect(polluks_ip, username=polluks_login, password=polluks_password)
+        print("Connected to Polluks")
+        return ssh
+    except Exception as e:
+        print(f"Error connecting to Polluks: {e}")
+        return None
 
+def connect_and_click_button(polluks, device_name):
+    
+    if polluks is None:
+        print(f"Cannot connect to device {device_name}: Polluks connection is None")
+        return
+       
     device_ssh = paramiko.SSHClient()
     device_ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     
     try:
-        ssh.connect(polluks_ip, username=polluks_login, password=polluks_password)
-        
-        print("Connected to intermediate server")
-        
-        transport = ssh.get_transport()
+        transport = polluks.get_transport()
         dest_addr = (device_name, 22)
         local_addr = ('127.0.0.1', 22)
         channel = transport.open_channel("direct-tcpip", dest_addr, local_addr)
@@ -114,22 +113,34 @@ def connect_and_click_button(device_name):
     except Exception as e:
         print(f"Error connecting to {device_name}: {e}")
     finally:
-        ssh.close()
         device_ssh.close()
+
+
+secrets = read_secrets('secrets.yaml')
+if not secrets:
+    exit()
+
+login_user = secrets.get('login_user', None)
+login_pass = secrets.get('login_pass', None)
+url = secrets.get('url', None)
+polluks_ip = secrets.get('polluks_ip', None)
+polluks_login = secrets.get('polluks_login', None)
+polluks_password = secrets.get('polluks_password', None)
 
 devices = get_devices()
 selected_devices_names = get_selected_devices_names('devices.txt')
 if devices is not None and selected_devices_names is not None:
     selected_devices = [device for device in devices if device["name"] in selected_devices_names]
-    print(selected_devices)
+    #print(selected_devices)
     power_on_result = power_on_selected_devices(selected_devices)
 
     #print("Lista urządzeń:", devices)
-
     
-
+    ssh = connectPolluks()
+    time.sleep(30)
     for device in selected_devices:
-        connect_and_click_button(device["name"])
+        connect_and_click_button(ssh, device["name"])
+    ssh.close()
 
 
    
