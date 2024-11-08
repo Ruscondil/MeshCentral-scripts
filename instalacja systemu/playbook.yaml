@@ -1,0 +1,33 @@
+---
+- name: Przygotowanie systemu plików i montowanie partycji
+  hosts: all
+  become: true
+  tasks:
+    - name: Sprawdź, czy partycja /dev/sda3 istnieje
+      ansible.builtin.command: lsblk -o NAME | grep sda3
+      register: partition_check
+      ignore_errors: true
+
+    - name: Utwórz punkt montowania /mnt, jeśli nie istnieje
+      ansible.builtin.file:
+        path: /mnt
+        state: directory
+
+    - name: Sprawdź, czy /dev/sda3 ma system plików
+      ansible.builtin.command: blkid -o value -s TYPE /dev/sda3
+      register: filesystem_check
+      failed_when: false
+      changed_when: false
+      when: partition_check is succeeded
+
+    - name: Utwórz system plików ext4 na /dev/sda3, jeśli brak systemu plików
+      ansible.builtin.command: mkfs.ext4 -L UBUNTU /dev/sda3
+      when: not (filesystem_check is defined and 'stdout' in filesystem_check and filesystem_check.stdout.strip())
+
+    - name: Zamontuj partycję /dev/sda3 do /mnt
+      ansible.builtin.mount:
+        src: /dev/sda3
+        path: /mnt
+        fstype: ext4
+        state: mounted
+      when: partition_check is succeeded
