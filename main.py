@@ -3,7 +3,7 @@ import json
 import paramiko
 import time
 import yaml
-
+import concurrent.futures
 
 def read_secrets(filename):
     try:
@@ -19,17 +19,14 @@ def read_secrets(filename):
 
 def get_devices():
     try:
-        # Uruchomienie komendy node
         result = subprocess.run(['node', 'meshctrl.js', 'listdevices', '--url', url, '--loginuser', login_user, '--loginpass', login_pass, '--json'], 
                     stdout=subprocess.PIPE, 
                     stderr=subprocess.PIPE, 
                     text=True, 
                     check=True)
         
-        # Odczytanie wyniku
         output = result.stdout
         
-        # Parsowanie wyniku jako JSON
         devices = json.loads(output)
         
         return devices
@@ -54,20 +51,20 @@ def get_selected_devices_names(filename):
     
 def power_on_selected_devices(devices):
     try:
-        device_ids = ','.join([device['_id'] for device in devices])
+        device_ids = ','.join([device for device in devices])
         result = subprocess.run([
             'node', 'meshctrl.js', 'devicepower', 
             '--id', device_ids, 
             '--url', url, 
             '--loginuser', login_user, 
             '--loginpass', login_pass, 
-            '--amton'
+            '--wake'
         ], 
         stdout=subprocess.PIPE, 
         stderr=subprocess.PIPE, 
         text=True, 
         check=True)
-        print("Urządzenia zostały włączone")
+        #print("Urządzenia zostały włączone")
         return result.stdout
     except subprocess.CalledProcessError as e:
         print("Wystąpił błąd przy uruchamianiu komendy:", e.stderr)
@@ -93,27 +90,38 @@ def connect_and_click_button(polluks, device_name):
     device_ssh = paramiko.SSHClient()
     device_ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     
-    try:
-        transport = polluks.get_transport()
-        dest_addr = (device_name, 22)
-        local_addr = ('127.0.0.1', 22)
-        channel = transport.open_channel("direct-tcpip", dest_addr, local_addr)
+    attempts = 3
+    for attempt in range(attempts):
+        try:
+            transport = polluks.get_transport()
+            dest_addr = (device_name, 22)
+            local_addr = ('127.0.0.1', 22)
+            channel = transport.open_channel("direct-tcpip", dest_addr, local_addr)
 
-        device_ssh.connect(device_name, username=polluks_login, password=polluks_password, sock=channel)
-        print(f"Connected to device {device_name}") 
+            device_ssh.connect(device_name, username=polluks_login, password=polluks_password, sock=channel, timeout=15)
+            print(f"Connected to device {device_name}") 
 
-        shell = device_ssh.invoke_shell()
-        time.sleep(1)
-        shell.send('L\n')
-        time.sleep(1)
+            shell = device_ssh.invoke_shell()
+            time.sleep(1)
+            shell.send('C\n')
+            time.sleep(1)
 
-        #output = shell.recv(65535).decode('utf-8')
-        #print(output)
-        
-    except Exception as e:
-        print(f"Error connecting to {device_name}: {e}")
-    finally:
-        device_ssh.close()
+            #output = shell.recv(65535).decode('utf-8')
+            #print(output)
+            device_ssh.close()
+            break
+        except paramiko.AuthenticationException:
+            print(f"Authentication failed for {device_name}: Already booted")
+            break
+        except Exception as e:
+            #print(f"Error connecting to {device_name}, attempt {attempt + 1} of {attempts}: {e}")
+           
+            if attempt < attempts - 1:
+                power_on_selected_devices([device_name])
+                time.sleep(60)
+            else:
+                print(f"Failed to connect to {device_name} after {attempts} attempts")
+           
 
 
 secrets = read_secrets('secrets.yaml')
@@ -132,14 +140,21 @@ selected_devices_names = get_selected_devices_names('devices.txt')
 if devices is not None and selected_devices_names is not None:
     selected_devices = [device for device in devices if device["name"] in selected_devices_names]
     #print(selected_devices)
-    power_on_result = power_on_selected_devices(selected_devices)
+    power_on_result = power_on_selected_devices(selected_devices_names)
 
     #print("Lista urządzeń:", devices)
-    
+    exit()
     ssh = connectPolluks()
-    time.sleep(30)
-    for device in selected_devices:
-        connect_and_click_button(ssh, device["name"])
+    time.sleep(60)
+
+    
+    with concurrent.futures.ThreadPoolExecutor(max_workers=16) as executor:
+        futures = [executor.submit(connect_and_click_button, ssh, device["name"]) for device in selected_devices]
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                future.result()
+            except Exception as e:
+                print(f"Error occurred: {e}")
     ssh.close()
 
 
