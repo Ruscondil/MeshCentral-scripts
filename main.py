@@ -48,8 +48,13 @@ def get_selected_devices_names(filename):
     except Exception as e:
         print(f"Wystąpił błąd podczas odczytu pliku {filename}: {e}")
         return None
-    
+
 def power_on_selected_devices(devices):
+    return devicepowerset(devices, '--amton')
+def wake_selected_devices(devices):
+    return devicepowerset(devices, '--wake')
+        
+def devicepowerset(devices, power):
     try:
         device_ids = ','.join([device for device in devices])
         result = subprocess.run([
@@ -58,7 +63,7 @@ def power_on_selected_devices(devices):
             '--url', url, 
             '--loginuser', login_user, 
             '--loginpass', login_pass, 
-            '--wake'
+            power
         ], 
         stdout=subprocess.PIPE, 
         stderr=subprocess.PIPE, 
@@ -117,7 +122,7 @@ def connect_and_click_button(polluks, device_name):
             #print(f"Error connecting to {device_name}, attempt {attempt + 1} of {attempts}: {e}")
            
             if attempt < attempts - 1:
-                power_on_selected_devices([device_name])
+                wake_selected_devices([device_name])
                 time.sleep(60)
             else:
                 print(f"Failed to connect to {device_name} after {attempts} attempts")
@@ -140,10 +145,10 @@ selected_devices_names = get_selected_devices_names('devices.txt')
 if devices is not None and selected_devices_names is not None:
     selected_devices = [device for device in devices if device["name"] in selected_devices_names]
     #print(selected_devices)
-    power_on_result = power_on_selected_devices(selected_devices_names)
-
-    #print("Lista urządzeń:", devices)
+    devicepowerset(selected_devices_names, '--amtreset')
+    #power_on_result = power_on_selected_devices(selected_devices_names)
     exit()
+    #print("Lista urządzeń:", devices)
     ssh = connectPolluks()
     time.sleep(60)
 
