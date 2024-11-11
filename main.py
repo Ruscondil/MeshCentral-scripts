@@ -86,7 +86,7 @@ def connectPolluks():
         print(f"Error connecting to Polluks: {e}")
         return None
 
-def connect_and_click_button(polluks, device_name):
+def connect_and_click_button(polluks, device_name, system='ubuntu'):
     
     if polluks is None:
         print(f"Cannot connect to device {device_name}: Polluks connection is None")
@@ -108,7 +108,13 @@ def connect_and_click_button(polluks, device_name):
 
             shell = device_ssh.invoke_shell()
             time.sleep(1)
-            shell.send('C\n')
+
+            if system == 'ubuntu':
+                shell.send('X\n')
+                time.sleep(1)
+                shell.send('H\n')
+            else:
+                shell.send('C\n')
             time.sleep(1)
 
             #output = shell.recv(65535).decode('utf-8')
