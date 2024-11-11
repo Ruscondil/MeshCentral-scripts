@@ -3,6 +3,11 @@
   hosts: all
   become: true
   tasks:
+    - name: Ustaw prędkość interfejsu sieciowego br0 na 1000 Mbps
+      ansible.builtin.command:
+        cmd: ethtool -s br0 speed 1000 duplex full autoneg off
+      when: ansible_facts.interfaces['br0'] is defined  # Sprawdzenie, czy interfejs br0 istnieje
+
     - name: Sprawdź, czy partycja /dev/sda3 istnieje
       ansible.builtin.command: lsblk -o NAME | grep sda3
       register: partition_check
@@ -18,7 +23,7 @@
       register: filesystem_check
       failed_when: false
       changed_when: false
-      when: partition_check is succeeded
+      when: partition_check.rc == 0  # Warunek, aby zadanie zostało wykonane tylko, gdy partycja istnieje
 
     - name: Utwórz system plików ext4 na /dev/sda3, jeśli brak systemu plików
       ansible.builtin.command: mkfs.ext4 -L UBUNTU /dev/sda3
@@ -30,4 +35,5 @@
         path: /mnt
         fstype: ext4
         state: mounted
-      when: partition_check is succeeded
+      when: partition_check.rc == 0  # Tylko jeśli partycja istnieje
+
