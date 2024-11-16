@@ -1,0 +1,34 @@
+archive_test: (g=0): rw=write, bs=(R) 64.0KiB-128KiB, (W) 64.0KiB-128KiB, (T) 64.0KiB-128KiB, ioengine=libaio, iodepth=128
+...
+fio-3.36
+Starting 2 processes
+archive_test: Laying out IO file (1 file / 10240MiB)
+archive_test: Laying out IO file (1 file / 10240MiB)
+
+archive_test: (groupid=0, jobs=2): err= 0: pid=6254: Sat Nov 16 23:36:23 2024
+  write: IOPS=1515, BW=123MiB/s (129MB/s)(20.0GiB/166230msec); 0 zone resets
+    slat (usec): min=3, max=207391, avg=50.39, stdev=1550.91
+    clat (usec): min=1080, max=520455, avg=168732.87, stdev=41590.67
+     lat (usec): min=1091, max=520478, avg=168783.26, stdev=41586.14
+    clat percentiles (msec):
+     |  1.00th=[   93],  5.00th=[  140], 10.00th=[  146], 20.00th=[  148],
+     | 30.00th=[  150], 40.00th=[  153], 50.00th=[  157], 60.00th=[  159],
+     | 70.00th=[  165], 80.00th=[  190], 90.00th=[  207], 95.00th=[  251],
+     | 99.00th=[  342], 99.50th=[  380], 99.90th=[  451], 99.95th=[  468],
+     | 99.99th=[  514]
+   bw (  KiB/s): min=43392, max=169256, per=100.00%, avg=126331.86, stdev=9574.92, samples=663
+   iops        : min=  512, max= 2015, avg=1517.35, stdev=115.46, samples=663
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.02%, 20=0.02%, 50=0.07%
+  lat (msec)   : 100=1.10%, 250=93.75%, 500=4.98%, 750=0.04%
+  cpu          : usr=1.00%, sys=2.39%, ctx=28019, majf=0, minf=29
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.9%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.1%
+     issued rwts: total=0,251984,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=128
+
+Run status group 0 (all jobs):
+  WRITE: bw=123MiB/s (129MB/s), 123MiB/s-123MiB/s (129MB/s-129MB/s), io=20.0GiB (21.5GB), run=166230-166230msec
+
+Disk stats (read/write):
+  sda: ios=2/32858, sectors=40/43189936, merge=0/221604, ticks=271/5461044, in_queue=5476670, util=91.98%

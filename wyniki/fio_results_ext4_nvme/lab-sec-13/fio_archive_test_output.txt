@@ -1,0 +1,36 @@
+archive_test: (g=0): rw=write, bs=(R) 64.0KiB-128KiB, (W) 64.0KiB-128KiB, (T) 64.0KiB-128KiB, ioengine=libaio, iodepth=128
+...
+fio-3.36
+Starting 2 processes
+archive_test: Laying out IO file (1 file / 10240MiB)
+archive_test: Laying out IO file (1 file / 10240MiB)
+
+archive_test: (groupid=0, jobs=2): err= 0: pid=4533: Sat Nov 16 23:16:08 2024
+  write: IOPS=8042, BW=654MiB/s (685MB/s)(20.0GiB/31331msec); 0 zone resets
+    slat (usec): min=6, max=1465.5k, avg=71.14, stdev=2993.77
+    clat (usec): min=78, max=2806.7k, avg=31711.46, stdev=106338.11
+     lat (usec): min=135, max=2806.8k, avg=31782.59, stdev=106401.03
+    clat percentiles (msec):
+     |  1.00th=[    5],  5.00th=[    6], 10.00th=[    7], 20.00th=[    9],
+     | 30.00th=[   12], 40.00th=[   19], 50.00th=[   25], 60.00th=[   29],
+     | 70.00th=[   32], 80.00th=[   35], 90.00th=[   41], 95.00th=[   64],
+     | 99.00th=[  105], 99.50th=[  464], 99.90th=[ 2123], 99.95th=[ 2735],
+     | 99.99th=[ 2769]
+   bw (  KiB/s): min= 3071, max=933632, per=100.00%, avg=683820.82, stdev=160730.42, samples=121
+   iops        : min=   30, max=11178, avg=8217.46, stdev=1932.64, samples=121
+  lat (usec)   : 100=0.01%, 250=0.01%, 500=0.01%, 750=0.01%, 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.77%, 10=22.48%, 20=18.12%, 50=52.81%
+  lat (msec)   : 100=4.70%, 250=0.48%, 500=0.15%, 750=0.12%, 1000=0.13%
+  lat (msec)   : 2000=0.12%, >=2000=0.11%
+  cpu          : usr=4.22%, sys=18.77%, ctx=71420, majf=0, minf=26
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.9%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.1%
+     issued rwts: total=0,251984,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=128
+
+Run status group 0 (all jobs):
+  WRITE: bw=654MiB/s (685MB/s), 654MiB/s-654MiB/s (685MB/s-685MB/s), io=20.0GiB (21.5GB), run=31331-31331msec
+
+Disk stats (read/write):
+  nvme0n1: ios=0/250418, sectors=0/41744280, merge=0/864, ticks=0/7848650, in_queue=7848677, util=83.11%
