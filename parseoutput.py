@@ -4,8 +4,8 @@ from collections import defaultdict
 
 def parse_fio_results(file_path):
     # TODO fix, float numbers
-    bandwidth_regex = re.compile(r'WRITE: bw=(\d+MiB/s)')
-    bandwidth_read_regex = re.compile(r'READ: bw=(\d+MiB/s)')
+    bandwidth_regex = re.compile(r'WRITE: bw=(\d+(?:\.\d+)?)MiB/s')
+    bandwidth_read_regex = re.compile(r'READ: bw=(\d+(?:\.\d+)?)MiB/s')
     iops_regex = re.compile(r'write: IOPS=(\d+)')
     iops_read_regex = re.compile(r'read: IOPS=(\d+)')
     latency_regex = re.compile(r'avg=(\d+\.\d+), stdev=.*')
@@ -21,9 +21,9 @@ def parse_fio_results(file_path):
                 lat_match = latency_regex.search(line)
             
                 if bw_match:
-                    results['Bandwidth'] = int(bw_match.group(1).replace('MiB/s', ''))
+                    results['Bandwidth'] = float(bw_match.group(1).replace('MiB/s', ''))
                 if iops_match:
-                    results['IOPS'] = int(iops_match.group(1))
+                    results['IOPS'] = float(iops_match.group(1))
                 if lat_match:
                     results['Latency'] = float(lat_match.group(1))
         elif 'database' in file_path:
@@ -34,14 +34,13 @@ def parse_fio_results(file_path):
                     iops_read_match = iops_read_regex.search(line)
                     lat_match = latency_regex.search(line)
                     if bw_write_match:
-                        results['Bandwidth'] = int(bw_write_match.group(1).replace('MiB/s', ''))
+                        results['Bandwidth'] = float(bw_write_match.group(1).replace('MiB/s', ''))
                     if bw_read_match:
-                        results['BandwidthR'] = int(bw_read_match.group(1).replace('MiB/s', ''))
-                        print(results['BandwidthR'])
+                        results['BandwidthR'] = float(bw_read_match.group(1).replace('MiB/s', ''))
                     if iops_write_match:
-                        results['IOPS'] = int(iops_write_match.group(1))
+                        results['IOPS'] = float(iops_write_match.group(1))
                     if iops_read_match:
-                        results['IOPSR'] = int(iops_read_match.group(1))
+                        results['IOPSR'] = float(iops_read_match.group(1))
                     if lat_match:
                         results['Latency'] = float(lat_match.group(1))
         elif 'webserver' in file_path:
@@ -53,13 +52,13 @@ def parse_fio_results(file_path):
                     lat_match = latency_regex.search(line)
                     
                     if bw_write_match:
-                        results['Bandwidth'] = int(bw_write_match.group(1).replace('MiB/s', ''))
+                        results['Bandwidth'] = float(bw_write_match.group(1).replace('MiB/s', ''))
                     if bw_read_match:
-                        results['BandwidthR'] = int(bw_read_match.group(1).replace('MiB/s', ''))
+                        results['BandwidthR'] = float(bw_read_match.group(1).replace('MiB/s', ''))
                     if iops_write_match:
-                        results['IOPS'] = int(iops_write_match.group(1))
+                        results['IOPS'] = float(iops_write_match.group(1))
                     if iops_read_match:
-                        results['IOPSR'] = int(iops_read_match.group(1))
+                        results['IOPSR'] = float(iops_read_match.group(1))
                     if lat_match:
                         results['Latency'] = float(lat_match.group(1))
         elif 'multimedia' in file_path:
@@ -69,9 +68,9 @@ def parse_fio_results(file_path):
                     lat_match = latency_regex.search(line)
                     
                     if bw_read_match:
-                        results['BandwidthR'] = int(bw_read_match.group(1).replace('MiB/s', ''))
+                        results['BandwidthR'] = float(bw_read_match.group(1).replace('MiB/s', ''))
                     if iops_read_match:
-                        results['IOPSR'] = int(iops_read_match.group(1))
+                        results['IOPSR'] = float(iops_read_match.group(1))
                     if lat_match:
                         results['Latency'] = float(lat_match.group(1))
         else:
