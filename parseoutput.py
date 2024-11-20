@@ -3,78 +3,51 @@ import re
 from collections import defaultdict
 
 def parse_fio_results(file_path):
-    # TODO fix, float numbers
-    bandwidth_regex = re.compile(r'WRITE: bw=(\d+(?:\.\d+)?)MiB/s')
-    bandwidth_read_regex = re.compile(r'READ: bw=(\d+(?:\.\d+)?)MiB/s')
+    # Regular expressions
+    bandwidth_regex = re.compile(r'WRITE: bw=(\d+(?:\.\d+)?)([MK]iB/s)')
+    bandwidth_read_regex = re.compile(r'READ: bw=(\d+(?:\.\d+)?)([MK]iB/s)')
     iops_regex = re.compile(r'write: IOPS=(\d+)')
     iops_read_regex = re.compile(r'read: IOPS=(\d+)')
     latency_regex = re.compile(r'avg=(\d+\.\d+), stdev=.*')
 
+    # Function to convert bandwidth to MiB/s
+    def convert_bandwidth(value, unit):
+        value = float(value)
+        if unit == "KiB/s":
+            return value / 1024  # Convert KiB/s to MiB/s
+        return value  # Already in MiB/s
 
     results = {}
 
     with open(file_path, 'r') as file:
-        if 'archive' in file_path:
-            for line in file:
-                bw_match = bandwidth_regex.search(line)
-                iops_match = iops_regex.search(line)
-                lat_match = latency_regex.search(line)
-            
-                if bw_match:
-                    results['Bandwidth'] = float(bw_match.group(1).replace('MiB/s', ''))
-                if iops_match:
-                    results['IOPS'] = float(iops_match.group(1))
-                if lat_match:
-                    results['Latency'] = float(lat_match.group(1))
-        elif 'database' in file_path:
-                for line in file:
-                    bw_write_match = bandwidth_regex.search(line)
-                    bw_read_match = bandwidth_read_regex.search(line)
-                    iops_write_match = iops_regex.search(line)
-                    iops_read_match = iops_read_regex.search(line)
-                    lat_match = latency_regex.search(line)
-                    if bw_write_match:
-                        results['Bandwidth'] = float(bw_write_match.group(1).replace('MiB/s', ''))
-                    if bw_read_match:
-                        results['BandwidthR'] = float(bw_read_match.group(1).replace('MiB/s', ''))
-                    if iops_write_match:
-                        results['IOPS'] = float(iops_write_match.group(1))
-                    if iops_read_match:
-                        results['IOPSR'] = float(iops_read_match.group(1))
-                    if lat_match:
-                        results['Latency'] = float(lat_match.group(1))
-        elif 'webserver' in file_path:
-                for line in file:
-                    bw_write_match = bandwidth_regex.search(line)
-                    bw_read_match = bandwidth_read_regex.search(line)
-                    iops_write_match = iops_regex.search(line)
-                    iops_read_match = iops_read_regex.search(line)
-                    lat_match = latency_regex.search(line)
-                    
-                    if bw_write_match:
-                        results['Bandwidth'] = float(bw_write_match.group(1).replace('MiB/s', ''))
-                    if bw_read_match:
-                        results['BandwidthR'] = float(bw_read_match.group(1).replace('MiB/s', ''))
-                    if iops_write_match:
-                        results['IOPS'] = float(iops_write_match.group(1))
-                    if iops_read_match:
-                        results['IOPSR'] = float(iops_read_match.group(1))
-                    if lat_match:
-                        results['Latency'] = float(lat_match.group(1))
-        elif 'multimedia' in file_path:
-                for line in file:
-                    bw_read_match = bandwidth_read_regex.search(line)
-                    iops_read_match = iops_read_regex.search(line)
-                    lat_match = latency_regex.search(line)
-                    
-                    if bw_read_match:
-                        results['BandwidthR'] = float(bw_read_match.group(1).replace('MiB/s', ''))
-                    if iops_read_match:
-                        results['IOPSR'] = float(iops_read_match.group(1))
-                    if lat_match:
-                        results['Latency'] = float(lat_match.group(1))
-        else:
-            print("FDGDF")
+        for line in file:
+            # Match write bandwidth
+            bw_match = bandwidth_regex.search(line)
+            if bw_match:
+                value, unit = bw_match.groups()
+                results['Bandwidth'] = convert_bandwidth(value, unit)
+
+            # Match read bandwidth
+            bw_read_match = bandwidth_read_regex.search(line)
+            if bw_read_match:
+                value, unit = bw_read_match.groups()
+                results['BandwidthR'] = convert_bandwidth(value, unit)
+
+            # Match write IOPS
+            iops_match = iops_regex.search(line)
+            if iops_match:
+                results['IOPS'] = float(iops_match.group(1))
+
+            # Match read IOPS
+            iops_read_match = iops_read_regex.search(line)
+            if iops_read_match:
+                results['IOPSR'] = float(iops_read_match.group(1))
+
+            # Match latency
+            lat_match = latency_regex.search(line)
+            if lat_match:
+                results['Latency'] = float(lat_match.group(1))
+
     return results
 
 def calculate_averages(folders, file_names):
@@ -93,7 +66,6 @@ def calculate_averages(folders, file_names):
             else:
                 print(f"File not found: {file_path}")
 
-
     averages = {}
     for file_name, metrics in cumulative_data.items():
         averages[file_name] = {
@@ -103,9 +75,8 @@ def calculate_averages(folders, file_names):
 
     return averages
 
-
-prepath = './wyniki/fio_results_zfs_nvme/'
-folders = [prepath+'lab-sec-5', prepath+'lab-sec-6', prepath+'lab-sec-7']  
+prepath = './wyniki/fio_results_xfs_nvme/'
+folders = [prepath + 'lab-sec-13', prepath + 'lab-sec-14', prepath + 'lab-sec-15', prepath + 'lab-sec-16']
 file_names = [
     'fio_archive_test_output.txt',
     'fio_database_test_output.txt',
