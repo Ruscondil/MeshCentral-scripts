@@ -77,13 +77,48 @@ def calculate_averages(resultsfolder, file_names):
         averages = {}
         for file_name, metrics in cumulative_data.items():
             averages[file_name] = {
-                key: round(sum(values) / len(values),2) if values else 0
+                key: round(sum(values) / len(values), 2) if values else 0
                 for key, values in metrics.items()
             }
         resultsdict[filesystem][storage] = averages
     return resultsdict
 
 
+def format_and_save_as_excel(resultsdict, output_file='output.xlsx'):
+    # Prepare rows for formatting
+    rows = []
+    for fs, devices in resultsdict.items():
+        for device, workloads in devices.items():
+            for workload, metrics in workloads.items():
+                row = {
+                    'FileSystem': fs.upper(),
+                    'Device': device.upper(),
+                    'Workload': workload.capitalize(),
+                }
+                row.update(metrics)
+                rows.append(row)
+
+    # Convert to DataFrame
+    df = pd.DataFrame(rows)
+
+    # Pivot to match the table layout example
+    formatted_table = df.pivot_table(
+        index=['FileSystem', 'Device', 'Workload'],
+        values=[
+            'Bandwidth READ (MiB/s)', 'Bandwidth WRITE (MiB/s)',
+            'IOPS READ', 'IOPS WRITE', 'Latency (ms)'
+        ],
+        aggfunc='mean'
+    )
+
+    # Save to Excel
+    with pd.ExcelWriter(output_file) as writer:
+        formatted_table.to_excel(writer, sheet_name='Summary')
+
+    print(f"Data saved to {output_file}")
+
+
+# Main logic
 file_names = [
     'fio_database_test_output.txt',
     'fio_multimedia_test_output.txt',
@@ -92,30 +127,6 @@ file_names = [
 ]
 
 resultsdict = calculate_averages('./wyniki/', file_names)
-print(resultsdict)
-for filesystem, storage in resultsdict.items():
-    print('\n------------------------------------------------------\n')
-    print(filesystem.upper(), end='\n******\n')
-    for storage, averages in storage.items():
-        print()
-        print('>>>>>>',storage.upper(), end=' <<<<<<<\n\n')
-        for file_name, metrics in averages.items():
-            print(file_name+':')
-            for metric, avg_value in metrics.items():
-                unit = "MiB/s" if "Bandwidth" in metric else "ms" if metric == "Latency" else ""
-                print(f"  {metric}: {avg_value:.2f} {unit}")
 
-# Flatten the nested dictionary into a DataFrame
-rows = []
-for fs, devices in resultsdict.items():
-    for device, workloads in devices.items():
-        for workload, metrics in workloads.items():
-            row = {'FileSystem': fs, 'Device': device, 'Workload': workload}
-            row.update(metrics)  # Add the metric values
-            rows.append(row)
-
-# Create a pandas DataFrame
-df = pd.DataFrame(rows)
-
-# Save to Excel
-df.to_excel('output.xlsx', index=False)
+# Save results to Excel with formatting
+format_and_save_as_excel(resultsdict)
