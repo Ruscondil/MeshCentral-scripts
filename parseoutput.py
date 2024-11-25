@@ -61,6 +61,7 @@ def calculate_averages(resultsfolder, file_names):
         filesystem = prepath.split('/')[-2].split('_')[2]
         storage = prepath.split('/')[-2].split('_')[3]
         folders = [folder for folder in glob.glob(prepath + '*/')]
+        cumulative_data = {file_name.split('_')[1]: defaultdict(list) for file_name in file_names}
         for folder in folders:
             for file_name in file_names:
                 file_path = os.path.join(folder, file_name)
