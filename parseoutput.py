@@ -119,6 +119,91 @@ def format_and_save_as_excel(resultsdict, output_file='output.xlsx'):
     print(f"Data saved to {output_file}")
 
 
+import pandas as pd
+
+def format_and_save_custom_excel(resultsdict, output_file='formatted_output.xlsx'):
+    # Test details
+    test_details = {
+        "DATABASE TEST": {
+            "rw type": "random read write",
+            "reads percentage": "70%",
+            "numjobs": 8,
+            "runtime": "60s",
+            "io queue size": 16,
+            "blocksize": "80% - 4k\n20% - 8k",
+            "metrics": ["Bandwidth READ (MiB/s)", "Bandwidth WRITE (MiB/s)", "IOPS READ", "IOPS WRITE", "Latency (ms)"]
+        },
+        "MULTIMEDIA TEST": {
+            "rw type": "sequential read",
+            "numjobs": 4,
+            "runtime": "120s",
+            "io queue size": 64,
+            "blocksize": "128k",
+            "metrics": ["Bandwidth READ (MiB/s)", "IOPS READ", "Latency (ms)"]
+        },
+        "WEBSERVER TEST": {
+            "rw type": "random read",
+            "numjobs": 16,
+            "runtime": "120s",
+            "io queue size": 32,
+            "blocksize": "90% - 4k\n10% - 8k",
+            "metrics": ["Bandwidth READ (MiB/s)", "IOPS READ", "Latency (ms)"]
+        },
+        "ARCHIVE TEST": {
+            "rw type": "sequential write",
+            "numjobs": 2,
+            "runtime": "180s",
+            "io queue size": 128,
+            "blocksize": "70% - 64k\n30% - 128k",
+            "metrics": ["Bandwidth WRITE (MiB/s)", "IOPS WRITE", "Latency (ms)"]
+        },
+    }
+
+    with pd.ExcelWriter(output_file) as writer:
+        for test, details in test_details.items():
+            rows = []
+            for fs, devices in resultsdict.items():
+                for device, workloads in devices.items():
+                    workload_metrics = workloads.get(test.split()[0].lower(), {})
+                    row = {
+                        "FileSystem": fs.upper(),
+                        "Device": device.upper()
+                    }
+                    # Fill metrics if available
+                    row.update({
+                        metric: workload_metrics.get(metric, None) for metric in details["metrics"]
+                    })
+                    rows.append(row)
+
+            # Convert to DataFrame
+            df = pd.DataFrame(rows)
+
+            # Pivot the data to create device-specific columns
+            metrics = details["metrics"]
+            pivoted_data = df.pivot(index="FileSystem", columns="Device", values=metrics)
+            pivoted_data.columns = [f"{col[1]} {col[0]}" for col in pivoted_data.columns]  # Flatten MultiIndex
+            
+            # Reorganize columns to group by device
+            devices = df['Device'].unique()  # List of devices (e.g., NVME, SDA)
+            ordered_columns = []
+            for device in devices:
+                for metric in metrics:
+                    ordered_columns.append(f"{device} {metric}")
+            
+            pivoted_data = pivoted_data[ordered_columns]  # Reorder columns
+
+            # Add test details as a header
+            details_df = pd.DataFrame.from_dict(details, orient='index', columns=['Details']).reset_index()
+            details_df.rename(columns={"index": "Parameter"}, inplace=True)
+
+            # Write details and results to Excel
+            details_df.to_excel(writer, sheet_name=test, index=False, startrow=0)
+            pivoted_data.reset_index().to_excel(writer, sheet_name=test, index=False, startrow=len(details_df) + 2)
+
+    print(f"Data saved to {output_file}")
+
+
+
 # Main logic
 file_names = [
     'fio_database_test_output.txt',
@@ -131,3 +216,4 @@ resultsdict = calculate_averages('./wyniki/', file_names)
 
 # Save results to Excel with formatting
 format_and_save_as_excel(resultsdict)
+format_and_save_custom_excel(resultsdict)
