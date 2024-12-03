@@ -54,7 +54,7 @@ def parse_fio_results(file_path):
 
 
 def calculate_averages(resultsfolder, file_names):
-    resultsdict = {'ext4': {}, 'zfs': {}, 'xfs': {}, 'btrfs': {}}
+    resultsdict = {'ext4': {}, 'zfs': {}, 'xfs': {}, 'btrfs': {}, 'f2fs': {}}
     cumulative_data = {file_name.split('_')[1]: defaultdict(list) for file_name in file_names}
     prepaths = [folder for folder in glob.glob(resultsfolder + '*/')]
     for prepath in prepaths:
