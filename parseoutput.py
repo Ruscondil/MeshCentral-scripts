@@ -185,7 +185,7 @@ def format_and_save_custom_excel(resultsdict, output_file='formatted_output.xlsx
             
             # Reorganize columns to group by device
             devices = df['Device'].unique()  # List of devices (e.g., NVME, SDA)
-            devices = sorted([device for device in devices if device in ['SDA', 'SSD', 'NVME']], key=lambda x: ['SDA', 'SSD', 'NVME'].index(x))
+            devices = sorted([device for device in devices if device in ['HDD', 'SSD', 'NVME']], key=lambda x: ['HDD', 'SSD', 'NVME'].index(x))
             ordered_columns = []
             for device in devices:
                 for metric in metrics:
