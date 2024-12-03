@@ -7,7 +7,7 @@
   vars:
     test_device: "/dev/sda5"  # TODO set correct device
     test_device_short: "sda"
-    test_mount_point: "/mnt/xfs_test"
+    test_mount_point: "/mnt/test"
     block_size: 4096
 
     fio_config:
