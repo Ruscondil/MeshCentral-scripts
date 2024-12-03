@@ -71,6 +71,10 @@
         opts: "defaults,noatime"
         state: mounted
 
+    - name: Create Btrfs subvolume
+      shell: |
+        btrfs subvolume create {{ test_mount_point }}/testvol
+
     - name: Run FIO tests
       block:
         - name: Create FIO config file for database workload
@@ -81,7 +85,7 @@
               ioengine=libaio
               direct=1
               group_reporting
-              directory={{ test_mount_point }}
+              directory={{ test_mount_point }}/testvol
 
               [database_test]
               rw={{ fio_config.database_test.rw }}
@@ -100,7 +104,7 @@
               ioengine=libaio
               direct=1
               group_reporting
-              directory={{ test_mount_point }}
+              directory={{ test_mount_point }}/testvol
 
               [multimedia_test]
               rw={{ fio_config.multimedia_test.rw }}
@@ -118,7 +122,7 @@
               ioengine=libaio
               direct=1
               group_reporting
-              directory={{ test_mount_point }}
+              directory={{ test_mount_point }}/testvol
 
               [webserver_test]
               rw={{ fio_config.webserver_test.rw }}
@@ -136,7 +140,7 @@
               ioengine=libaio
               direct=1
               group_reporting
-              directory={{ test_mount_point }}
+              directory={{ test_mount_point }}/testvol
 
               [archive_test]
               rw={{ fio_config.archive_test.rw }}
@@ -150,26 +154,26 @@
       ansible.builtin.shell: "fio /tmp/fio_database_test.fio --output /tmp/fio_database_test_output.txt"
 
     - name: Clean up contents of the test directory
-      shell: "rm -r {{ test_mount_point }}/*"
+      shell: "rm -r {{ test_mount_point }}/testvol/*"
 
     - name: Run FIO multimedia test
       ansible.builtin.shell: "fio /tmp/fio_multimedia_test.fio --output /tmp/fio_multimedia_test_output.txt"
 
 
     - name: Clean up contents of the test directory
-      shell: "rm -r {{ test_mount_point }}/*"
+      shell: "rm -r {{ test_mount_point }}/testvol/*"
 
     - name: Run FIO web server test
       ansible.builtin.shell: "fio /tmp/fio_webserver_test.fio --output /tmp/fio_webserver_test_output.txt"
 
     - name: Clean up contents of the test directory
-      shell: "rm -r {{ test_mount_point }}/*"
+      shell: "rm -r {{ test_mount_point }}/testvol/*"
 
     - name: Run FIO archive test
       ansible.builtin.shell: "fio /tmp/fio_archive_test.fio --output /tmp/fio_archive_test_output.txt"
 
     - name: Clean up contents of the test directory
-      shell: "rm -r {{ test_mount_point }}/*"
+      shell: "rm -r {{ test_mount_point }}/testvol/*"
 
     - name: Gather FIO results
       ansible.builtin.fetch:
