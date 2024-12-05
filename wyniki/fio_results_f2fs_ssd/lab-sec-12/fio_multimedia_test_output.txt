@@ -1,0 +1,35 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=12740: Tue Dec  3 21:53:17 2024
+  read: IOPS=3259, BW=407MiB/s (427MB/s)(16.0GiB/40213msec)
+    slat (usec): min=4, max=34581, avg=40.61, stdev=425.97
+    clat (msec): min=5, max=164, avg=78.35, stdev= 7.27
+     lat (msec): min=5, max=164, avg=78.39, stdev= 7.27
+    clat percentiles (msec):
+     |  1.00th=[   52],  5.00th=[   77], 10.00th=[   78], 20.00th=[   78],
+     | 30.00th=[   78], 40.00th=[   79], 50.00th=[   79], 60.00th=[   80],
+     | 70.00th=[   80], 80.00th=[   80], 90.00th=[   81], 95.00th=[   81],
+     | 99.00th=[  107], 99.50th=[  120], 99.90th=[  146], 99.95th=[  153],
+     | 99.99th=[  155]
+   bw (  KiB/s): min=375023, max=461285, per=100.00%, avg=417676.52, stdev=6638.68, samples=320
+   iops        : min= 2929, max= 3603, avg=3262.80, stdev=51.85, samples=320
+  lat (msec)   : 10=0.03%, 20=0.06%, 50=0.76%, 100=97.77%, 250=1.38%
+  cpu          : usr=0.59%, sys=2.85%, ctx=26008, majf=0, minf=8245
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=407MiB/s (427MB/s), 407MiB/s-407MiB/s (427MB/s-427MB/s), io=16.0GiB (17.2GB), run=40213-40213msec
+
+Disk stats (read/write):
+  sdb: ios=26034/350, sectors=33428480/15664, merge=104695/0, ticks=2033207/34268, in_queue=2067475, util=99.89%
