@@ -10,7 +10,9 @@ def parse_fio_results(file_path):
     bandwidth_read_regex = re.compile(r'READ: bw=(\d+(?:\.\d+)?)([MK]iB/s)')
     iops_regex = re.compile(r'write: IOPS=(\d+)')
     iops_read_regex = re.compile(r'read: IOPS=(\d+)')
-    latency_regex = re.compile(r'avg=(\d+\.\d+), stdev=.*')
+    latency_regex = re.compile(r'lat \(msec\): min=\d+, max=\d+, avg=(\d+\.\d+), stdev=\d+\.\d+')
+
+
 
     # Function to convert bandwidth to MiB/s
     def convert_bandwidth(value, unit):
