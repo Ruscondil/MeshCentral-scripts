@@ -13,7 +13,6 @@ def parse_fio_results(file_path):
     latency_regex = re.compile(r'lat \(msec\): min=\d+, max=\d+, avg=(\d+\.\d+), stdev=\d+\.\d+')
 
 
-
     # Function to convert bandwidth to MiB/s
     def convert_bandwidth(value, unit):
         value = float(value)
@@ -55,7 +54,7 @@ def parse_fio_results(file_path):
     return results
 
 
-def calculate_averages(resultsfolder, file_names):
+def extract_values(resultsfolder, file_names):
     resultsdict = {'ext4': {}, 'zfs': {}, 'xfs': {}, 'btrfs': {}, 'f2fs': {}}
     cumulative_data = {file_name.split('_')[1]: defaultdict(list) for file_name in file_names}
     prepaths = [folder for folder in glob.glob(resultsfolder + '*/')]
@@ -77,13 +76,13 @@ def calculate_averages(resultsfolder, file_names):
                 else:
                     print(f"File not found: {file_path}")
 
-        averages = {}
+        ranges = {}
         for file_name, metrics in cumulative_data.items():
-            averages[file_name] = {
-                key: round(sum(values) / len(values), 2) if values else 0
+            ranges[file_name] = {
+                key: {'min': str(min(values)), 'max':str(max(values)), 'avg':round(sum(values) / len(values), 2)} if values else '-'
                 for key, values in metrics.items()
             }
-        resultsdict[filesystem][storage] = averages
+        resultsdict[filesystem][storage] = ranges
     return resultsdict
 
 
@@ -215,8 +214,9 @@ file_names = [
     'fio_archive_test_output.txt',
 ]
 
-resultsdict = calculate_averages('./wyniki/', file_names)
-
+resultsdict = extract_values('./wyniki/', file_names)
+print(resultsdict['btrfs']['ssd'])
+exit(0)
 # Save results to Excel with formatting
 format_and_save_as_excel(resultsdict)
 format_and_save_custom_excel(resultsdict)
