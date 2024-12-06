@@ -1,9 +1,16 @@
-[target_hosts]
-lab-sec-1
-lab-sec-2
-lab-sec-3
+[all]
+lab-sec-[1:16]
 
-[target_hosts:vars]
+[1_half_hosts]
+lab-sec-[1:8]
+
+[2_half_hosts]
+lab-sec-[9:16]
+
+[ssd_hosts]
+lab-sec-[10:16]
+
+[all:vars]
 ansible_user=fsbench
 ansible_password=
 ansible_become_password=

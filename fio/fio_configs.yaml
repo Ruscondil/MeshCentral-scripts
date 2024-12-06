@@ -1,0 +1,73 @@
+---
+- name: Create FIO config file for database workload
+  ansible.builtin.copy:
+    dest: "/tmp/fio_database_test.fio"
+    content: |
+      [global]
+      ioengine=libaio
+      direct=1
+      group_reporting
+      directory={{ test_mount_point }}
+
+      [database_test]
+      rw={{ fio_config.database_test.rw }}
+      rwmixread={{ fio_config.database_test.rwmixread }}
+      size=1G
+      numjobs={{ fio_config.database_test.numjobs }}
+      runtime={{ fio_config.database_test.runtime }}
+      iodepth={{ fio_config.database_test.iodepth }}
+      bssplit={{ fio_config.database_test.bssplit }}
+
+- name: Create FIO config file for multimedia workload
+  ansible.builtin.copy:
+    dest: "/tmp/fio_multimedia_test.fio"
+    content: |
+      [global]
+      ioengine=libaio
+      direct=1
+      group_reporting
+      directory={{ test_mount_point }}
+
+      [multimedia_test]
+      rw={{ fio_config.multimedia_test.rw }}
+      size=4G
+      numjobs={{ fio_config.multimedia_test.numjobs }}
+      runtime={{ fio_config.multimedia_test.runtime }}
+      iodepth={{ fio_config.multimedia_test.iodepth }}
+      bs={{ fio_config.multimedia_test.bs }}
+
+- name: Create FIO config file for web server workload
+  ansible.builtin.copy:
+    dest: "/tmp/fio_webserver_test.fio"
+    content: |
+      [global]
+      ioengine=libaio
+      direct=1
+      group_reporting
+      directory={{ test_mount_point }}
+
+      [webserver_test]
+      rw={{ fio_config.webserver_test.rw }}
+      size=2G
+      numjobs={{ fio_config.webserver_test.numjobs }}
+      runtime={{ fio_config.webserver_test.runtime }}
+      iodepth={{ fio_config.webserver_test.iodepth }}
+      bssplit={{ fio_config.webserver_test.bssplit }}
+
+- name: Create FIO config file for archive workload
+  ansible.builtin.copy:
+    dest: "/tmp/fio_archive_test.fio"
+    content: |
+      [global]
+      ioengine=libaio
+      direct=1
+      group_reporting
+      directory={{ test_mount_point }}
+
+      [archive_test]
+      rw={{ fio_config.archive_test.rw }}
+      size=10G
+      numjobs={{ fio_config.archive_test.numjobs }}
+      runtime={{ fio_config.archive_test.runtime }}
+      iodepth={{ fio_config.archive_test.iodepth }}
+      bssplit={{ fio_config.archive_test.bssplit }}

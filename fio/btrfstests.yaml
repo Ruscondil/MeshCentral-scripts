@@ -5,57 +5,14 @@
   become_method: sudo
   become_user: root
   vars:
-    test_device: "/dev/sda5"  # TODO set correct device
+    test_device: "/dev/sda5"
     test_device_short: "sda"
     test_mount_point: "/mnt/test"
-    block_size: 4096
-
-    fio_config:
-      database_test:
-        rw: "randrw"
-        rwmixread: "70"
-        numjobs: "8"
-        runtime: "60"
-        iodepth: "16"
-        bssplit: "4k/80:8k/20"
-
-      multimedia_test:
-        rw: "read"
-        numjobs: "4"
-        runtime: "120"
-        iodepth: "64"
-        bs: "128k"
-
-      webserver_test:
-        rw: "randread"
-        numjobs: "16"
-        runtime: "120"
-        iodepth: "32"
-        bssplit: "4k/90:8k/10"
-
-      archive_test:
-        rw: "write"
-        numjobs: "2"
-        runtime: "180"
-        iodepth: "128"
-        bssplit: "64k/70:128k/30"
-
-  tasks:
-    - name: Install fio
-      ansible.builtin.apt:
-        name: fio
-        state: present
-      when: ansible_os_family == "Debian"
-
-    - name: Unmount a mounted volume
-      ansible.posix.mount:
-        path: "{{ test_mount_point }}"
-        state: unmounted
+  vars_files:
+    - fio_configs_vars.yaml
     
-    - name: Blank filesystem on the device
-      community.general.filesystem:
-        dev: "{{ test_device }}"
-        state: absent
+  tasks:
+    - import_tasks: prepare_tasks.yaml
 
     - name: Create BTRFS filesystem with specified block size
       community.general.filesystem:
@@ -75,105 +32,7 @@
       shell: |
         btrfs subvolume create {{ test_mount_point }}/testvol
 
-    - name: Run FIO tests
-      block:
-        - name: Create FIO config file for database workload
-          ansible.builtin.copy:
-            dest: "/tmp/fio_database_test.fio"
-            content: |
-              [global]
-              ioengine=libaio
-              direct=1
-              group_reporting
-              directory={{ test_mount_point }}/testvol
-
-              [database_test]
-              rw={{ fio_config.database_test.rw }}
-              rwmixread={{ fio_config.database_test.rwmixread }}
-              size=1G
-              numjobs={{ fio_config.database_test.numjobs }}
-              runtime={{ fio_config.database_test.runtime }}
-              iodepth={{ fio_config.database_test.iodepth }}
-              bssplit={{ fio_config.database_test.bssplit }}
-
-        - name: Create FIO config file for multimedia workload
-          ansible.builtin.copy:
-            dest: "/tmp/fio_multimedia_test.fio"
-            content: |
-              [global]
-              ioengine=libaio
-              direct=1
-              group_reporting
-              directory={{ test_mount_point }}/testvol
-
-              [multimedia_test]
-              rw={{ fio_config.multimedia_test.rw }}
-              size=4G
-              numjobs={{ fio_config.multimedia_test.numjobs }}
-              runtime={{ fio_config.multimedia_test.runtime }}
-              iodepth={{ fio_config.multimedia_test.iodepth }}
-              bs={{ fio_config.multimedia_test.bs }}
-
-        - name: Create FIO config file for web server workload
-          ansible.builtin.copy:
-            dest: "/tmp/fio_webserver_test.fio"
-            content: |
-              [global]
-              ioengine=libaio
-              direct=1
-              group_reporting
-              directory={{ test_mount_point }}/testvol
-
-              [webserver_test]
-              rw={{ fio_config.webserver_test.rw }}
-              size=2G
-              numjobs={{ fio_config.webserver_test.numjobs }}
-              runtime={{ fio_config.webserver_test.runtime }}
-              iodepth={{ fio_config.webserver_test.iodepth }}
-              bssplit={{ fio_config.webserver_test.bssplit }}
-
-        - name: Create FIO config file for archive workload
-          ansible.builtin.copy:
-            dest: "/tmp/fio_archive_test.fio"
-            content: |
-              [global]
-              ioengine=libaio
-              direct=1
-              group_reporting
-              directory={{ test_mount_point }}/testvol
-
-              [archive_test]
-              rw={{ fio_config.archive_test.rw }}
-              size=10G
-              numjobs={{ fio_config.archive_test.numjobs }}
-              runtime={{ fio_config.archive_test.runtime }}
-              iodepth={{ fio_config.archive_test.iodepth }}
-              bssplit={{ fio_config.archive_test.bssplit }}
-
-    - name: Run FIO database test
-      ansible.builtin.shell: "fio /tmp/fio_database_test.fio --output /tmp/fio_database_test_output.txt"
-
-    - name: Clean up contents of the test directory
-      shell: "rm -r {{ test_mount_point }}/testvol/*"
-
-    - name: Run FIO multimedia test
-      ansible.builtin.shell: "fio /tmp/fio_multimedia_test.fio --output /tmp/fio_multimedia_test_output.txt"
-
-
-    - name: Clean up contents of the test directory
-      shell: "rm -r {{ test_mount_point }}/testvol/*"
-
-    - name: Run FIO web server test
-      ansible.builtin.shell: "fio /tmp/fio_webserver_test.fio --output /tmp/fio_webserver_test_output.txt"
-
-    - name: Clean up contents of the test directory
-      shell: "rm -r {{ test_mount_point }}/testvol/*"
-
-    - name: Run FIO archive test
-      ansible.builtin.shell: "fio /tmp/fio_archive_test.fio --output /tmp/fio_archive_test_output.txt"
-
-    - name: Clean up contents of the test directory
-      shell: "rm -r {{ test_mount_point }}/testvol/*"
+    - import_tasks: fio_run.yaml
 
     - name: Gather FIO results
       ansible.builtin.fetch:

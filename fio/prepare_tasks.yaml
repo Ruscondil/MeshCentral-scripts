@@ -1,0 +1,16 @@
+---
+- name: Install fio
+  ansible.builtin.apt:
+    name: fio
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Unmount a mounted volume
+  ansible.posix.mount:
+    path: "{{ test_mount_point }}"
+    state: unmounted
+
+- name: Blank filesystem on the device
+  community.general.filesystem:
+    dev: "{{ test_device }}"
+    state: absent
