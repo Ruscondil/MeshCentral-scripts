@@ -26,8 +26,13 @@ def parse_fio_results(file_path):
     results = {}
 
     with open(file_path, 'r') as file:
+        last = 'read'
         for line in file:
             # Match write bandwidth
+            if 'write' in line:
+                last = 'write'
+            elif 'read' in line:
+                last = 'read'
             bw_match = bandwidth_regex.search(line)
             if bw_match:
                 value, unit = bw_match.groups()
@@ -52,7 +57,11 @@ def parse_fio_results(file_path):
             # Match latency
             lat_match = latency_regex.search(line)
             if lat_match:
-                results['Latency (ms)'] = float(lat_match.group(1))
+                if last == 'read':
+                    results['Latency READ (ms)'] = float(lat_match.group(1))
+                else:
+                    results['Latency WRITE (ms)'] = float(lat_match.group(1))
+
 
     return results
 
@@ -82,7 +91,7 @@ def extract_values(resultsfolder, file_names):
         ranges = {}
         for file_name, metrics in cumulative_data.items():
             ranges[file_name] = {
-                key: {'min': round(min(values),3), 'max':round(max(values),3), 'avg':round(sum(values) / len(values), 3)} if values else '-'
+                key: {'min': round(min(values),3), 'max':round(max(values),3), 'avg':round(sum(values) / len(values), 2)} if values else '-'
                 for key, values in metrics.items()
             }
         resultsdict[filesystem][storage] = ranges
@@ -99,6 +108,7 @@ file_names = [
 ]
 
 resultsdict = extract_values('./wyniki/', file_names)
+
 
 # Function to generate all possible columns
 def generate_columns(metrics):
@@ -123,13 +133,20 @@ def extract_row_data(data, workload, columns):
             else:
                 storage, metric, stat = col.split(" ", 2)
             if workload == 'database':
-                metric_key = f"{metric} (MiB/s)" if "Bandwidth" in metric else metric
+                if "Latency" in metric:
+                    metric_key = f"{metric} (ms)"
+                else:
+                    metric_key = f"{metric} (MiB/s)" if "Bandwidth" in metric else metric
             elif workload == 'archive':
-                metric_key = f"{metric} WRITE (MiB/s)" if metric == "Bandwidth" else f"{metric} WRITE"
+                if metric == "Latency":
+                    metric_key = "Latency WRITE (ms)"
+                else:
+                    metric_key = f"{metric} WRITE (MiB/s)" if metric == "Bandwidth" else f"{metric} WRITE"
             else:
-                metric_key = f"{metric} READ (MiB/s)" if metric == "Bandwidth" else f"{metric} READ"
-            if metric == "Latency":
-                metric_key = "Latency (ms)"
+                if metric == "Latency":
+                    metric_key = "Latency READ (ms)"
+                else:
+                    metric_key = f"{metric} READ (MiB/s)" if metric == "Bandwidth" else f"{metric} READ"
             # Extract value
             value = "N/A"
             for device_type, workloads in devices.items():
@@ -148,7 +165,7 @@ workloads = ["database", "multimedia", "webserver", "archive"]
 # Generate and display tables for each workload
 for workload in workloads:
     if workload == "database":
-        columns = generate_columns(["Bandwidth WRITE", "Bandwidth READ", "IOPS WRITE", "IOPS READ","Latency"])
+        columns = generate_columns(["Bandwidth WRITE", "Bandwidth READ", "IOPS WRITE", "IOPS READ","Latency WRITE","Latency READ"])
     else:
         columns = generate_columns(["Bandwidth", "IOPS", "Latency"])
     rows = extract_row_data(resultsdict, workload, columns)
