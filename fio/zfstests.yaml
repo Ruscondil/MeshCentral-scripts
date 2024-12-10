@@ -1,6 +1,6 @@
 ---
 - name: "ZFS Performance Test with FIO"
-  hosts: target_hosts
+  hosts: all
   become: true
   become_method: sudo
   become_user: root
