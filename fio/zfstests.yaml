@@ -12,8 +12,24 @@
     - fio_configs_vars.yaml
     
   tasks:
-    - import_tasks: prepare_tasks.yaml
+   
     
+    - name: Usuń system plików ZFS
+      block:
+        - name: Odmontuj system plików ZFS
+          command: zfs unmount mypool/myfilesystem
+          ignore_errors: true
+
+        - name: Usuń system plików ZFS
+          command: zfs destroy mypool/myfilesystem
+          ignore_errors: true
+
+        - name: Usuń pulę ZFS
+          command: zpool destroy mypool
+          ignore_errors: true
+
+    - import_tasks: prepare_tasks.yaml
+
     - name: Utwórz pulę ZFS na /dev/sda5
       command: zpool create mypool {{ test_device }}
       args:
