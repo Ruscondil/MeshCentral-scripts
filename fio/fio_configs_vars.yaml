@@ -15,7 +15,7 @@ fio_config:
     numjobs: "4"
     runtime: "120"
     iodepth: "64"
-    bs: "128k"
+    bssplit: "128k"
 
   webserver_test:
     rw: "randread"

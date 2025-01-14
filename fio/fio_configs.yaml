@@ -34,7 +34,7 @@
       numjobs={{ fio_config.multimedia_test.numjobs }}
       runtime={{ fio_config.multimedia_test.runtime }}
       iodepth={{ fio_config.multimedia_test.iodepth }}
-      bs={{ fio_config.multimedia_test.bs }}
+      bssplit={{ fio_config.multimedia_test.bssplit }}
 
 - name: Create FIO config file for web server workload
   ansible.builtin.copy:
