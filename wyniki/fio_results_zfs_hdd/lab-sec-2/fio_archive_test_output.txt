@@ -5,23 +5,23 @@ Starting 2 processes
 archive_test: Laying out IO file (1 file / 10240MiB)
 archive_test: Laying out IO file (1 file / 10240MiB)
 
-archive_test: (groupid=0, jobs=2): err= 0: pid=2809: Tue Nov 19 22:06:37 2024
-  write: IOPS=2061, BW=168MiB/s (176MB/s)(20.0GiB/122225msec); 0 zone resets
-    slat (usec): min=6, max=75872, avg=956.23, stdev=416.33
-    clat (usec): min=15, max=166380, avg=123088.82, stdev=42313.13
-     lat (usec): min=783, max=167545, avg=124045.05, stdev=42641.79
+archive_test: (groupid=0, jobs=2): err= 0: pid=3093: Tue Jan 14 23:19:50 2025
+  write: IOPS=2081, BW=169MiB/s (177MB/s)(20.0GiB/121064msec); 0 zone resets
+    slat (usec): min=6, max=11407, avg=947.45, stdev=338.91
+    clat (usec): min=15, max=167340, avg=122018.22, stdev=41818.48
+     lat (usec): min=795, max=168524, avg=122965.67, stdev=42143.57
     clat percentiles (msec):
-     |  1.00th=[    3],  5.00th=[    4], 10.00th=[   39], 20.00th=[  133],
-     | 30.00th=[  136], 40.00th=[  138], 50.00th=[  140], 60.00th=[  140],
-     | 70.00th=[  142], 80.00th=[  142], 90.00th=[  146], 95.00th=[  148],
-     | 99.00th=[  159], 99.50th=[  163], 99.90th=[  165], 99.95th=[  165],
+     |  1.00th=[    3],  5.00th=[    4], 10.00th=[   36], 20.00th=[  132],
+     | 30.00th=[  136], 40.00th=[  138], 50.00th=[  138], 60.00th=[  138],
+     | 70.00th=[  140], 80.00th=[  142], 90.00th=[  144], 95.00th=[  148],
+     | 99.00th=[  155], 99.50th=[  157], 99.90th=[  163], 99.95th=[  163],
      | 99.99th=[  167]
-   bw (  KiB/s): min=132224, max=4017280, per=100.00%, avg=171679.40, stdev=124711.54, samples=487
-   iops        : min= 1582, max=48276, avg=2062.88, stdev=1498.36, samples=487
+   bw (  KiB/s): min=132736, max=4055808, per=99.99%, avg=173204.54, stdev=126315.63, samples=483
+   iops        : min= 1610, max=48742, avg=2081.22, stdev=1517.79, samples=483
   lat (usec)   : 20=0.01%, 1000=0.01%
-  lat (msec)   : 2=0.01%, 4=7.89%, 10=1.26%, 20=0.34%, 50=1.35%
-  lat (msec)   : 100=3.03%, 250=86.12%
-  cpu          : usr=2.05%, sys=11.44%, ctx=232052, majf=0, minf=28
+  lat (msec)   : 2=0.01%, 4=5.91%, 10=3.02%, 20=0.71%, 50=1.41%
+  lat (msec)   : 100=2.90%, 250=86.06%
+  cpu          : usr=2.11%, sys=11.55%, ctx=231874, majf=0, minf=28
   IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.9%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.1%
@@ -29,4 +29,4 @@ archive_test: (groupid=0, jobs=2): err= 0: pid=2809: Tue Nov 19 22:06:37 2024
      latency   : target=0, window=0, percentile=100.00%, depth=128
 
 Run status group 0 (all jobs):
-  WRITE: bw=168MiB/s (176MB/s), 168MiB/s-168MiB/s (176MB/s-176MB/s), io=20.0GiB (21.5GB), run=122225-122225msec
+  WRITE: bw=169MiB/s (177MB/s), 169MiB/s-169MiB/s (177MB/s-177MB/s), io=20.0GiB (21.5GB), run=121064-121064msec
