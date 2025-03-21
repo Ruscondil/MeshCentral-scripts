@@ -2,3 +2,13 @@ devices.txt
 secrets.yaml
 output.xlsx
 formatted_output.xlsx
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+*.nbconvert.ipynb
+*.nb.html
+*.nbconvert.html
+
+# Ignore all files in directories starting with "wyniki_test"
+wyniki_test*/
