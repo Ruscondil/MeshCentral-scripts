@@ -1,0 +1,33 @@
+---
+- name: Run dd write test
+  ansible.builtin.shell: "dd if=/dev/zero of={{ test_mount_point }}/testfile bs=1M count=1024 oflag=direct"
+  register: dd_write_result
+
+- name: Save dd write test result
+  ansible.builtin.copy:
+    content: "{{ dd_write_result.stdout }}"
+    dest: "/tmp/dd_write_test_output.txt"
+
+- name: Run dd read test
+  ansible.builtin.shell: "dd if={{ test_mount_point }}/testfile of=/dev/null bs=1M count=1024 iflag=direct"
+  register: dd_read_result
+
+- name: Save dd read test result
+  ansible.builtin.copy:
+    content: "{{ dd_read_result.stdout }}"
+    dest: "/tmp/dd_read_test_output.txt"
+
+- name: Clean up contents of the test directory
+  ansible.builtin.shell: "rm -r {{ test_mount_point }}/*"
+
+- name: Fetch dd write test result
+  ansible.builtin.fetch:
+    src: "/tmp/dd_write_test_output.txt"
+    dest: "./dd_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
+    flat: yes
+
+- name: Fetch dd read test result
+  ansible.builtin.fetch:
+    src: "/tmp/dd_read_test_output.txt"
+    dest: "./dd_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
+    flat: yes

@@ -30,6 +30,8 @@
 
     - import_tasks: fio_run.yaml
 
+    - import_tasks: ./dd_tests.yaml
+
     - name: Gather FIO results
       ansible.builtin.fetch:
         src: "/tmp/fio_{{ item }}_output.txt"
