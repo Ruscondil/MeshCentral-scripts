@@ -1,18 +1,28 @@
 ---
 - name: Run dd test
-  ansible.builtin.shell: "dd if={{ item.if }} of={{ item.of }} bs={{ item.bs }} count={{ item.count }} iflag={{ item.iflag | default('') }} oflag={{ item.oflag | default('') }}"
+  ansible.builtin.shell: >
+    dd if={{ item.if }} of={{ item.of }} bs={{ item.bs }} count={{ item.count }}
+    {% if item.iflag is defined %}iflag={{ item.iflag }}{% endif %}
+    {% if item.oflag is defined %}oflag={{ item.oflag }}{% endif %}
   register: dd_result
   loop: "{{ dd_tests }}"
   loop_control:
     label: "{{ item.name }}"
 
+#- debug: var=dd_result.stdout_lines
+#- debug: var=dd_result.results
+#- debug: var=dd_tests
+
 - name: Save dd test result
+  vars:
+    results: "{{ dd_result.results }}"
   ansible.builtin.copy:
-    content: "{{ dd_result.stdout }}"
-    dest: "/tmp/{{ item.name }}_output.txt"
-  loop: "{{ dd_tests }}"
+    content: |
+      {{ item.stderr | default('No stderr captured') }}
+    dest: "/tmp/{{ item.item.name }}_output.txt"
+  loop: "{{ results }}"
   loop_control:
-    label: "{{ item.name }}"
+    label: "{{ item.item.name }}"
 
 - name: Clean up contents of the test directory
   ansible.builtin.shell: "rm -r {{ test_mount_point }}/*"
