@@ -8,6 +8,7 @@
     test_device: "/dev/sda5"
     test_device_short: "hdd"
     test_mount_point: "/mnt/test"
+    filesystem_type: "ext4"  # Added this line
     dd_tests:
       - name: "dd_write_test"
         bs: "1M"
@@ -48,7 +49,7 @@
     - name: Gather FIO results
       ansible.builtin.fetch:
         src: "/tmp/fio_{{ item }}_output.txt"
-        dest: "./fio_results_ext4_{{ test_device_short }}/{{ inventory_hostname }}/"
+        dest: "./fio_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
         flat: yes
       loop:
         - database_test
