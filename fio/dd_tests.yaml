@@ -1,43 +1,27 @@
 ---
-- name: Run dd tests
-  vars:
-    dd_tests:
-      - name: "dd_write_test"
-        bs: "1M"
-        count: 1024
-        oflag: "direct"
-        if: "/dev/zero"
-        of: "{{ test_mount_point }}/testfile"
-      - name: "dd_read_test"
-        bs: "1M"
-        count: 1024
-        iflag: "direct"
-        if: "{{ test_mount_point }}/testfile"
-        of: "/dev/null"
-  tasks:
-    - name: Run dd test
-      ansible.builtin.shell: "dd if={{ item.if }} of={{ item.of }} bs={{ item.bs }} count={{ item.count }} {{ item.oflag | default('') }} {{ item.iflag | default('') }}"
-      register: dd_result
-      loop: "{{ dd_tests }}"
-      loop_control:
-        label: "{{ item.name }}"
+- name: Run dd test
+  ansible.builtin.shell: "dd if={{ item.if }} of={{ item.of }} bs={{ item.bs }} count={{ item.count }} iflag={{ item.iflag | default('') }} oflag={{ item.oflag | default('') }}"
+  register: dd_result
+  loop: "{{ dd_tests }}"
+  loop_control:
+    label: "{{ item.name }}"
 
-    - name: Save dd test result
-      ansible.builtin.copy:
-        content: "{{ dd_result.stdout }}"
-        dest: "/tmp/{{ item.name }}_output.txt"
-      loop: "{{ dd_tests }}"
-      loop_control:
-        label: "{{ item.name }}"
+- name: Save dd test result
+  ansible.builtin.copy:
+    content: "{{ dd_result.stdout }}"
+    dest: "/tmp/{{ item.name }}_output.txt"
+  loop: "{{ dd_tests }}"
+  loop_control:
+    label: "{{ item.name }}"
 
-    - name: Clean up contents of the test directory
-      ansible.builtin.shell: "rm -r {{ test_mount_point }}/*"
+- name: Clean up contents of the test directory
+  ansible.builtin.shell: "rm -r {{ test_mount_point }}/*"
 
-    - name: Fetch dd test results
-      ansible.builtin.fetch:
-        src: "/tmp/{{ item.name }}_output.txt"
-        dest: "./dd_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
-        flat: yes
-      loop: "{{ dd_tests }}"
-      loop_control:
-        label: "{{ item.name }}"
+- name: Fetch dd test results
+  ansible.builtin.fetch:
+    src: "/tmp/{{ item.name }}_output.txt"
+    dest: "./dd_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
+    flat: yes
+  loop: "{{ dd_tests }}"
+  loop_control:
+    label: "{{ item.name }}"

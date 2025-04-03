@@ -8,6 +8,19 @@
     test_device: "/dev/sda5"
     test_device_short: "hdd"
     test_mount_point: "/mnt/test"
+    dd_tests:
+      - name: "dd_write_test"
+        bs: "1M"
+        count: 1024
+        oflag: "direct"
+        if: "/dev/zero"
+        of: "{{ test_mount_point }}/testfile"
+      - name: "dd_read_test"
+        bs: "1M"
+        count: 1024
+        iflag: "direct"
+        if: "{{ test_mount_point }}/testfile"
+        of: "/dev/null"
   vars_files:
     - fio_configs_vars.yaml
     
@@ -30,7 +43,7 @@
 
     - import_tasks: fio_run.yaml
 
-    - import_tasks: ./dd_tests.yaml
+    - import_tasks: dd_tests.yaml
 
     - name: Gather FIO results
       ansible.builtin.fetch:
