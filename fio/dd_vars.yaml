@@ -1,0 +1,14 @@
+---
+dd_tests:
+      - name: "dd_write_test"
+        bs: "1M"
+        count: 1024
+        oflag: "direct"
+        if: "/dev/zero"
+        of: "{{ test_mount_point }}/testfile"
+      - name: "dd_read_test"
+        bs: "1M"
+        count: 1024
+        iflag: "direct"
+        if: "{{ test_mount_point }}/testfile"
+        of: "/dev/null"
