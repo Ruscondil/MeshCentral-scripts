@@ -10,10 +10,10 @@
     test_mount_point: "/mnt/test"
     filesystem_type: "ext4"  # Added this line
     
-    timestamp: "{{ ansible_date_time.iso8601_basic }}"
-    dd_results_path: "./{{ timestamp }}_dd_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
-    fio_results_path: "./{{ timestamp }}_fio_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
-    hdparm_results_path: "./{{ timestamp }}_hdparm_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
+    #timestamp: "{{ ansible_date_time.iso8601_basic }}"
+    dd_results_path: "./dd_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
+    fio_results_path: "./fio_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
+    hdparm_results_path: "./hdparm_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
   vars_files:
     - fio_configs_vars.yaml
     - dd_vars.yaml
@@ -52,10 +52,18 @@
         - webserver_test
         - archive_test
 
-    - name: Save FIO configuration to results folder
+
+
+    - name: Save FIO configuration to results folder on remote machine
       ansible.builtin.copy:
         content: |
           Test Device: {{ test_device }}
           Test Mount Point: {{ test_mount_point }}
           Filesystem Type: {{ filesystem_type }}
+        dest: "/tmp/fio_config.txt"
+
+    - name: Fetch FIO configuration file
+      ansible.builtin.fetch:
+        src: "/tmp/fio_config.txt"
         dest: "{{ fio_results_path }}/fio_config.txt"
+        flat: yes

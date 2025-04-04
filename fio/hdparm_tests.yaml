@@ -1,20 +1,38 @@
 ---
+- name: Ensure hdparm results directory exists
+  ansible.builtin.file:
+    path: "{{ hdparm_results_path }}"
+    state: directory
+    mode: '0755'
+
 - name: Run hdparm test
   ansible.builtin.shell: >
     hdparm -t --direct {{ test_device }}
   register: hdparm_result
 
+- debug: var=hdparm_result
+
 - name: Save hdparm test result
   ansible.builtin.copy:
     content: |
-      Device: {{ test_device }}
-      Result:
-      {{ hdparm_result.stdout }}
-    dest: "{{ hdparm_results_path }}/hdparm_test_result.txt"
+      {{ hdparm_result.stdout | default('No stdout captured') }}
+    dest: "/tmp/hdparm_test_output.txt"
 
-- name: Save hdparm configuration to results folder
+- name: Fetch hdparm test results
+  ansible.builtin.fetch:
+    src: "/tmp/hdparm_test_output.txt"
+    dest: "{{ hdparm_results_path }}"
+    flat: yes
+
+- name: Save hdparm configuration to results folder on remote machine
   ansible.builtin.copy:
     content: |
       Test Command: hdparm -t --direct {{ test_device }}
       Test Device: {{ test_device }}
+    dest: "/tmp/hdparm_config.txt"
+
+- name: Fetch hdparm configuration file
+  ansible.builtin.fetch:
+    src: "/tmp/hdparm_config.txt"
     dest: "{{ hdparm_results_path }}/hdparm_config.txt"
+    flat: yes
