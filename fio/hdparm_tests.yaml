@@ -1,0 +1,20 @@
+---
+- name: Run hdparm test
+  ansible.builtin.shell: >
+    hdparm -t --direct {{ test_device }}
+  register: hdparm_result
+
+- name: Save hdparm test result
+  ansible.builtin.copy:
+    content: |
+      Device: {{ test_device }}
+      Result:
+      {{ hdparm_result.stdout }}
+    dest: "{{ hdparm_results_path }}/hdparm_test_result.txt"
+
+- name: Save hdparm configuration to results folder
+  ansible.builtin.copy:
+    content: |
+      Test Command: hdparm -t --direct {{ test_device }}
+      Test Device: {{ test_device }}
+    dest: "{{ hdparm_results_path }}/hdparm_config.txt"

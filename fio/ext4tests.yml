@@ -13,8 +13,10 @@
     timestamp: "{{ ansible_date_time.iso8601_basic }}"
     dd_results_path: "./{{ timestamp }}_dd_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
     fio_results_path: "./{{ timestamp }}_fio_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
+    hdparm_results_path: "./{{ timestamp }}_hdparm_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
   vars_files:
     - fio_configs_vars.yaml
+    - dd_vars.yaml
     
   tasks:
     - import_tasks: prepare_tasks.yaml
@@ -33,6 +35,7 @@
         opts: "defaults,noatime"
         state: mounted
 
+    - import_tasks: hdparm_tests.yaml
 
     - import_tasks: dd_tests.yaml
 
