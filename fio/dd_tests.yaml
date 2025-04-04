@@ -30,8 +30,22 @@
 - name: Fetch dd test results
   ansible.builtin.fetch:
     src: "/tmp/{{ item.name }}_output.txt"
-    dest: "./dd_results_{{ filesystem_type }}_{{ test_device_short }}/{{ inventory_hostname }}/"
+    dest: "{{ dd_results_path }}"
     flat: yes
   loop: "{{ dd_tests }}"
   loop_control:
     label: "{{ item.name }}"
+
+- name: Save DD configuration to results folder
+  ansible.builtin.copy:
+    content: |
+      {% for test in dd_tests %}
+      Test Name: {{ test.name }}
+      Block Size: {{ test.bs }}
+      Count: {{ test.count }}
+      Input File: {{ test.if | default('N/A') }}
+      Output File: {{ test.of | default('N/A') }}
+      Input Flags: {{ test.iflag | default('N/A') }}
+      Output Flags: {{ test.oflag | default('N/A') }}
+      {% endfor %}
+    dest: "{{ dd_results_path }}/dd_config.txt"
