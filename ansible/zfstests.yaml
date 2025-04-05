@@ -8,11 +8,16 @@
     test_device: "/dev/sda5"
     test_device_short: "hdd"
     test_mount_point: "/mnt/test"
+    filesystem_type: "zfs" 
+    
+    dd_results_path: "./dd_results_{{ filesystem_type }}_{{ test_device_short }}/"
+    fio_results_path: "./fio_results_{{ filesystem_type }}_{{ test_device_short }}/"
+    hdparm_results_path: "./hdparm_results_{{ filesystem_type }}_{{ test_device_short }}/"
   vars_files:
-    - fio_configs_vars.yaml
+    - ./fio/fio_configs_vars.yaml
+    - ./dd/dd_vars.yaml
     
   tasks:
-   
     
     - name: Usuń system plików ZFS
       block:
@@ -27,6 +32,8 @@
         - name: Usuń pulę ZFS
           command: zpool destroy mypool
           ignore_errors: true
+    
+    - import_tasks: ./hdparm/hdparm_tests.yaml
 
     - import_tasks: prepare_tasks.yaml
 
@@ -51,8 +58,9 @@
         opts: "defaults,noatime"
         state: mounted
 
+    - import_tasks: ./dd/dd_tests.yaml
+    
     - import_tasks: fio_run.yaml
-
 
     - name: Usuń system plików ZFS
       block:
@@ -78,5 +86,48 @@
         - multimedia_test
         - webserver_test
         - archive_test
+        
+    - name: Save FIO configuration to results folder on remote machine
+      ansible.builtin.copy:
+        content: |
+          Test Device: {{ test_device }}
+          Test Mount Point: {{ test_mount_point }}
+          Filesystem Type: {{ filesystem_type }}
+
+          Database Test:
+            RW: {{ fio_config.database_test.rw }}
+            RWMixRead: {{ fio_config.database_test.rwmixread }}
+            NumJobs: {{ fio_config.database_test.numjobs }}
+            Runtime: {{ fio_config.database_test.runtime }}
+            IOdepth: {{ fio_config.database_test.iodepth }}
+            BSSplit: {{ fio_config.database_test.bssplit }}
+
+          Multimedia Test:
+            RW: {{ fio_config.multimedia_test.rw }}
+            NumJobs: {{ fio_config.multimedia_test.numjobs }}
+            Runtime: {{ fio_config.multimedia_test.runtime }}
+            IOdepth: {{ fio_config.multimedia_test.iodepth }}
+            BSSplit: {{ fio_config.multimedia_test.bssplit }}
+
+          Webserver Test:
+            RW: {{ fio_config.webserver_test.rw }}
+            NumJobs: {{ fio_config.webserver_test.numjobs }}
+            Runtime: {{ fio_config.webserver_test.runtime }}
+            IOdepth: {{ fio_config.webserver_test.iodepth }}
+            BSSplit: {{ fio_config.webserver_test.bssplit }}
+
+          Archive Test:
+            RW: {{ fio_config.archive_test.rw }}
+            NumJobs: {{ fio_config.archive_test.numjobs }}
+            Runtime: {{ fio_config.archive_test.runtime }}
+            IOdepth: {{ fio_config.archive_test.iodepth }}
+            BSSplit: {{ fio_config.archive_test.bssplit }}
+        dest: "/tmp/fio_config.txt"
+
+    - name: Fetch FIO configuration file
+      ansible.builtin.fetch:
+        src: "/tmp/fio_config.txt"
+        dest: "{{ fio_results_path }}/fio_config.txt"
+        flat: yes
 
 

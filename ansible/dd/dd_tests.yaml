@@ -30,7 +30,7 @@
 - name: Fetch dd test results
   ansible.builtin.fetch:
     src: "/tmp/{{ item.name }}_output.txt"
-    dest: "{{ dd_results_path }}"
+    dest: "{{ dd_results_path }}/{{ inventory_hostname }}/"
     flat: yes
   loop: "{{ dd_tests }}"
   loop_control:
