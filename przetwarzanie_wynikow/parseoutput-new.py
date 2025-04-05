@@ -178,7 +178,7 @@ def format_and_save_custom_excel(resultsdict, output_file='formatted_output.xlsx
 
             # Convert to DataFrame
             df = pd.DataFrame(rows)
-
+            print(df)
             # Pivot the data to create device-specific columns
             metrics = details["metrics"]
             pivoted_data = df.pivot(index="FileSystem", columns="Device", values=metrics)
@@ -216,7 +216,7 @@ file_names = [
 
 resultsdict = extract_values('./wyniki/', file_names)
 print(resultsdict['btrfs']['ssd'])
-exit(0)
+#exit(0)
 # Save results to Excel with formatting
-format_and_save_as_excel(resultsdict)
+#format_and_save_as_excel(resultsdict)
 format_and_save_custom_excel(resultsdict)

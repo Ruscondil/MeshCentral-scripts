@@ -151,12 +151,12 @@ selected_devices_names = get_selected_devices_names('devices.txt')
 if devices is not None and selected_devices_names is not None:
     selected_devices = [device for device in devices if device["name"] in selected_devices_names]
     #print(selected_devices)
-    devicepowerset(selected_devices_names, '--amtreset')
+    devicepowerset(selected_devices_names, '--amton')
     #power_on_result = power_on_selected_devices(selected_devices_names)
-    exit()
+    #exit()
     #print("Lista urządzeń:", devices)
     ssh = connectPolluks()
-    time.sleep(60)
+    #time.sleep(60)
 
     
     with concurrent.futures.ThreadPoolExecutor(max_workers=16) as executor:
