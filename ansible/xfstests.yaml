@@ -9,6 +9,7 @@
     test_device_short: "hdd"
     test_mount_point: "/mnt/test"
     filesystem_type: "xfs" 
+    block_size: 4096
     
     dd_results_path: "./dd_results_{{ filesystem_type }}_{{ test_device_short }}/"
     fio_results_path: "./fio_results_{{ filesystem_type }}_{{ test_device_short }}/"

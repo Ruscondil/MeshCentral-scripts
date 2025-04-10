@@ -1,26 +1,10 @@
 ---
 - import_tasks: fio_configs.yaml
 
-- name: Run FIO database test
-  ansible.builtin.shell: "fio /tmp/fio_database_test.fio --output /tmp/fio_database_test_output.txt"
-
-- name: Clean up contents of the test directory
-  ansible.builtin.shell: "rm -r {{ test_mount_point }}/*"
-
-- name: Run FIO multimedia test
-  ansible.builtin.shell: "fio /tmp/fio_multimedia_test.fio --output /tmp/fio_multimedia_test_output.txt"
-
-- name: Clean up contents of the test directory
-  ansible.builtin.shell: "rm -r {{ test_mount_point }}/*"
-
-- name: Run FIO web server test
-  ansible.builtin.shell: "fio /tmp/fio_webserver_test.fio --output /tmp/fio_webserver_test_output.txt"
-
-- name: Clean up contents of the test directory
-  ansible.builtin.shell: "rm -r {{ test_mount_point }}/*"
-
-- name: Run FIO archive test
-  ansible.builtin.shell: "fio /tmp/fio_archive_test.fio --output /tmp/fio_archive_test_output.txt"
-
-- name: Clean up contents of the test directory
-  ansible.builtin.shell: "rm -r {{ test_mount_point }}/*"
+- name: Run FIO tests and clean up after each test
+  ansible.builtin.shell: >
+    fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output.txt &&
+    rm -r {{ test_mount_point }}/*
+  loop: "{{ fio_tests }}"
+  loop_control:
+    label: "{{ item.name }}"

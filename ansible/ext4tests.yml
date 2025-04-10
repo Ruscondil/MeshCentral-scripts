@@ -9,6 +9,7 @@
     test_device_short: "hdd"
     test_mount_point: "/mnt/test"
     filesystem_type: "ext4" 
+    block_size: 4096
     
     #timestamp: "{{ ansible_date_time.iso8601_basic }}"
     dd_results_path: "./dd_results_{{ filesystem_type }}_{{ test_device_short }}/"

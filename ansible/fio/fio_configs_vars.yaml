@@ -1,32 +1,34 @@
 ---
-block_size: 4096
-
-fio_config:
-  database_test:
+fio_tests:
+  - name: "database_test"
     rw: "randrw"
     rwmixread: "70"
     numjobs: "8"
     runtime: "60"
     iodepth: "16"
     bssplit: "4k/80:8k/20"
+    size: "1G"
 
-  multimedia_test:
+  - name: "multimedia_test"
     rw: "read"
     numjobs: "4"
     runtime: "120"
     iodepth: "64"
     bssplit: "128k"
+    size: "4G"
 
-  webserver_test:
+  - name: "webserver_test"
     rw: "randread"
     numjobs: "16"
     runtime: "120"
     iodepth: "32"
     bssplit: "4k/90:8k/10"
+    size: "2G"
 
-  archive_test:
+  - name: "archive_test"
     rw: "write"
     numjobs: "2"
     runtime: "180"
     iodepth: "128"
     bssplit: "64k/70:128k/30"
+    size: "10G"
