@@ -5,7 +5,6 @@ formatted_output.xlsx
 
 # Jupyter Notebook
 .ipynb_checkpoints/
-*.ipynb
 *.nbconvert.ipynb
 *.nb.html
 *.nbconvert.html
