@@ -11,7 +11,8 @@
 
       [{{ item.name }}]
       rw={{ item.rw }}
-      {% if item.rwmixread is defined %}rwmixread={{ item.rwmixread }}{% endif %}
+      {% if item.rwmixread is defined %}rwmixread={{ item.rwmixread }}
+      {% endif %}
       size={{ item.size }}
       numjobs={{ item.numjobs }}
       runtime={{ item.runtime }}
