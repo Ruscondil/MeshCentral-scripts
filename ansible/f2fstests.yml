@@ -38,5 +38,6 @@
 
     - import_tasks: ./dd/dd_tests.yaml
 
-    - import_tasks: fio_run.yaml
+    - import_tasks: ./fio/fio_run.yaml
+
 
