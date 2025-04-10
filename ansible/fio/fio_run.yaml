@@ -8,3 +8,36 @@
   loop: "{{ fio_tests }}"
   loop_control:
     label: "{{ item.name }}"
+
+- name: Gather FIO results
+  ansible.builtin.fetch:
+    src: "/tmp/fio_{{ item.name }}_output.txt"
+    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
+  loop: "{{ fio_tests | map(attribute='name') | list }}"
+  loop_control:
+    label: "{{ item }}"
+
+- name: Save FIO configuration to results folder on remote machine
+  ansible.builtin.copy:
+    content: |
+      Test Device: {{ test_device }}
+      Test Mount Point: {{ test_mount_point }}
+      Filesystem Type: ext4
+
+      {% for test in fio_tests %}
+      {{ test.name | capitalize }} Test:
+        RW: {{ test.rw }}
+        {% if test.rwmixread is defined %}RWMixRead: {{ test.rwmixread }}{% endif %}
+        NumJobs: {{ test.numjobs }}
+        Runtime: {{ test.runtime }}
+        IOdepth: {{ test.iodepth }}
+        BSSplit: {{ test.bssplit }}
+      {% endfor %}
+    dest: "/tmp/fio_config.txt"
+
+- name: Fetch FIO configuration file
+  ansible.builtin.fetch:
+    src: "/tmp/fio_config.txt"
+    dest: "{{ fio_results_path }}/fio_config.txt"
+    flat: yes
