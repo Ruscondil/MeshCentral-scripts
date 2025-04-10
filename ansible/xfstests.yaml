@@ -11,9 +11,9 @@
     filesystem_type: "xfs" 
     block_size: 4096
     
-    dd_results_path: "./dd_results_{{ filesystem_type }}_{{ test_device_short }}/"
-    fio_results_path: "./fio_results_{{ filesystem_type }}_{{ test_device_short }}/"
-    hdparm_results_path: "./hdparm_results_{{ filesystem_type }}_{{ test_device_short }}/"
+    dd_results_path: "./wyniki/dd_results_{{ filesystem_type }}_{{ test_device_short }}/"
+    fio_results_path: "./wyniki/fio_results_{{ filesystem_type }}_{{ test_device_short }}/"
+    hdparm_results_path: "./wyniki/hdparm_results_{{ filesystem_type }}_{{ test_device_short }}/"
   vars_files:
     - ./fio/fio_configs_vars.yaml
     - ./dd/dd_vars.yaml

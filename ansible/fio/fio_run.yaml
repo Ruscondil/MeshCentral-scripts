@@ -14,9 +14,9 @@
     src: "/tmp/fio_{{ item.name }}_output.txt"
     dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
     flat: yes
-  loop: "{{ fio_tests | map(attribute='name') | list }}"
+  loop: "{{ fio_tests }}"
   loop_control:
-    label: "{{ item }}"
+    label: "{{ item.name }}"
 
 - name: Save FIO configuration to results folder on remote machine
   ansible.builtin.copy:
