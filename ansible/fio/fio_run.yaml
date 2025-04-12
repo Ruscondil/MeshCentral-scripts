@@ -30,9 +30,11 @@
         RW: {{ test.rw }}
         {% if test.rwmixread is defined %}RWMixRead: {{ test.rwmixread }}{% endif %}
         NumJobs: {{ test.numjobs }}
+        {% if test.runtime is defined %}Runtime: {{ test.runtime }}{% endif %}
         Runtime: {{ test.runtime }}
         IOdepth: {{ test.iodepth }}
         BSSplit: {{ test.bssplit }}
+        {% if test.stonewall is defined %}stonewall: {{ test.stonewall }}{% endif %}
       {% endfor %}
     dest: "/tmp/fio_config.txt"
 

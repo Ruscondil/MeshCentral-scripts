@@ -15,9 +15,12 @@
       {% endif %}
       size={{ item.size }}
       numjobs={{ item.numjobs }}
-      runtime={{ item.runtime }}
+      {% if item.runtime is defined %}runtime={{ item.runtime }}
+      {% endif %}
       iodepth={{ item.iodepth }}
       bssplit={{ item.bssplit }}
+      {% if item.stonewall is defined and item.stonewall %}stonewall;
+      {% endif %}
   loop: "{{ fio_tests }}"
   loop_control:
     label: "{{ item.name }}"
