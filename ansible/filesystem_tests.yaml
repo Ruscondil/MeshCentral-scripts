@@ -7,29 +7,29 @@
   vars:
     filesystems_to_test:
       - name: "ext4"
-        block_sizes: [4096, 8192, 16384]
+        block_sizes: [4096]
         mount_opts: "defaults,noatime"
-        test_devices: ["hdd", "ssd"]
+        test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "xfs"
-        block_sizes: [4096, 8192]
+        block_sizes: [4096]
         mount_opts: "defaults,noatime"
-        test_devices: ["ssd"]
-        enabled: false
+        test_devices: ["hdd", "ssd", "nvme"]
+        enabled: true
       - name: "btrfs"
         block_sizes: [4096]
         mount_opts: "defaults,noatime"
-        test_devices: ["nvme"]
-        enabled: false
+        test_devices: ["hdd", "ssd", "nvme"]
+        enabled: true
       - name: "f2fs"
-        block_sizes: [4096, 8192]
+        block_sizes: [4096]
         mount_opts: "defaults,noatime"
-        test_devices: ["hdd"]
-        enabled: false
+        test_devices: ["hdd", "ssd", "nvme"]
+        enabled: true
       - name: "zfs"
         block_sizes: [4096]
         mount_opts: "defaults,noatime"
-        test_devices: ["ssd", "nvme"]
+        test_devices: ["hdd", "ssd", "nvme"]
         enabled: false
     test_mount_point: "/mnt/test"
     results_base_path: "./wyniki"
