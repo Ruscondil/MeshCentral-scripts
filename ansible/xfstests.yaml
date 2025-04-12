@@ -5,12 +5,21 @@
   become_method: sudo
   become_user: root
   vars:
-    test_device: "/dev/sda5"
     test_device_short: "hdd"
     test_mount_point: "/mnt/test"
     filesystem_type: "xfs" 
     block_size: 4096
-    
+    test_device: >-
+      {% if test_device_short == "hdd" %}
+        /dev/sda5
+      {% elif test_device_short == "ssd" %}
+        /dev/sdb1
+      {% elif test_device_short == "nvme" %}
+        /dev/nvme0n1p4
+      {% else %}
+        {{ fail("Invalid test_device_short value: " ~ test_device_short) }}
+      {% endif %}
+
     dd_results_path: "./wyniki/dd_results_{{ filesystem_type }}_{{ test_device_short }}/"
     fio_results_path: "./wyniki/fio_results_{{ filesystem_type }}_{{ test_device_short }}/"
     hdparm_results_path: "./wyniki/hdparm_results_{{ filesystem_type }}_{{ test_device_short }}/"
