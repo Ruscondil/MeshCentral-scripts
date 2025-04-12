@@ -9,16 +9,12 @@
     test_mount_point: "/mnt/test"
     filesystem_type: "f2fs" 
     test_device: >-
-      {% if test_device_short == "hdd" %}
-        /dev/sda5
-      {% elif test_device_short == "ssd" %}
-        /dev/sdb1
-      {% elif test_device_short == "nvme" %}
-        /dev/nvme0n1p4
-      {% else %}
-        {{ fail("Invalid test_device_short value: " ~ test_device_short) }}
-      {% endif %}
-
+      {{ 
+        ("/dev/sda5" if test_device_short == "hdd" else
+         "/dev/sdb1" if test_device_short == "ssd" else
+         "/dev/nvme0n1p4" if test_device_short == "nvme" else
+         fail("Invalid test_device_short value: " ~ test_device_short)) | trim 
+      }}
 
     dd_results_path: "./wyniki/dd_results_{{ filesystem_type }}_{{ test_device_short }}/"
     fio_results_path: "./wyniki/fio_results_{{ filesystem_type }}_{{ test_device_short }}/"

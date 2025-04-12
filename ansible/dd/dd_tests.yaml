@@ -50,7 +50,7 @@
       {% endfor %}
     dest: "/tmp/dd_config.txt"
 
-- name: Fetch hdparm configuration file
+- name: Fetch dd configuration file
   ansible.builtin.fetch:
     src: "/tmp/dd_config.txt"
     dest: "{{ dd_results_path }}/dd_config.txt"
