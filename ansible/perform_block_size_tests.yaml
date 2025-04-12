@@ -1,0 +1,71 @@
+---
+- name: Print current block size
+  ansible.builtin.debug:
+    msg: "Starting tests for block size: {{ block_size }} on filesystem: {{ filesystem_type }}"
+
+- name: Set result paths
+  set_fact:
+    dd_results_path: "{{ results_base_path }}/dd_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}"
+    fio_results_path: "{{ results_base_path }}/fio_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}"
+    hdparm_results_path: "{{ results_base_path }}/hdparm_results_{{ filesystem_type }}_{{ test_device_short }}"
+
+- name: Create filesystem
+  block:
+    - name: Create EXT4, XFS, BTRFS, or F2FS filesystem
+      community.general.filesystem:
+        fstype: "{{ filesystem_type }}"
+        dev: "{{ test_device }}"
+        opts: "{{ create_opts }}"
+      when: filesystem_type != "zfs"
+
+    - name: Create ZFS pool and filesystem
+      block:
+        - name: Create ZFS pool
+          command: zpool create mypool {{ test_device }}
+          args:
+            creates: /mypool
+
+        - name: Create ZFS filesystem
+          command: zfs create mypool/myfilesystem
+          args:
+            creates: /mypool/myfilesystem
+
+        - name: Set ZFS mountpoint
+          command: zfs set mountpoint={{ test_mount_point }} mypool/myfilesystem
+      when: filesystem_type == "zfs"
+
+- name: Mount the device
+  ansible.posix.mount:
+    path: "{{ test_mount_point }}"
+    src: "{{ test_device }}"
+    fstype: "{{ filesystem_type }}"
+    opts: "{{ mount_opts }}"
+    state: mounted
+  when: filesystem_type != "zfs"
+
+- name: Run dd tests
+  import_tasks: ./dd/dd_tests.yaml
+
+- name: Run fio tests
+  import_tasks: ./fio/fio_run.yaml
+
+- name: Unmount the device
+  ansible.posix.mount:
+    path: "{{ test_mount_point }}"
+    state: unmounted
+  when: filesystem_type != "zfs"
+
+- name: Destroy ZFS filesystem and pool
+  block:
+    - name: Unmount ZFS filesystem
+      command: zfs unmount mypool/myfilesystem
+      ignore_errors: true
+
+    - name: Destroy ZFS filesystem
+      command: zfs destroy mypool/myfilesystem
+      ignore_errors: true
+
+    - name: Destroy ZFS pool
+      command: zpool destroy mypool
+      ignore_errors: true
+  when: filesystem_type == "zfs"

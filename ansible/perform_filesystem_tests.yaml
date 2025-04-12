@@ -1,0 +1,14 @@
+---
+- name: Print current filesystem
+  ansible.builtin.debug:
+    msg: "Starting tests for filesystem: {{ filesystem.name }}"
+
+- name: Run tests for each device
+  include_tasks: perform_device_tests.yaml
+  loop: "{{ filesystem.test_devices }}"
+  loop_control:
+    loop_var: test_device_short
+  vars:
+    filesystem_type: "{{ filesystem.name }}"
+    block_sizes: "{{ filesystem.block_sizes }}"
+    mount_opts: "{{ filesystem.mount_opts }}"

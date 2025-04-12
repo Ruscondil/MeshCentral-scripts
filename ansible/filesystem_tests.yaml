@@ -1,0 +1,45 @@
+---
+- name: "Filesystem Performance Tests"
+  hosts: all
+  become: true
+  become_method: sudo
+  become_user: root
+  vars:
+    filesystems_to_test:
+      - name: "ext4"
+        block_sizes: [4096, 8192, 16384]
+        mount_opts: "defaults,noatime"
+        test_devices: ["hdd", "ssd"]
+        enabled: true
+      - name: "xfs"
+        block_sizes: [4096, 8192]
+        mount_opts: "defaults,noatime"
+        test_devices: ["ssd"]
+        enabled: false
+      - name: "btrfs"
+        block_sizes: [4096]
+        mount_opts: "defaults,noatime"
+        test_devices: ["nvme"]
+        enabled: false
+      - name: "f2fs"
+        block_sizes: [4096, 8192]
+        mount_opts: "defaults,noatime"
+        test_devices: ["hdd"]
+        enabled: false
+      - name: "zfs"
+        block_sizes: [4096]
+        mount_opts: "defaults,noatime"
+        test_devices: ["ssd", "nvme"]
+        enabled: false
+    test_mount_point: "/mnt/test"
+    results_base_path: "./wyniki"
+  vars_files:
+    - ./fio/fio_configs_vars.yaml
+    - ./dd/dd_vars.yaml
+
+  tasks:
+    - name: Run tests for each filesystem and device
+      include_tasks: perform_filesystem_tests.yaml
+      loop: "{{ filesystems_to_test | selectattr('enabled', 'equalto', true) | list }}"
+      loop_control:
+        loop_var: filesystem
