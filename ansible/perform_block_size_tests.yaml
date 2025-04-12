@@ -8,6 +8,8 @@
     dd_results_path: "{{ results_base_path }}/dd_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}"
     fio_results_path: "{{ results_base_path }}/fio_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}"
     hdparm_results_path: "{{ results_base_path }}/hdparm_results_{{ filesystem_type }}_{{ test_device_short }}"
+  
+- import_tasks: ./hdparm/hdparm_tests.yaml
 
 - name: Create filesystem
   block:
