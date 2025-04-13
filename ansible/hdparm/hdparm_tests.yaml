@@ -4,7 +4,7 @@
     hdparm -t --direct {{ test_device }}
   register: hdparm_result
 
-- debug: var=hdparm_result
+# - debug: var=hdparm_result
 
 - name: Save hdparm test result
   ansible.builtin.copy:
