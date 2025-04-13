@@ -20,6 +20,7 @@
         fstype: "{{ filesystem_type }}"
         dev: "{{ test_device }}"
         opts: "{{ create_opts }}"
+        force: true
       when: filesystem_type != "zfs"
 
     - name: Create ZFS pool and filesystem
@@ -56,7 +57,7 @@
 - name: Unmount the device
   ansible.posix.mount:
     path: "{{ test_mount_point }}"
-    state: unmounted
+    state: absent
   when: filesystem_type != "zfs"
 
 - name: Destroy ZFS filesystem and pool

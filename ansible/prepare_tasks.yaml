@@ -8,9 +8,10 @@
 - name: Unmount a mounted volume
   ansible.posix.mount:
     path: "{{ test_mount_point }}"
-    state: unmounted
+    state: absent 
 
 - name: Blank filesystem on the device
   community.general.filesystem:
     dev: "{{ test_device }}"
     state: absent
+
