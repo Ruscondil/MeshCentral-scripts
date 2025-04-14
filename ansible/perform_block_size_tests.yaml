@@ -57,7 +57,7 @@
 - name: Unmount the device
   ansible.posix.mount:
     path: "{{ test_mount_point }}"
-    state: absent
+    state: unmounted
   when: filesystem_type != "zfs"
 
 - name: Destroy ZFS filesystem and pool

@@ -8,7 +8,7 @@
 - name: Unmount a mounted volume
   ansible.posix.mount:
     path: "{{ test_mount_point }}"
-    state: absent 
+    state: unmounted 
 
 - name: Blank filesystem on the device
   command: "wipefs -af {{ test_device }}"
