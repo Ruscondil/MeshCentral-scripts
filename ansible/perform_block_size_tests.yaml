@@ -45,7 +45,7 @@
     src: "{{ test_device }}"
     fstype: "{{ filesystem_type }}"
     opts: "{{ mount_opts }}"
-    state: mounted
+    state: ephemeral
   when: filesystem_type != "zfs"
 
 - name: Run dd tests
