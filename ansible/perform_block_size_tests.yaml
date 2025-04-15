@@ -1,7 +1,7 @@
 ---
 - name: Print current block size
   ansible.builtin.debug:
-    msg: "Starting tests for block size: {{ block_size }} on filesystem: {{ filesystem_type }}"
+    msg: "Starting tests for block size: {{ block_size }} on filesystem: {{ filesystem_type }} on device: {{ test_device_short }}"
 
 - name: Set result paths
   set_fact:
