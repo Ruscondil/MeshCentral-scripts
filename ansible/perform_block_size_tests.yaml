@@ -21,7 +21,7 @@
         dev: "{{ test_device }}"
         opts: "{{ create_opts }}"
         force: true
-      when: filesystem_type != "zfs"
+      when: filesystem_type not in ["zfs", "zfs_nocache"]
 
     - name: Create ZFS pool and filesystem
       block:
@@ -37,7 +37,15 @@
 
         - name: Set ZFS mountpoint
           command: zfs set mountpoint={{ test_mount_point }} mypool/myfilesystem
-      when: filesystem_type == "zfs"
+
+        - name: Disable ZFS primary cache
+          command: zfs set primarycache=none mypool/myfilesystem
+          when: filesystem_type == "zfs_nocache"
+
+        - name: Disable ZFS secondary cache
+          command: zfs set secondarycache=none mypool/myfilesystem
+          when: filesystem_type == "zfs_nocache"
+      when: filesystem_type in ["zfs", "zfs_nocache"]
 
 - name: Mount the device
   ansible.posix.mount:
@@ -46,7 +54,7 @@
     fstype: "{{ filesystem_type }}"
     opts: "{{ mount_opts }}"
     state: ephemeral
-  when: filesystem_type != "zfs"
+  when: filesystem_type not in ["zfs", "zfs_nocache"]
 
 - name: Run dd tests
   import_tasks: ./dd/dd_tests.yaml
@@ -58,7 +66,7 @@
   ansible.posix.mount:
     path: "{{ test_mount_point }}"
     state: unmounted
-  when: filesystem_type != "zfs"
+  when: filesystem_type not in ["zfs", "zfs_nocache"]
 
 - name: Destroy ZFS filesystem and pool
   block:
@@ -73,4 +81,4 @@
     - name: Destroy ZFS pool
       command: zpool destroy mypool
       ignore_errors: true
-  when: filesystem_type == "zfs"
+  when: filesystem_type in ["zfs", "zfs_nocache"]
