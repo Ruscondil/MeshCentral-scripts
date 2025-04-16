@@ -7,12 +7,12 @@
          "/dev/nvme0n1p4" if test_device_short == "nvme" else
          None) | trim 
       }}
-  when: not (test_device_short == "ssd" and inventory_hostname not in groups['ssd_hosts'])
 
 - name: Skip task for unsupported devices
   ansible.builtin.debug:
     msg: "Skipping tests for device: {{ test_device_short }} on host: {{ inventory_hostname }}"
-  when: test_device is none
+  when: 
+    - test_device is not defined or test_device | length == 0 or test_device == "None"
 
 - name: Run tests for each block size
   include_tasks: perform_block_size_tests.yaml
@@ -27,7 +27,12 @@
         -b size={{ block_size }}
       {% elif filesystem_type == "btrfs" %}
         -n {{ block_size }}
+      {% elif filesystem_type == "f2fs" %}
+        -f
       {% else %}
         ""
       {% endif %}
-  when: test_device is not none
+  when: 
+    - test_device is defined
+    - test_device | length > 0
+    - test_device != "None"

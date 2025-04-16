@@ -5,6 +5,12 @@
     state: present
   when: ansible_os_family == "Debian"
 
+- name: Install f2fs-tools
+  ansible.builtin.apt:
+    name: f2fs-tools
+    state: present
+  when: ansible_os_family == "Debian" and filesystem_type == "f2fs"
+
 - name: Unmount a mounted volume
   ansible.posix.mount:
     path: "{{ test_mount_point }}"
