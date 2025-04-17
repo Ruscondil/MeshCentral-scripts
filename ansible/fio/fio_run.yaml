@@ -35,6 +35,7 @@
         IOdepth: {{ test.iodepth }}
         BSSplit: {{ test.bssplit }}
         {% if test.stonewall is defined %}stonewall: {{ test.stonewall }}{% endif %}
+        {% if test.time_based is defined %}time_based: {{ test.time_based }}{% endif %}
       {% endfor %}
     dest: "/tmp/fio_config.txt"
 

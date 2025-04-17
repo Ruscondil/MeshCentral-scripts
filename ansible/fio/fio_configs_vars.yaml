@@ -37,8 +37,28 @@ fio_tests:
     rw: "randrw"
     rwmixread: "50"
     numjobs: "1"
-    #runtime: "60"
+    runtime: "180"
     iodepth: "128"
     bssplit: "8k-64k"
-    size: "100G"
+    size: "10G"
+    time_based: true
     stonewall: true
+
+  - name: "seq_read_article"
+    rw: "read"
+    numjobs: "1"
+    bs: "1M"
+    size: "10G"
+    runtime: "180"
+    time_based: true
+    stonewall: true
+
+  - name: "seq_write_article"
+    rw: "write"
+    numjobs: "1"
+    bs: "1M"
+    size: "10G"
+    runtime: "180"
+    time_based: true
+    stonewall: true
+
