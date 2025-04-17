@@ -33,7 +33,7 @@
         {% if test.runtime is defined %}Runtime: {{ test.runtime }}{% endif %}
         Runtime: {{ test.runtime }}
         {% if test.iodepth is defined %}IOdepth: {{ test.iodepth }}{% endif %}
-        BSSplit: {{ test.bssplit }}
+        {% if test.bssplit is defined %}BSSplit: {{ test.bssplit }}{% endif %}
         {% if test.stonewall is defined %}stonewall: {{ test.stonewall }}{% endif %}
         {% if test.time_based is defined %}time_based: {{ test.time_based }}{% endif %}
       {% endfor %}

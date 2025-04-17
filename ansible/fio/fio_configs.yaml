@@ -19,7 +19,8 @@
       {% endif %}
       {% if item.iodepth is defined %}iodepth={{ item.iodepth }}
       {% endif %}
-      bssplit={{ item.bssplit }}
+      {% if item.bssplit is defined %}bssplit={{ item.bssplit }}
+      {% endif %}
       {% if item.stonewall is defined and item.stonewall %}stonewall;
       {% endif %}
       {% if item.time_based is defined and item.time_based %}time_based;
