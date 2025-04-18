@@ -11,7 +11,7 @@
     state: present
   when: ansible_os_family == "Debian" and filesystem_type == "f2fs"
 
-- name: Install exfat-utils
+- name: Install exfatprogs
   ansible.builtin.apt:
     name: exfatprogs
     state: present

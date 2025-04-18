@@ -15,13 +15,17 @@
 
 - name: Create filesystem
   block:
-    - name: Create EXT4, XFS, BTRFS, F2FS, or EXFAT filesystem
+    - name: Create EXT4, XFS, BTRFS, F2FS filesystem
       community.general.filesystem:
         fstype: "{{ filesystem_type }}"
         dev: "{{ test_device }}"
         opts: "{{ create_opts }}"
         force: true
-      when: filesystem_type not in ["zfs", "zfs_nocache"]
+      when: filesystem_type not in ["zfs", "zfs_nocache", "exfat"]
+
+    - name: Create EXFAT filesystem
+      shell: "mkfs.exfat {{ test_device }}"
+      when: filesystem_type in ["exfat"]
 
     - name: Create ZFS pool and filesystem
       block:
