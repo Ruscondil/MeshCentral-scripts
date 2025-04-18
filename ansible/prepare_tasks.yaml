@@ -19,17 +19,17 @@
 - name: Destroy ZFS filesystem and pool
   block:
     - name: Unmount ZFS filesystem
-      command: zfs unmount mypool/myfilesystem
+      shell: zfs unmount mypool/myfilesystem
       ignore_errors: true
 
     - name: Destroy ZFS filesystem
-      command: zfs destroy mypool/myfilesystem
+      shell: zfs destroy mypool/myfilesystem
       ignore_errors: true
 
     - name: Destroy ZFS pool
-      command: zpool destroy mypool
+      shell: zpool destroy mypool
       ignore_errors: true
   when: filesystem_type in ["zfs", "zfs_nocache"]
 
 - name: Blank filesystem on the device
-  command: "wipefs -af {{ test_device }}"
+  shell: "wipefs -af {{ test_device }}"
