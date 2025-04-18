@@ -13,7 +13,7 @@
 
 - name: Install exfat-utils
   ansible.builtin.apt:
-    name: exfat-utils
+    name: exfatprogs
     state: present
   when: ansible_os_family == "Debian" and filesystem_type == "exfat"
 
