@@ -44,7 +44,7 @@ fio_tests:
     time_based: true
     stonewall: true
 
-  - name: "seq_read_article"
+  - name: "seq_read_article_test"
     rw: "read"
     numjobs: "1"
     bs: "1M"
@@ -53,7 +53,7 @@ fio_tests:
     time_based: true
     stonewall: true
 
-  - name: "seq_write_article"
+  - name: "seq_write_article_test"
     rw: "write"
     numjobs: "1"
     bs: "1M"
