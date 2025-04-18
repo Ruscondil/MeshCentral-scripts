@@ -36,6 +36,11 @@
         mount_opts: "defaults,noatime"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
+      - name: "exfat"
+        block_sizes: [4096]
+        mount_opts: "defaults,noatime"
+        test_devices: ["hdd", "ssd", "nvme"]
+        enabled: true
     test_mount_point: "/mnt/test"
     results_base_path: "./wyniki"
   vars_files:

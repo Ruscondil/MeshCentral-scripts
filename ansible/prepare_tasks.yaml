@@ -11,6 +11,12 @@
     state: present
   when: ansible_os_family == "Debian" and filesystem_type == "f2fs"
 
+- name: Install exfat-utils
+  ansible.builtin.apt:
+    name: exfat-utils
+    state: present
+  when: ansible_os_family == "Debian" and filesystem_type == "exfat"
+
 - name: Unmount a mounted volume
   ansible.posix.mount:
     path: "{{ test_mount_point }}"

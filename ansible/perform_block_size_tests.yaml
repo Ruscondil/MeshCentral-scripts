@@ -15,7 +15,7 @@
 
 - name: Create filesystem
   block:
-    - name: Create EXT4, XFS, BTRFS, or F2FS filesystem
+    - name: Create EXT4, XFS, BTRFS, F2FS, or EXFAT filesystem
       community.general.filesystem:
         fstype: "{{ filesystem_type }}"
         dev: "{{ test_device }}"
