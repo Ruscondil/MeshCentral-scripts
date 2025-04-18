@@ -1,0 +1,3 @@
+
+/dev/nvme0n1p4:
+ Timing O_DIRECT disk reads: 1964 MB in  3.00 seconds = 654.64 MB/sec

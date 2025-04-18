@@ -1,0 +1,35 @@
+seq_read_article: (g=0): rw=read, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=1
+fio-3.36
+Starting 1 process
+seq_read_article: Laying out IO file (1 file / 10240MiB)
+
+seq_read_article: (groupid=0, jobs=1): err= 0: pid=4107: Thu Apr 17 17:10:59 2025
+  read: IOPS=19.6k, BW=76.7MiB/s (80.4MB/s)(13.5GiB/180000msec)
+    slat (usec): min=2, max=215, avg= 6.17, stdev= 5.57
+    clat (nsec): min=579, max=73167k, avg=44027.66, stdev=176845.72
+     lat (usec): min=30, max=73188, avg=50.20, stdev=177.46
+    clat percentiles (usec):
+     |  1.00th=[   32],  5.00th=[   33], 10.00th=[   33], 20.00th=[   33],
+     | 30.00th=[   34], 40.00th=[   34], 50.00th=[   34], 60.00th=[   35],
+     | 70.00th=[   49], 80.00th=[   50], 90.00th=[   57], 95.00th=[   72],
+     | 99.00th=[  101], 99.50th=[  137], 99.90th=[  202], 99.95th=[  537],
+     | 99.99th=[ 7701]
+   bw (  KiB/s): min=43512, max=109912, per=100.00%, avg=78558.17, stdev=20268.02, samples=359
+   iops        : min=10878, max=27478, avg=19639.53, stdev=5066.99, samples=359
+  lat (nsec)   : 750=0.01%
+  lat (usec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=80.12%
+  lat (usec)   : 100=18.86%, 250=0.95%, 500=0.01%, 750=0.02%, 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.01%
+  lat (msec)   : 100=0.01%
+  cpu          : usr=3.90%, sys=17.48%, ctx=3534499, majf=0, minf=15
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=3534528,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=76.7MiB/s (80.4MB/s), 76.7MiB/s-76.7MiB/s (80.4MB/s-80.4MB/s), io=13.5GiB (14.5GB), run=180000-180000msec
+
+Disk stats (read/write):
+  sda: ios=3532179/1125, sectors=28257432/1049856, merge=0/50, ticks=157415/6678, in_queue=165737, util=86.29%

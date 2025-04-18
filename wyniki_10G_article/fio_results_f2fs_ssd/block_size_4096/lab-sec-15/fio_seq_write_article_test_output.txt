@@ -1,0 +1,34 @@
+seq_write_article: (g=0): rw=write, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=1
+fio-3.36
+Starting 1 process
+seq_write_article: Laying out IO file (1 file / 10240MiB)
+
+seq_write_article: (groupid=0, jobs=1): err= 0: pid=16188: Thu Apr 17 20:34:38 2025
+  write: IOPS=8009, BW=31.3MiB/s (32.8MB/s)(5632MiB/180001msec); 0 zone resets
+    slat (usec): min=4, max=58254, avg=26.99, stdev=48.87
+    clat (usec): min=4, max=260597, avg=95.69, stdev=1895.52
+     lat (usec): min=33, max=260623, avg=122.68, stdev=1896.56
+    clat percentiles (usec):
+     |  1.00th=[   58],  5.00th=[   59], 10.00th=[   60], 20.00th=[   61],
+     | 30.00th=[   62], 40.00th=[   62], 50.00th=[   63], 60.00th=[   64],
+     | 70.00th=[   65], 80.00th=[   66], 90.00th=[   68], 95.00th=[   73],
+     | 99.00th=[  167], 99.50th=[  184], 99.90th=[ 1893], 99.95th=[ 2704],
+     | 99.99th=[88605]
+   bw (  KiB/s): min= 5744, max=43728, per=100.00%, avg=32059.68, stdev=6507.31, samples=359
+   iops        : min= 1436, max=10932, avg=8014.80, stdev=1626.83, samples=359
+  lat (usec)   : 10=0.01%, 50=0.22%, 100=97.55%, 250=1.98%, 500=0.03%
+  lat (usec)   : 750=0.04%, 1000=0.04%
+  lat (msec)   : 2=0.07%, 4=0.06%, 10=0.01%, 20=0.01%, 100=0.02%
+  lat (msec)   : 250=0.01%, 500=0.01%
+  cpu          : usr=5.23%, sys=26.58%, ctx=1441821, majf=0, minf=12
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=0,1441796,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=31.3MiB/s (32.8MB/s), 31.3MiB/s-31.3MiB/s (32.8MB/s-32.8MB/s), io=5632MiB (5906MB), run=180001-180001msec
+
+Disk stats (read/write):
+  sdb: ios=5/1440556, sectors=40/11548376, merge=0/0, ticks=22/128690, in_queue=128717, util=77.45%

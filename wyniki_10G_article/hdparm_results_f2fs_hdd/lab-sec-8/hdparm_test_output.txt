@@ -1,0 +1,3 @@
+
+/dev/sda5:
+ Timing O_DIRECT disk reads: 462 MB in  3.01 seconds = 153.30 MB/sec
