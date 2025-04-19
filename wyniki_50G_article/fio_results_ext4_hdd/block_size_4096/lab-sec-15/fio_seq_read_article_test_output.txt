@@ -1,0 +1,34 @@
+seq_read_article_test: (g=0): rw=read, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=1
+fio-3.36
+Starting 1 process
+seq_read_article_test: Laying out IO file (1 file / 51200MiB)
+
+seq_read_article_test: (groupid=0, jobs=1): err= 0: pid=18750: Fri Apr 18 20:06:35 2025
+  read: IOPS=22.8k, BW=89.2MiB/s (93.6MB/s)(15.7GiB/180001msec)
+    slat (nsec): min=2612, max=72526, avg=5287.27, stdev=4838.93
+    clat (usec): min=3, max=104576, avg=37.92, stdev=73.47
+     lat (usec): min=30, max=104584, avg=43.20, stdev=74.18
+    clat percentiles (usec):
+     |  1.00th=[   32],  5.00th=[   33], 10.00th=[   33], 20.00th=[   33],
+     | 30.00th=[   34], 40.00th=[   34], 50.00th=[   34], 60.00th=[   34],
+     | 70.00th=[   35], 80.00th=[   50], 90.00th=[   56], 95.00th=[   57],
+     | 99.00th=[   58], 99.50th=[   63], 99.90th=[   76], 99.95th=[   94],
+     | 99.99th=[  188]
+   bw (  KiB/s): min=52864, max=109480, per=100.00%, avg=91398.13, stdev=24022.08, samples=359
+   iops        : min=13216, max=27370, avg=22849.53, stdev=6005.52, samples=359
+  lat (usec)   : 4=0.01%, 50=81.09%, 100=18.87%, 250=0.04%, 500=0.01%
+  lat (usec)   : 750=0.01%, 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.01%
+  lat (msec)   : 100=0.01%, 250=0.01%
+  cpu          : usr=3.58%, sys=17.13%, ctx=4112719, majf=0, minf=13
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=4112688,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=89.2MiB/s (93.6MB/s), 89.2MiB/s-89.2MiB/s (93.6MB/s-93.6MB/s), io=15.7GiB (16.8GB), run=180001-180001msec
+
+Disk stats (read/write):
+  sda: ios=4110891/51, sectors=32887128/568, merge=0/14, ticks=158185/374, in_queue=158844, util=87.56%
