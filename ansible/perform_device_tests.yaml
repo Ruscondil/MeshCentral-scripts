@@ -21,11 +21,11 @@
     loop_var: block_size
   vars:
     create_opts: >-
-      {% if filesystem_type == "ext4" %}
+      {% if filesystem_type == "ext4" and block_size != "default" %}
         -b {{ block_size }}
-      {% elif filesystem_type == "xfs" %}
+      {% elif filesystem_type == "xfs" and block_size != "default" %}
         -b size={{ block_size }}
-      {% elif filesystem_type == "btrfs" %}
+      {% elif filesystem_type == "btrfs" and block_size != "default" %}
         -n {{ block_size }}
       {% elif filesystem_type == "f2fs" %}
         -f
