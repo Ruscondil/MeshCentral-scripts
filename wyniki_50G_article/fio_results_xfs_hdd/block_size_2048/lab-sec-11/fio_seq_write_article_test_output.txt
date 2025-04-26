@@ -1,0 +1,34 @@
+seq_write_article_test: (g=0): rw=write, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=1
+fio-3.36
+Starting 1 process
+seq_write_article_test: Laying out IO file (1 file / 51200MiB)
+
+seq_write_article_test: (groupid=0, jobs=1): err= 0: pid=85765: Mon Apr 21 02:16:51 2025
+  write: IOPS=8378, BW=32.7MiB/s (34.3MB/s)(5892MiB/180020msec); 0 zone resets
+    slat (usec): min=3, max=16313, avg=21.83, stdev=15.67
+    clat (usec): min=38, max=175183, avg=95.19, stdev=253.51
+     lat (usec): min=44, max=175282, avg=117.03, stdev=254.75
+    clat percentiles (usec):
+     |  1.00th=[   55],  5.00th=[   86], 10.00th=[   86], 20.00th=[   87],
+     | 30.00th=[   88], 40.00th=[   88], 50.00th=[   89], 60.00th=[   90],
+     | 70.00th=[   90], 80.00th=[   91], 90.00th=[   97], 95.00th=[  137],
+     | 99.00th=[  229], 99.50th=[  235], 99.90th=[  253], 99.95th=[  269],
+     | 99.99th=[  537]
+   bw (  KiB/s): min=15688, max=64352, per=100.00%, avg=33560.92, stdev=4390.78, samples=359
+   iops        : min= 3922, max=16088, avg=8390.19, stdev=1097.71, samples=359
+  lat (usec)   : 50=0.02%, 100=92.08%, 250=7.76%, 500=0.13%, 750=0.01%
+  lat (usec)   : 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.01%
+  lat (msec)   : 100=0.01%, 250=0.01%
+  cpu          : usr=5.06%, sys=24.48%, ctx=1508398, majf=0, minf=13
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=0,1508374,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=32.7MiB/s (34.3MB/s), 32.7MiB/s-32.7MiB/s (34.3MB/s-34.3MB/s), io=5892MiB (6178MB), run=180020-180020msec
+
+Disk stats (read/write):
+  sda: ios=0/1508011, sectors=0/12064977, merge=0/56, ticks=0/98497, in_queue=100079, util=73.07%

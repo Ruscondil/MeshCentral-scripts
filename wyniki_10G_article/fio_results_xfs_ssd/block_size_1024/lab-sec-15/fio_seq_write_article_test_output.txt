@@ -1,0 +1,34 @@
+seq_write_article_test: (g=0): rw=write, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=1
+fio-3.36
+Starting 1 process
+seq_write_article_test: Laying out IO file (1 file / 10240MiB)
+
+seq_write_article_test: (groupid=0, jobs=1): err= 0: pid=64422: Sun Apr 20 16:14:05 2025
+  write: IOPS=7235, BW=28.3MiB/s (29.6MB/s)(5088MiB/180023msec); 0 zone resets
+    slat (usec): min=3, max=125, avg=21.38, stdev= 7.35
+    clat (usec): min=31, max=263299, avg=114.63, stdev=1689.64
+     lat (usec): min=36, max=263302, avg=136.01, stdev=1690.15
+    clat percentiles (usec):
+     |  1.00th=[   72],  5.00th=[   79], 10.00th=[   81], 20.00th=[   82],
+     | 30.00th=[   83], 40.00th=[   84], 50.00th=[   85], 60.00th=[   86],
+     | 70.00th=[   87], 80.00th=[   89], 90.00th=[   93], 95.00th=[  100],
+     | 99.00th=[  229], 99.50th=[  241], 99.90th=[  816], 99.95th=[ 1942],
+     | 99.99th=[86508]
+   bw (  KiB/s): min= 7568, max=37512, per=100.00%, avg=28978.92, stdev=4190.23, samples=359
+   iops        : min= 1892, max= 9378, avg=7244.64, stdev=1047.57, samples=359
+  lat (usec)   : 50=0.19%, 100=94.85%, 250=4.59%, 500=0.21%, 750=0.04%
+  lat (usec)   : 1000=0.04%
+  lat (msec)   : 2=0.04%, 4=0.02%, 10=0.01%, 20=0.01%, 100=0.02%
+  lat (msec)   : 250=0.01%, 500=0.01%
+  cpu          : usr=4.57%, sys=20.49%, ctx=1302678, majf=0, minf=11
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=0,1302644,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=28.3MiB/s (29.6MB/s), 28.3MiB/s-28.3MiB/s (29.6MB/s-29.6MB/s), io=5088MiB (5336MB), run=180023-180023msec
+
+Disk stats (read/write):
+  sdb: ios=0/1302289, sectors=0/10418244, merge=0/4, ticks=0/113239, in_queue=113647, util=59.56%

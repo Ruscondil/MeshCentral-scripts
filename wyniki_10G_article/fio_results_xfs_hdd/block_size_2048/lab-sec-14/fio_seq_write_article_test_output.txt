@@ -1,0 +1,34 @@
+seq_write_article_test: (g=0): rw=write, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=1
+fio-3.36
+Starting 1 process
+seq_write_article_test: Laying out IO file (1 file / 10240MiB)
+
+seq_write_article_test: (groupid=0, jobs=1): err= 0: pid=60352: Sun Apr 20 16:00:59 2025
+  write: IOPS=8004, BW=31.3MiB/s (32.8MB/s)(5628MiB/180001msec); 0 zone resets
+    slat (usec): min=3, max=17879, avg=23.12, stdev=17.90
+    clat (usec): min=4, max=205157, avg=99.56, stdev=314.16
+     lat (usec): min=37, max=205161, avg=122.67, stdev=315.42
+    clat percentiles (usec):
+     |  1.00th=[   78],  5.00th=[   86], 10.00th=[   87], 20.00th=[   87],
+     | 30.00th=[   88], 40.00th=[   89], 50.00th=[   89], 60.00th=[   90],
+     | 70.00th=[   91], 80.00th=[   93], 90.00th=[  108], 95.00th=[  180],
+     | 99.00th=[  235], 99.50th=[  243], 99.90th=[  265], 99.95th=[  277],
+     | 99.99th=[  922]
+   bw (  KiB/s): min=14960, max=55976, per=100.00%, avg=32039.91, stdev=3964.14, samples=359
+   iops        : min= 3740, max=13994, avg=8009.96, stdev=991.02, samples=359
+  lat (usec)   : 10=0.01%, 50=0.01%, 100=88.48%, 250=11.24%, 500=0.26%
+  lat (usec)   : 750=0.01%, 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.01%
+  lat (msec)   : 100=0.01%, 250=0.01%
+  cpu          : usr=5.24%, sys=24.01%, ctx=1440903, majf=0, minf=14
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=0,1440869,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=31.3MiB/s (32.8MB/s), 31.3MiB/s-31.3MiB/s (32.8MB/s-32.8MB/s), io=5628MiB (5902MB), run=180001-180001msec
+
+Disk stats (read/write):
+  sda: ios=0/1439973, sectors=0/11520999, merge=0/94, ticks=0/101440, in_queue=103152, util=72.74%

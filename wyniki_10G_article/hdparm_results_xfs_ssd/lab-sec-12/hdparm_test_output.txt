@@ -1,0 +1,3 @@
+
+/dev/sdb1:
+ Timing O_DIRECT disk reads: 670 MB in  3.01 seconds = 222.83 MB/sec

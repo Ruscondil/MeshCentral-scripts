@@ -1,0 +1,34 @@
+seq_read_article_test: (g=0): rw=read, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=1
+fio-3.36
+Starting 1 process
+seq_read_article_test: Laying out IO file (1 file / 51200MiB)
+
+seq_read_article_test: (groupid=0, jobs=1): err= 0: pid=88637: Mon Apr 21 02:14:15 2025
+  read: IOPS=24.2k, BW=94.4MiB/s (99.0MB/s)(16.6GiB/180001msec)
+    slat (nsec): min=2659, max=74263, avg=4572.71, stdev=3325.72
+    clat (usec): min=3, max=60293, avg=36.24, stdev=54.63
+     lat (usec): min=30, max=60297, avg=40.81, stdev=55.13
+    clat percentiles (usec):
+     |  1.00th=[   32],  5.00th=[   33], 10.00th=[   33], 20.00th=[   33],
+     | 30.00th=[   33], 40.00th=[   34], 50.00th=[   34], 60.00th=[   34],
+     | 70.00th=[   34], 80.00th=[   35], 90.00th=[   49], 95.00th=[   51],
+     | 99.00th=[   56], 99.50th=[   58], 99.90th=[   74], 99.95th=[   91],
+     | 99.99th=[  155]
+   bw (  KiB/s): min=53368, max=110360, per=99.99%, avg=96703.07, stdev=20285.67, samples=359
+   iops        : min=13342, max=27590, avg=24175.70, stdev=5071.44, samples=359
+  lat (usec)   : 4=0.01%, 20=0.01%, 50=94.33%, 100=5.64%, 250=0.03%
+  lat (usec)   : 500=0.01%, 750=0.01%, 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.01%
+  lat (msec)   : 100=0.01%
+  cpu          : usr=3.54%, sys=15.72%, ctx=4351882, majf=0, minf=15
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=4351877,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=94.4MiB/s (99.0MB/s), 94.4MiB/s-94.4MiB/s (99.0MB/s-99.0MB/s), io=16.6GiB (17.8GB), run=180001-180001msec
+
+Disk stats (read/write):
+  sda: ios=4345194/16, sectors=34761552/139, merge=2/4, ticks=159816/310, in_queue=160430, util=87.79%

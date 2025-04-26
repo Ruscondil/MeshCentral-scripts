@@ -1,0 +1,34 @@
+seq_write_article_test: (g=0): rw=write, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=1
+fio-3.36
+Starting 1 process
+seq_write_article_test: Laying out IO file (1 file / 10240MiB)
+
+seq_write_article_test: (groupid=0, jobs=1): err= 0: pid=57477: Sun Apr 20 14:55:39 2025
+  write: IOPS=23.3k, BW=90.9MiB/s (95.3MB/s)(16.0GiB/180001msec); 0 zone resets
+    slat (usec): min=3, max=1415, avg= 7.00, stdev= 1.76
+    clat (usec): min=9, max=55295, avg=34.83, stdev=155.99
+     lat (usec): min=20, max=55364, avg=41.83, stdev=156.17
+    clat percentiles (usec):
+     |  1.00th=[   27],  5.00th=[   28], 10.00th=[   28], 20.00th=[   29],
+     | 30.00th=[   30], 40.00th=[   30], 50.00th=[   30], 60.00th=[   31],
+     | 70.00th=[   32], 80.00th=[   32], 90.00th=[   33], 95.00th=[   34],
+     | 99.00th=[   38], 99.50th=[   51], 99.90th=[  758], 99.95th=[ 3425],
+     | 99.99th=[ 5669]
+   bw (  KiB/s): min=  311, max=106760, per=100.00%, avg=93116.92, stdev=9953.61, samples=359
+   iops        : min=   77, max=26690, avg=23279.24, stdev=2488.42, samples=359
+  lat (usec)   : 10=0.01%, 20=0.01%, 50=99.49%, 100=0.21%, 250=0.04%
+  lat (usec)   : 500=0.01%, 750=0.13%, 1000=0.06%
+  lat (msec)   : 2=0.01%, 4=0.05%, 10=0.01%, 20=0.01%, 50=0.01%
+  lat (msec)   : 100=0.01%
+  cpu          : usr=6.10%, sys=20.10%, ctx=4188337, majf=0, minf=15
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=0,4188298,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=90.9MiB/s (95.3MB/s), 90.9MiB/s-90.9MiB/s (95.3MB/s-95.3MB/s), io=16.0GiB (17.2GB), run=180001-180001msec
+
+Disk stats (read/write):
+  nvme0n1: ios=0/4187277, sectors=0/33730984, merge=0/850, ticks=0/141129, in_queue=141190, util=65.57%

@@ -1,0 +1,34 @@
+seq_write_article_test: (g=0): rw=write, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=1
+fio-3.36
+Starting 1 process
+seq_write_article_test: Laying out IO file (1 file / 10240MiB)
+
+seq_write_article_test: (groupid=0, jobs=1): err= 0: pid=59890: Sun Apr 20 15:49:31 2025
+  write: IOPS=8788, BW=34.3MiB/s (36.0MB/s)(6179MiB/180001msec); 0 zone resets
+    slat (usec): min=3, max=115, avg=20.61, stdev= 5.07
+    clat (usec): min=39, max=181343, avg=91.12, stdev=257.13
+     lat (usec): min=42, max=181370, avg=111.73, stdev=257.48
+    clat percentiles (usec):
+     |  1.00th=[   71],  5.00th=[   85], 10.00th=[   86], 20.00th=[   86],
+     | 30.00th=[   87], 40.00th=[   88], 50.00th=[   88], 60.00th=[   89],
+     | 70.00th=[   89], 80.00th=[   90], 90.00th=[   94], 95.00th=[   98],
+     | 99.00th=[  180], 99.50th=[  219], 99.90th=[  245], 99.95th=[  269],
+     | 99.99th=[  457]
+   bw (  KiB/s): min=18904, max=46680, per=100.00%, avg=35204.94, stdev=3141.54, samples=359
+   iops        : min= 4726, max=11670, avg=8801.21, stdev=785.39, samples=359
+  lat (usec)   : 50=0.02%, 100=96.05%, 250=3.86%, 500=0.07%, 750=0.01%
+  lat (usec)   : 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.01%
+  lat (msec)   : 100=0.01%, 250=0.01%
+  cpu          : usr=5.49%, sys=23.55%, ctx=1581883, majf=0, minf=14
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=0,1581866,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=34.3MiB/s (36.0MB/s), 34.3MiB/s-34.3MiB/s (36.0MB/s-36.0MB/s), io=6179MiB (6479MB), run=180001-180001msec
+
+Disk stats (read/write):
+  sda: ios=0/1581303, sectors=0/12651057, merge=0/27, ticks=0/99407, in_queue=100761, util=86.05%
