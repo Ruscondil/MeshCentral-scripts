@@ -9,7 +9,6 @@
       - name: "ext4"
         block_sizes: [1024,2048] #możliwe wartości: [1024,2048,4096]
         mount_opts: "defaults,noatime"
-        compression_options: ["zstd", "lzo", "none"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "xfs"
@@ -20,6 +19,7 @@
       - name: "btrfs"
         block_sizes: [8192,16384,32768,65536]  #możliwe wartości: [40,8192,16384,32768,65536]
         mount_opts: "defaults,noatime"
+        compression_options: ["zstd", "lzo", "none"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "f2fs"
