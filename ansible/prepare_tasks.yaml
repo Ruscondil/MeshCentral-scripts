@@ -35,7 +35,7 @@
     - name: Destroy ZFS pool
       shell: zpool destroy mypool
       ignore_errors: true
-  when: filesystem_type in ["zfs", "zfs_nocache"]
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary"]
 
 - name: Blank filesystem on the device
   shell: "wipefs -af {{ test_device }}"

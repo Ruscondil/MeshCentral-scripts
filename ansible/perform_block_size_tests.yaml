@@ -67,7 +67,7 @@
   ansible.posix.mount:
     path: "{{ test_mount_point }}"
     state: unmounted
-  when: filesystem_type not in ["zfs", "zfs_nocache"]
+  when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary"]
 
 - name: Destroy ZFS filesystem and pool
   block:
@@ -82,4 +82,4 @@
     - name: Destroy ZFS pool
       shell: zpool destroy mypool
       ignore_errors: true
-  when: filesystem_type in ["zfs", "zfs_nocache"]
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary"]
