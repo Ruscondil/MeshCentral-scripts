@@ -1,6 +1,13 @@
 ---
 - import_tasks: fio_configs.yaml
 
+- name: Log test details
+  ansible.builtin.debug:
+    msg:
+      - "Testing filesystem: {{ filesystem_type }}"
+      - "Testing device: {{ test_device_short }}"
+      - "Block size: {{ block_size }}"
+      
 - name: Run FIO tests and clean up after each test
   ansible.builtin.shell: >
     fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output.txt &&
