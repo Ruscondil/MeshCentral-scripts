@@ -9,6 +9,7 @@
       - name: "ext4"
         block_sizes: [1024,2048]
         mount_opts: "defaults,noatime"
+        compression_options: ["zstd", "lzo", "none"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "xfs"
@@ -58,3 +59,5 @@
       loop: "{{ filesystems_to_test | selectattr('enabled', 'equalto', true) | list }}"
       loop_control:
         loop_var: filesystem
+      vars:
+        compression_options: "{{ filesystem.compression_options | default(['none']) }}"

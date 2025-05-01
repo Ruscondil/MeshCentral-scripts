@@ -14,25 +14,8 @@
   when: 
     - test_device is not defined or test_device | length == 0 or test_device == "None"
 
-- name: Run tests for each block size
-  include_tasks: perform_block_size_tests.yaml
-  loop: "{{ block_sizes }}"
+- name: Run tests for compression options
+  include_tasks: perform_compression_tests.yaml
+  loop: "{{ compression_options }}"
   loop_control:
-    loop_var: block_size
-  vars:
-    create_opts: >-
-      {% if filesystem_type == "ext4" and block_size != "default" %}
-        -b {{ block_size }}
-      {% elif filesystem_type == "xfs" and block_size != "default" %}
-        -b size={{ block_size }}
-      {% elif filesystem_type == "btrfs" and block_size != "default" %}
-        -n {{ block_size }}
-      {% elif filesystem_type == "f2fs" %}
-        -f
-      {% else %}
-        ""
-      {% endif %}
-  when: 
-    - test_device is defined
-    - test_device | length > 0
-    - test_device != "None"
+    loop_var: compression_option

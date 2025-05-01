@@ -1,14 +1,13 @@
 ---
 - name: Print current block size
   ansible.builtin.debug:
-    msg: "Starting tests for block size: {{ block_size }} on filesystem: {{ filesystem_type }} on device: {{ test_device_short }}"
+    msg: "Starting tests for block size: {{ block_size }}, compression: {{ compression_option }} on filesystem: {{ filesystem_type }} on device: {{ test_device_short }}"
 
 - name: Set result paths
   set_fact:
-    dd_results_path: "{{ results_base_path }}/dd_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}"
-    fio_results_path: "{{ results_base_path }}/fio_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}"
-    hdparm_results_path: "{{ results_base_path }}/hdparm_results_{{ filesystem_type }}_{{ test_device_short }}"
-
+    dd_results_path: "{{ results_base_path }}/dd_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}"
+    fio_results_path: "{{ results_base_path }}/fio_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}"
+    hdparm_results_path: "{{ results_base_path }}/hdparm_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}"
 - import_tasks: prepare_tasks.yaml
 
 - import_tasks: ./hdparm/hdparm_tests.yaml
@@ -38,6 +37,10 @@
         - name: Set ZFS mountpoint
           shell: zfs set mountpoint={{ test_mount_point }} mypool/myfilesystem
 
+        - name: Set ZFS compression
+          shell: zfs set compression={{ compression_option }} mypool/myfilesystem
+          when: compression_option != "none"
+
         - name: Disable ZFS primary cache
           shell: zfs set primarycache=none mypool/myfilesystem
           when: filesystem_type == "zfs_nocache"
@@ -53,7 +56,12 @@
     path: "{{ test_mount_point }}"
     src: "{{ test_device }}"
     fstype: "{{ filesystem_type }}"
-    opts: "{{ mount_opts }}"
+    opts: >-
+      {% if filesystem_type == "btrfs" and compression_option != "none" %}
+        compress={{ compression_option }},{{ mount_opts }}
+      {% else %}
+        {{ mount_opts }}
+      {% endif %}
     state: ephemeral
   when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary"]
 
