@@ -21,7 +21,7 @@
         dev: "{{ test_device }}"
         opts: "{{ create_opts }}"
         force: true
-      when: filesystem_type not in ["zfs", "zfs_nocache", "exfat"]
+      when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "exfat"]
 
     - name: Create EXFAT filesystem
       shell: "mkfs.exfat {{ test_device }}"
@@ -55,7 +55,7 @@
     fstype: "{{ filesystem_type }}"
     opts: "{{ mount_opts }}"
     state: ephemeral
-  when: filesystem_type not in ["zfs", "zfs_nocache"]
+  when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary"]
 
 - name: Run dd tests
   import_tasks: ./dd/dd_tests.yaml
