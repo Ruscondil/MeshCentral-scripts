@@ -44,8 +44,9 @@
 
         - name: Disable ZFS secondary cache
           shell: zfs set secondarycache=none mypool/myfilesystem
-          when: filesystem_type == "zfs_nocache"
-      when: filesystem_type in ["zfs", "zfs_nocache"]
+          when: filesystem_type in ["zfs_nocache", "zfs_primary"]
+
+      when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary"]
 
 - name: Mount the device
   ansible.posix.mount:
