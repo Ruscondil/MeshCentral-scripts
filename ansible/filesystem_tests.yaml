@@ -7,33 +7,37 @@
   vars:
     filesystems_to_test:
       - name: "ext4"
-        block_sizes: ["default"]
+        block_sizes: [1024,2048]
         mount_opts: "defaults,noatime"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "xfs"
-        block_sizes: ["default"]
+        block_sizes: [1024,2048]
         mount_opts: "defaults,noatime"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "btrfs"
-        block_sizes: ["default"]
+        block_sizes: [8192,16384,32768,65536]
         mount_opts: "defaults,noatime"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "f2fs"
+        block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "zfs"
+        block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: false
       - name: "zfs_nocache"
+        block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "exfat"
+        block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
@@ -44,16 +48,6 @@
     - ./dd/dd_vars.yaml
 
   tasks:
-    - name: Ensure block_sizes is set to default if not defined
-      set_fact:
-        filesystems_to_test: >-
-          {{
-            filesystems_to_test | map(
-              "combine", 
-              {"block_sizes": ["default"]} if item.block_sizes is not defined else {}
-            ) | list
-          }}
-
     - name: Run tests for each filesystem and device
       include_tasks: perform_filesystem_tests.yaml
       loop: "{{ filesystems_to_test | selectattr('enabled', 'equalto', true) | list }}"
