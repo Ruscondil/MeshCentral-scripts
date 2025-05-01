@@ -14,8 +14,6 @@
         -n {{ block_size }}
       {% elif filesystem_type == "f2fs" %}
         -f
-      {% else %}
-        None
       {% endif %}
   when: 
     - test_device is defined

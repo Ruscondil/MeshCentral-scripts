@@ -57,11 +57,7 @@
     src: "{{ test_device }}"
     fstype: "{{ filesystem_type }}"
     opts: >-
-      {% if filesystem_type == "btrfs" and compression_option != "none" %}
-        compress={{ compression_option }},{{ mount_opts }}
-      {% else %}
-        {{ mount_opts }}
-      {% endif %}
+      {% if filesystem_type == "btrfs" and compression_option != "none" %}compress={{ compression_option }},{{ mount_opts }}{% else %}{{ mount_opts }}{% endif %}
     state: ephemeral
   when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary"]
 
