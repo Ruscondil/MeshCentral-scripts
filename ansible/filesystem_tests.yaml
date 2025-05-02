@@ -23,25 +23,30 @@
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "f2fs"
+        block_sizes: ["default"] 
         mount_opts: "defaults,noatime"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "zfs"
+        block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: false
       - name: "zfs_nocache"
+        block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "zfs_primary"
+        block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "exfat"
+        block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
