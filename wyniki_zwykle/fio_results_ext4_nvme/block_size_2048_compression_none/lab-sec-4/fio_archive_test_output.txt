@@ -1,0 +1,35 @@
+archive_test: (g=0): rw=write, bs=(R) 64.0KiB-128KiB, (W) 64.0KiB-128KiB, (T) 64.0KiB-128KiB, ioengine=libaio, iodepth=128
+...
+fio-3.36
+Starting 2 processes
+archive_test: Laying out IO file (1 file / 10240MiB)
+archive_test: Laying out IO file (1 file / 10240MiB)
+
+archive_test: (groupid=0, jobs=2): err= 0: pid=26464: Fri May  2 19:53:54 2025
+  write: IOPS=3152, BW=256MiB/s (269MB/s)(20.0GiB/79942msec); 0 zone resets
+    slat (usec): min=6, max=1620.3k, avg=109.02, stdev=5480.92
+    clat (msec): min=2, max=5643, avg=81.08, stdev=266.05
+     lat (msec): min=2, max=5644, avg=81.19, stdev=266.19
+    clat percentiles (msec):
+     |  1.00th=[    5],  5.00th=[    7], 10.00th=[    9], 20.00th=[   16],
+     | 30.00th=[   26], 40.00th=[   30], 50.00th=[   35], 60.00th=[   41],
+     | 70.00th=[   56], 80.00th=[   77], 90.00th=[  105], 95.00th=[  153],
+     | 99.00th=[ 1133], 99.50th=[ 1989], 99.90th=[ 4279], 99.95th=[ 4665],
+     | 99.99th=[ 5470]
+   bw (  KiB/s): min= 1152, max=952960, per=100.00%, avg=286837.45, stdev=135970.22, samples=291
+   iops        : min=   14, max=11450, avg=3446.34, stdev=1633.91, samples=291
+  lat (msec)   : 4=0.38%, 10=12.47%, 20=10.63%, 50=43.47%, 100=21.97%
+  lat (msec)   : 250=7.23%, 500=1.34%, 750=0.69%, 1000=0.64%, 2000=0.69%
+  lat (msec)   : >=2000=0.49%
+  cpu          : usr=2.06%, sys=8.79%, ctx=85349, majf=0, minf=29
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.9%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.1%
+     issued rwts: total=0,251984,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=128
+
+Run status group 0 (all jobs):
+  WRITE: bw=256MiB/s (269MB/s), 256MiB/s-256MiB/s (269MB/s-269MB/s), io=20.0GiB (21.5GB), run=79942-79942msec
+
+Disk stats (read/write):
+  nvme0n1: ios=0/253960, sectors=0/42079056, merge=0/3226, ticks=0/19815468, in_queue=19817290, util=86.06%

@@ -1,0 +1,35 @@
+archive_test: (g=0): rw=write, bs=(R) 64.0KiB-128KiB, (W) 64.0KiB-128KiB, (T) 64.0KiB-128KiB, ioengine=libaio, iodepth=128
+...
+fio-3.36
+Starting 2 processes
+archive_test: Laying out IO file (1 file / 10240MiB)
+archive_test: Laying out IO file (1 file / 10240MiB)
+
+archive_test: (groupid=0, jobs=2): err= 0: pid=33548: Fri May  2 15:34:46 2025
+  write: IOPS=1558, BW=127MiB/s (133MB/s)(20.0GiB/161709msec); 0 zone resets
+    slat (usec): min=3, max=170992, avg=50.95, stdev=1521.61
+    clat (usec): min=877, max=1141.9k, avg=163958.08, stdev=42912.57
+     lat (usec): min=1002, max=1142.0k, avg=164009.03, stdev=42903.44
+    clat percentiles (msec):
+     |  1.00th=[   99],  5.00th=[  142], 10.00th=[  148], 20.00th=[  150],
+     | 30.00th=[  153], 40.00th=[  155], 50.00th=[  157], 60.00th=[  159],
+     | 70.00th=[  161], 80.00th=[  165], 90.00th=[  184], 95.00th=[  232],
+     | 99.00th=[  305], 99.50th=[  342], 99.90th=[  986], 99.95th=[ 1053],
+     | 99.99th=[ 1116]
+   bw (  KiB/s): min=41984, max=212648, per=100.00%, avg=130381.09, stdev=8814.52, samples=643
+   iops        : min=  512, max= 2549, avg=1566.09, stdev=105.54, samples=643
+  lat (usec)   : 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.04%, 50=0.04%, 100=1.05%
+  lat (msec)   : 250=94.68%, 500=4.07%, 1000=0.01%, 2000=0.09%
+  cpu          : usr=1.03%, sys=2.51%, ctx=28909, majf=0, minf=26
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.9%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.1%
+     issued rwts: total=0,251984,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=128
+
+Run status group 0 (all jobs):
+  WRITE: bw=127MiB/s (133MB/s), 127MiB/s-127MiB/s (133MB/s-133MB/s), io=20.0GiB (21.5GB), run=161709-161709msec
+
+Disk stats (read/write):
+  sda: ios=0/32697, sectors=0/42223152, merge=0/224219, ticks=0/5250821, in_queue=5263736, util=92.21%

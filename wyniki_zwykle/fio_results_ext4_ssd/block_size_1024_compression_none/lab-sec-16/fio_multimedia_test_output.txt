@@ -1,0 +1,35 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=148778: Fri May  2 17:39:49 2025
+  read: IOPS=2164, BW=271MiB/s (284MB/s)(16.0GiB/60559msec)
+    slat (usec): min=3, max=3856, avg=26.98, stdev=30.73
+    clat (msec): min=12, max=258, avg=118.16, stdev= 7.62
+     lat (msec): min=12, max=258, avg=118.18, stdev= 7.62
+    clat percentiles (msec):
+     |  1.00th=[  105],  5.00th=[  106], 10.00th=[  108], 20.00th=[  118],
+     | 30.00th=[  118], 40.00th=[  118], 50.00th=[  118], 60.00th=[  118],
+     | 70.00th=[  118], 80.00th=[  118], 90.00th=[  122], 95.00th=[  136],
+     | 99.00th=[  138], 99.50th=[  144], 99.90th=[  144], 99.95th=[  144],
+     | 99.99th=[  211]
+   bw (  KiB/s): min=262144, max=326912, per=100.00%, avg=277361.07, stdev=5133.15, samples=480
+   iops        : min= 2048, max= 2554, avg=2166.88, stdev=40.10, samples=480
+  lat (msec)   : 20=0.02%, 50=0.07%, 100=0.32%, 250=99.59%, 500=0.01%
+  cpu          : usr=0.30%, sys=1.71%, ctx=24342, majf=0, minf=8249
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=271MiB/s (284MB/s), 271MiB/s-271MiB/s (284MB/s-284MB/s), io=16.0GiB (17.2GB), run=60559-60559msec
+
+Disk stats (read/write):
+  sdb: ios=24276/3, sectors=33433088/6, merge=106528/0, ticks=2871226/581, in_queue=2871807, util=96.14%

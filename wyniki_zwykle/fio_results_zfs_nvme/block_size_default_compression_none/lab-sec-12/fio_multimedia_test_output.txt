@@ -1,0 +1,34 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=102692: Sat May  3 12:48:57 2025
+  read: IOPS=35.7k, BW=4461MiB/s (4677MB/s)(16.0GiB/3673msec)
+    slat (usec): min=17, max=5181, avg=85.90, stdev=73.58
+    clat (nsec): min=1479, max=31080k, avg=5494154.80, stdev=2321048.45
+     lat (usec): min=22, max=31148, avg=5580.05, stdev=2356.53
+    clat percentiles (usec):
+     |  1.00th=[ 2114],  5.00th=[ 2343], 10.00th=[ 2999], 20.00th=[ 3949],
+     | 30.00th=[ 4490], 40.00th=[ 4883], 50.00th=[ 5080], 60.00th=[ 5276],
+     | 70.00th=[ 5538], 80.00th=[ 7504], 90.00th=[ 8291], 95.00th=[ 8979],
+     | 99.00th=[13960], 99.50th=[14484], 99.90th=[17957], 99.95th=[20317],
+     | 99.99th=[30278]
+   bw (  MiB/s): min= 4695, max= 6829, per=100.00%, avg=5507.64, stdev=230.94, samples=20
+   iops        : min=37564, max=54638, avg=44061.14, stdev=1847.51, samples=20
+  lat (usec)   : 2=0.01%, 4=0.01%, 50=0.01%, 100=0.01%, 250=0.01%
+  lat (usec)   : 500=0.01%, 750=0.01%, 1000=0.01%
+  lat (msec)   : 2=0.13%, 4=20.69%, 10=75.37%, 20=3.71%, 50=0.06%
+  cpu          : usr=1.58%, sys=78.54%, ctx=12852, majf=0, minf=8241
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=4461MiB/s (4677MB/s), 4461MiB/s-4461MiB/s (4677MB/s-4677MB/s), io=16.0GiB (17.2GB), run=3673-3673msec

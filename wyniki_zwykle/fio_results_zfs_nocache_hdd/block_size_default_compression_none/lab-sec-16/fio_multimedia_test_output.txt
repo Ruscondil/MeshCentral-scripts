@@ -1,0 +1,36 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=474989: Sat May  3 14:11:45 2025
+  read: IOPS=999, BW=125MiB/s (131MB/s)(14.7GiB/120193msec)
+    slat (usec): min=57, max=2470.6k, avg=3715.29, stdev=44882.72
+    clat (nsec): min=1580, max=14891M, avg=233819813.91, stdev=742830902.66
+     lat (usec): min=64, max=14904k, avg=237535.10, stdev=751997.45
+    clat percentiles (msec):
+     |  1.00th=[    7],  5.00th=[   46], 10.00th=[   48], 20.00th=[   50],
+     | 30.00th=[   51], 40.00th=[   52], 50.00th=[   53], 60.00th=[   54],
+     | 70.00th=[   73], 80.00th=[  178], 90.00th=[  443], 95.00th=[  844],
+     | 99.00th=[ 3977], 99.50th=[ 5470], 99.90th=[ 9060], 99.95th=[10402],
+     | 99.99th=[14026]
+   bw (  KiB/s): min= 1024, max=659605, per=100.00%, avg=173321.66, stdev=47977.70, samples=710
+   iops        : min=    8, max= 5152, avg=1353.94, stdev=374.80, samples=710
+  lat (usec)   : 2=0.01%, 10=0.01%, 20=0.01%, 100=0.01%, 250=0.01%
+  lat (usec)   : 500=0.01%
+  lat (msec)   : 4=0.10%, 10=1.15%, 20=0.40%, 50=21.28%, 100=49.46%
+  lat (msec)   : 250=11.99%, 500=6.75%, 750=3.26%, 1000=1.61%, 2000=2.01%
+  lat (msec)   : >=2000=1.98%
+  cpu          : usr=0.19%, sys=10.39%, ctx=26018, majf=0, minf=8248
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=120109,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=125MiB/s (131MB/s), 125MiB/s-125MiB/s (131MB/s-131MB/s), io=14.7GiB (15.7GB), run=120193-120193msec

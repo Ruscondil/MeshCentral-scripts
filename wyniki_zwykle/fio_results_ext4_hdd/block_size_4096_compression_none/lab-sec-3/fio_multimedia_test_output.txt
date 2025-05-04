@@ -1,0 +1,36 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=33362: Fri May  2 15:57:27 2025
+  read: IOPS=1123, BW=140MiB/s (147MB/s)(16.0GiB/116637msec)
+    slat (usec): min=2, max=11609, avg=31.10, stdev=99.43
+    clat (msec): min=16, max=544, avg=227.34, stdev=76.49
+     lat (msec): min=16, max=544, avg=227.38, stdev=76.49
+    clat percentiles (msec):
+     |  1.00th=[   66],  5.00th=[  103], 10.00th=[  130], 20.00th=[  159],
+     | 30.00th=[  180], 40.00th=[  207], 50.00th=[  228], 60.00th=[  251],
+     | 70.00th=[  275], 80.00th=[  292], 90.00th=[  326], 95.00th=[  351],
+     | 99.00th=[  409], 99.50th=[  435], 99.90th=[  472], 99.95th=[  498],
+     | 99.99th=[  542]
+   bw (  KiB/s): min=52951, max=203702, per=100.00%, avg=144015.19, stdev=6378.58, samples=927
+   iops        : min=  412, max= 1589, avg=1124.14, stdev=49.85, samples=927
+  lat (msec)   : 20=0.01%, 50=0.06%, 100=4.74%, 250=54.63%, 500=40.51%
+  lat (msec)   : 750=0.05%
+  cpu          : usr=0.22%, sys=1.01%, ctx=26524, majf=0, minf=8240
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=140MiB/s (147MB/s), 140MiB/s-140MiB/s (147MB/s-147MB/s), io=16.0GiB (17.2GB), run=116637-116637msec
+
+Disk stats (read/write):
+  sda: ios=26612/514, sectors=33512448/475704, merge=104383/21, ticks=6048309/140662, in_queue=6196918, util=96.16%

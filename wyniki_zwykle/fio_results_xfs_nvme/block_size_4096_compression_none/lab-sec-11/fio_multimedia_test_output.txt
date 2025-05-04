@@ -1,0 +1,35 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=59993: Sat May  3 01:19:08 2025
+  read: IOPS=17.4k, BW=2178MiB/s (2284MB/s)(16.0GiB/7523msec)
+    slat (usec): min=20, max=1064, avg=47.89, stdev=16.77
+    clat (usec): min=3186, max=28072, avg=14625.22, stdev=1028.16
+     lat (usec): min=3234, max=28160, avg=14673.11, stdev=1027.83
+    clat percentiles (usec):
+     |  1.00th=[11338],  5.00th=[14353], 10.00th=[14353], 20.00th=[14484],
+     | 30.00th=[14484], 40.00th=[14484], 50.00th=[14615], 60.00th=[14615],
+     | 70.00th=[14746], 80.00th=[14877], 90.00th=[15008], 95.00th=[15139],
+     | 99.00th=[16909], 99.50th=[19268], 99.90th=[25822], 99.95th=[26608],
+     | 99.99th=[27657]
+   bw (  MiB/s): min= 2128, max= 2220, per=100.00%, avg=2178.93, stdev= 6.95, samples=60
+   iops        : min=17026, max=17762, avg=17431.47, stdev=55.64, samples=60
+  lat (msec)   : 4=0.01%, 10=0.77%, 20=98.75%, 50=0.47%
+  cpu          : usr=2.49%, sys=23.65%, ctx=22883, majf=0, minf=8242
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=2178MiB/s (2284MB/s), 2178MiB/s-2178MiB/s (2284MB/s-2284MB/s), io=16.0GiB (17.2GB), run=7523-7523msec
+
+Disk stats (read/write):
+  nvme0n1: ios=127931/0, sectors=32750336/0, merge=0/0, ticks=1860464/0, in_queue=1860464, util=52.31%

@@ -1,0 +1,36 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=74084: Sat May  3 09:40:43 2025
+  read: IOPS=1054, BW=132MiB/s (138MB/s)(15.5GiB/120293msec)
+    slat (usec): min=2, max=17793, avg=30.92, stdev=124.62
+    clat (msec): min=14, max=522, avg=242.55, stdev=100.41
+     lat (msec): min=14, max=522, avg=242.58, stdev=100.41
+    clat percentiles (msec):
+     |  1.00th=[   61],  5.00th=[   72], 10.00th=[   89], 20.00th=[  148],
+     | 30.00th=[  174], 40.00th=[  203], 50.00th=[  255], 60.00th=[  275],
+     | 70.00th=[  305], 80.00th=[  359], 90.00th=[  372], 95.00th=[  380],
+     | 99.00th=[  405], 99.50th=[  422], 99.90th=[  435], 99.95th=[  493],
+     | 99.99th=[  518]
+   bw (  KiB/s): min=70334, max=196804, per=100.00%, avg=135064.27, stdev=5952.69, samples=959
+   iops        : min=  548, max= 1536, avg=1054.30, stdev=46.54, samples=959
+  lat (msec)   : 20=0.01%, 50=0.01%, 100=12.55%, 250=36.15%, 500=51.25%
+  lat (msec)   : 750=0.04%
+  cpu          : usr=0.19%, sys=0.95%, ctx=25770, majf=0, minf=8240
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=126892,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=132MiB/s (138MB/s), 132MiB/s-132MiB/s (138MB/s-138MB/s), io=15.5GiB (16.6GB), run=120293-120293msec
+
+Disk stats (read/write):
+  sda: ios=25774/92, sectors=32444672/1232, merge=101087/13, ticks=6238438/24341, in_queue=6264344, util=97.79%

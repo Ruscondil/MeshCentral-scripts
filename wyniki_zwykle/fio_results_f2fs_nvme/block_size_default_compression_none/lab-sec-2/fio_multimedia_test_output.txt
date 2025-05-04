@@ -1,0 +1,35 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=71905: Sat May  3 10:31:02 2025
+  read: IOPS=16.6k, BW=2079MiB/s (2180MB/s)(16.0GiB/7879msec)
+    slat (usec): min=16, max=931, avg=49.28, stdev=15.52
+    clat (usec): min=2481, max=53112, avg=15316.79, stdev=1591.60
+     lat (usec): min=2540, max=53128, avg=15366.07, stdev=1590.97
+    clat percentiles (usec):
+     |  1.00th=[13829],  5.00th=[14746], 10.00th=[14877], 20.00th=[15008],
+     | 30.00th=[15139], 40.00th=[15139], 50.00th=[15270], 60.00th=[15270],
+     | 70.00th=[15401], 80.00th=[15533], 90.00th=[15664], 95.00th=[15795],
+     | 99.00th=[17433], 99.50th=[17957], 99.90th=[46400], 99.95th=[50070],
+     | 99.99th=[52167]
+   bw (  MiB/s): min= 1985, max= 2138, per=100.00%, avg=2083.33, stdev= 9.13, samples=60
+   iops        : min=15880, max=17106, avg=16666.67, stdev=73.02, samples=60
+  lat (msec)   : 4=0.01%, 10=0.48%, 20=99.16%, 50=0.31%, 100=0.05%
+  cpu          : usr=2.33%, sys=23.24%, ctx=23492, majf=0, minf=8247
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=2079MiB/s (2180MB/s), 2079MiB/s-2079MiB/s (2180MB/s-2180MB/s), io=16.0GiB (17.2GB), run=7879-7879msec
+
+Disk stats (read/write):
+  nvme0n1: ios=130979/0, sectors=33530624/0, merge=0/0, ticks=1995652/0, in_queue=1995652, util=52.90%

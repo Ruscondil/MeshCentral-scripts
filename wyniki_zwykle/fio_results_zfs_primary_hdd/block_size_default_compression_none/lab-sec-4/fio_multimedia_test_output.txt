@@ -1,0 +1,36 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=68849: Sat May  3 16:16:53 2025
+  read: IOPS=3931, BW=491MiB/s (515MB/s)(16.0GiB/33342msec)
+    slat (usec): min=20, max=2092.9k, avg=525.61, stdev=9796.35
+    clat (nsec): min=1537, max=2375.2M, avg=33183295.99, stdev=92402246.81
+     lat (usec): min=24, max=2375.3k, avg=33708.91, stdev=93340.40
+    clat percentiles (usec):
+     |  1.00th=[   1680],  5.00th=[   1975], 10.00th=[   2245],
+     | 20.00th=[   2409], 30.00th=[   2900], 40.00th=[   3425],
+     | 50.00th=[   3785], 60.00th=[   4359], 70.00th=[   4686],
+     | 80.00th=[  50594], 90.00th=[  52691], 95.00th=[ 154141],
+     | 99.00th=[ 442500], 99.50th=[ 549454], 99.90th=[ 683672],
+     | 99.95th=[ 700449], 99.99th=[2332034]
+   bw (  MiB/s): min= 3432, max=10390, per=100.00%, avg=4861.91, stdev=301.27, samples=133
+   iops        : min=27456, max=83120, avg=38895.04, stdev=2410.20, samples=133
+  lat (usec)   : 2=0.01%, 4=0.01%, 10=0.01%, 50=0.01%, 100=0.01%
+  lat (usec)   : 250=0.01%, 500=0.02%, 750=0.02%, 1000=0.02%
+  lat (msec)   : 2=5.06%, 4=47.85%, 10=18.03%, 20=0.20%, 50=3.65%
+  lat (msec)   : 100=18.19%, 250=4.27%, 500=2.13%, 750=0.48%, >=2000=0.05%
+  cpu          : usr=0.60%, sys=14.71%, ctx=4895, majf=0, minf=8248
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=491MiB/s (515MB/s), 491MiB/s-491MiB/s (515MB/s-515MB/s), io=16.0GiB (17.2GB), run=33342-33342msec

@@ -1,0 +1,35 @@
+archive_test: (g=0): rw=write, bs=(R) 64.0KiB-128KiB, (W) 64.0KiB-128KiB, (T) 64.0KiB-128KiB, ioengine=libaio, iodepth=128
+...
+fio-3.36
+Starting 2 processes
+archive_test: Laying out IO file (1 file / 10240MiB)
+archive_test: Laying out IO file (1 file / 10240MiB)
+
+archive_test: (groupid=0, jobs=2): err= 0: pid=171779: Fri May  2 19:46:24 2025
+  write: IOPS=2075, BW=169MiB/s (177MB/s)(20.0GiB/121403msec); 0 zone resets
+    slat (usec): min=5, max=1353.7k, avg=118.03, stdev=3892.71
+    clat (usec): min=1600, max=2862.2k, avg=123205.11, stdev=128656.34
+     lat (usec): min=1656, max=2862.3k, avg=123323.14, stdev=128698.50
+    clat percentiles (msec):
+     |  1.00th=[   23],  5.00th=[   41], 10.00th=[   48], 20.00th=[   62],
+     | 30.00th=[   79], 40.00th=[   96], 50.00th=[  112], 60.00th=[  128],
+     | 70.00th=[  144], 80.00th=[  161], 90.00th=[  184], 95.00th=[  207],
+     | 99.00th=[  363], 99.50th=[  995], 99.90th=[ 2165], 99.95th=[ 2735],
+     | 99.99th=[ 2769]
+   bw (  KiB/s): min= 3200, max=539288, per=100.00%, avg=174243.18, stdev=31242.53, samples=478
+   iops        : min=   42, max= 6504, avg=2093.64, stdev=374.63, samples=478
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.08%, 20=0.75%, 50=10.86%
+  lat (msec)   : 100=30.85%, 250=55.44%, 500=1.30%, 750=0.12%, 1000=0.11%
+  lat (msec)   : 2000=0.38%, >=2000=0.11%
+  cpu          : usr=1.53%, sys=6.34%, ctx=64816, majf=0, minf=25
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.9%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.1%
+     issued rwts: total=0,251984,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=128
+
+Run status group 0 (all jobs):
+  WRITE: bw=169MiB/s (177MB/s), 169MiB/s-169MiB/s (177MB/s-177MB/s), io=20.0GiB (21.5GB), run=121403-121403msec
+
+Disk stats (read/write):
+  nvme0n1: ios=0/258775, sectors=0/41923964, merge=0/13183, ticks=0/31717813, in_queue=31718416, util=88.48%

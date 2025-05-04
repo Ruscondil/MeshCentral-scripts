@@ -1,0 +1,35 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=41715: Sat May  3 01:25:58 2025
+  read: IOPS=16.8k, BW=2095MiB/s (2197MB/s)(16.0GiB/7821msec)
+    slat (usec): min=15, max=1240, avg=49.85, stdev=16.57
+    clat (usec): min=2574, max=30964, avg=15188.26, stdev=1153.51
+     lat (usec): min=2636, max=31001, avg=15238.11, stdev=1153.31
+    clat percentiles (usec):
+     |  1.00th=[12125],  5.00th=[14484], 10.00th=[14615], 20.00th=[14877],
+     | 30.00th=[15008], 40.00th=[15008], 50.00th=[15139], 60.00th=[15270],
+     | 70.00th=[15401], 80.00th=[15533], 90.00th=[15795], 95.00th=[15926],
+     | 99.00th=[17695], 99.50th=[21103], 99.90th=[26084], 99.95th=[27657],
+     | 99.99th=[29230]
+   bw (  MiB/s): min= 2046, max= 2175, per=100.00%, avg=2097.63, stdev= 9.25, samples=60
+   iops        : min=16370, max=17404, avg=16781.07, stdev=74.00, samples=60
+  lat (msec)   : 4=0.03%, 10=0.72%, 20=98.67%, 50=0.58%
+  cpu          : usr=2.47%, sys=23.89%, ctx=23733, majf=0, minf=8249
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=2095MiB/s (2197MB/s), 2095MiB/s-2095MiB/s (2197MB/s-2197MB/s), io=16.0GiB (17.2GB), run=7821-7821msec
+
+Disk stats (read/write):
+  nvme0n1: ios=127015/0, sectors=32515840/0, merge=0/0, ticks=1918723/0, in_queue=1918723, util=51.67%

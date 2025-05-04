@@ -1,0 +1,35 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=46785: Fri May  2 19:31:23 2025
+  read: IOPS=10.4k, BW=1294MiB/s (1357MB/s)(16.0GiB/12657msec)
+    slat (usec): min=7, max=9787, avg=54.91, stdev=34.65
+    clat (usec): min=3089, max=54333, avg=24592.11, stdev=5459.29
+     lat (usec): min=3137, max=54385, avg=24647.02, stdev=5459.41
+    clat percentiles (usec):
+     |  1.00th=[15401],  5.00th=[19268], 10.00th=[19792], 20.00th=[20317],
+     | 30.00th=[20841], 40.00th=[21365], 50.00th=[21890], 60.00th=[22938],
+     | 70.00th=[29230], 80.00th=[30278], 90.00th=[31327], 95.00th=[32637],
+     | 99.00th=[41157], 99.50th=[43254], 99.90th=[44827], 99.95th=[45351],
+     | 99.99th=[50594]
+   bw (  MiB/s): min= 1212, max= 1360, per=100.00%, avg=1297.92, stdev= 9.24, samples=100
+   iops        : min= 9702, max=10886, avg=10383.36, stdev=73.89, samples=100
+  lat (msec)   : 4=0.05%, 10=0.45%, 20=11.29%, 50=88.20%, 100=0.01%
+  cpu          : usr=1.98%, sys=16.97%, ctx=34917, majf=0, minf=8245
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=1294MiB/s (1357MB/s), 1294MiB/s-1294MiB/s (1357MB/s-1357MB/s), io=16.0GiB (17.2GB), run=12657-12657msec
+
+Disk stats (read/write):
+  nvme0n1: ios=129414/199, sectors=33129984/47922, merge=0/13, ticks=3176836/3048, in_queue=3179919, util=62.59%

@@ -1,0 +1,35 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=158724: Fri May  2 18:39:11 2025
+  read: IOPS=2169, BW=271MiB/s (284MB/s)(16.0GiB/60427msec)
+    slat (usec): min=2, max=4269, avg=24.69, stdev=27.29
+    clat (msec): min=9, max=210, avg=117.87, stdev= 5.29
+     lat (msec): min=9, max=210, avg=117.90, stdev= 5.28
+    clat percentiles (msec):
+     |  1.00th=[  109],  5.00th=[  118], 10.00th=[  118], 20.00th=[  118],
+     | 30.00th=[  118], 40.00th=[  118], 50.00th=[  118], 60.00th=[  118],
+     | 70.00th=[  118], 80.00th=[  118], 90.00th=[  118], 95.00th=[  118],
+     | 99.00th=[  126], 99.50th=[  136], 99.90th=[  186], 99.95th=[  188],
+     | 99.99th=[  207]
+   bw (  KiB/s): min=257024, max=327680, per=100.00%, avg=277949.87, stdev=5234.39, samples=480
+   iops        : min= 2008, max= 2560, avg=2171.48, stdev=40.89, samples=480
+  lat (msec)   : 10=0.01%, 20=0.01%, 50=0.15%, 100=0.39%, 250=99.45%
+  cpu          : usr=0.28%, sys=1.56%, ctx=21550, majf=0, minf=8244
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=271MiB/s (284MB/s), 271MiB/s-271MiB/s (284MB/s-284MB/s), io=16.0GiB (17.2GB), run=60427-60427msec
+
+Disk stats (read/write):
+  sdb: ios=21585/2, sectors=33551872/16, merge=109485/0, ticks=2539691/415, in_queue=2540107, util=97.30%

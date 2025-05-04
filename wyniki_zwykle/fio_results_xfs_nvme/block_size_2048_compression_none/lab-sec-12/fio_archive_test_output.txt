@@ -1,0 +1,35 @@
+archive_test: (g=0): rw=write, bs=(R) 64.0KiB-128KiB, (W) 64.0KiB-128KiB, (T) 64.0KiB-128KiB, ioengine=libaio, iodepth=128
+...
+fio-3.36
+Starting 2 processes
+archive_test: Laying out IO file (1 file / 10240MiB)
+archive_test: Laying out IO file (1 file / 10240MiB)
+
+archive_test: (groupid=0, jobs=2): err= 0: pid=67400: Sat May  3 01:11:44 2025
+  write: IOPS=9491, BW=771MiB/s (809MB/s)(20.0GiB/26548msec); 0 zone resets
+    slat (usec): min=4, max=275316, avg=73.49, stdev=610.35
+    clat (usec): min=1364, max=1005.5k, avg=26723.13, stdev=64944.59
+     lat (usec): min=1402, max=1005.6k, avg=26796.62, stdev=64947.26
+    clat percentiles (msec):
+     |  1.00th=[    5],  5.00th=[    6], 10.00th=[    8], 20.00th=[   10],
+     | 30.00th=[   12], 40.00th=[   17], 50.00th=[   20], 60.00th=[   23],
+     | 70.00th=[   27], 80.00th=[   30], 90.00th=[   35], 95.00th=[   42],
+     | 99.00th=[  224], 99.50th=[  634], 99.90th=[  869], 99.95th=[  936],
+     | 99.99th=[ 1003]
+   bw (  KiB/s): min= 6016, max=1407616, per=99.30%, avg=784442.15, stdev=189301.35, samples=104
+   iops        : min=   67, max=16882, avg=9426.21, stdev=2272.51, samples=104
+  lat (msec)   : 2=0.02%, 4=0.41%, 10=22.57%, 20=27.63%, 50=46.27%
+  lat (msec)   : 100=1.60%, 250=0.55%, 500=0.33%, 750=0.20%, 1000=0.40%
+  lat (msec)   : 2000=0.01%
+  cpu          : usr=6.05%, sys=20.81%, ctx=70186, majf=0, minf=22
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.9%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.1%
+     issued rwts: total=0,251984,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=128
+
+Run status group 0 (all jobs):
+  WRITE: bw=771MiB/s (809MB/s), 771MiB/s-771MiB/s (809MB/s-809MB/s), io=20.0GiB (21.5GB), run=26548-26548msec
+
+Disk stats (read/write):
+  nvme0n1: ios=4/249752, sectors=13/41567362, merge=0/4, ticks=28/6318558, in_queue=6318609, util=77.53%

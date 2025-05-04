@@ -1,0 +1,35 @@
+archive_test: (g=0): rw=write, bs=(R) 64.0KiB-128KiB, (W) 64.0KiB-128KiB, (T) 64.0KiB-128KiB, ioengine=libaio, iodepth=128
+...
+fio-3.36
+Starting 2 processes
+archive_test: Laying out IO file (1 file / 10240MiB)
+archive_test: Laying out IO file (1 file / 10240MiB)
+
+archive_test: (groupid=0, jobs=2): err= 0: pid=58240: Fri May  2 22:43:34 2025
+  write: IOPS=1717, BW=140MiB/s (146MB/s)(20.0GiB/146679msec); 0 zone resets
+    slat (usec): min=2, max=5727, avg=28.15, stdev=27.27
+    clat (usec): min=961, max=512869, avg=148842.04, stdev=15359.52
+     lat (usec): min=991, max=512899, avg=148870.19, stdev=15359.03
+    clat percentiles (msec):
+     |  1.00th=[  129],  5.00th=[  138], 10.00th=[  140], 20.00th=[  144],
+     | 30.00th=[  146], 40.00th=[  146], 50.00th=[  148], 60.00th=[  148],
+     | 70.00th=[  150], 80.00th=[  153], 90.00th=[  157], 95.00th=[  159],
+     | 99.00th=[  207], 99.50th=[  241], 99.90th=[  372], 99.95th=[  443],
+     | 99.99th=[  489]
+   bw (  KiB/s): min=79360, max=197729, per=100.00%, avg=143255.61, stdev=6783.95, samples=585
+   iops        : min=  940, max= 2360, avg=1720.69, stdev=81.99, samples=585
+  lat (usec)   : 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.02%
+  lat (msec)   : 100=0.37%, 250=99.21%, 500=0.37%, 750=0.01%
+  cpu          : usr=1.15%, sys=2.10%, ctx=40223, majf=0, minf=24
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.9%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.1%
+     issued rwts: total=0,251984,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=128
+
+Run status group 0 (all jobs):
+  WRITE: bw=140MiB/s (146MB/s), 140MiB/s-140MiB/s (146MB/s-146MB/s), io=20.0GiB (21.5GB), run=146679-146679msec
+
+Disk stats (read/write):
+  sda: ios=0/32864, sectors=0/41925992, merge=0/219289, ticks=0/4915616, in_queue=4921274, util=89.60%

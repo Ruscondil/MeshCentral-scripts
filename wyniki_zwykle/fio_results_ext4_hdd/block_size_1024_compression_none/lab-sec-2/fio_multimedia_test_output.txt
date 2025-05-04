@@ -1,0 +1,36 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=31134: Fri May  2 14:21:47 2025
+  read: IOPS=1045, BW=131MiB/s (137MB/s)(15.4GiB/120439msec)
+    slat (usec): min=2, max=8339, avg=27.66, stdev=49.30
+    clat (msec): min=11, max=626, avg=244.51, stdev=60.69
+     lat (msec): min=11, max=626, avg=244.53, stdev=60.69
+    clat percentiles (msec):
+     |  1.00th=[  109],  5.00th=[  165], 10.00th=[  176], 20.00th=[  215],
+     | 30.00th=[  226], 40.00th=[  230], 50.00th=[  234], 60.00th=[  241],
+     | 70.00th=[  253], 80.00th=[  284], 90.00th=[  321], 95.00th=[  351],
+     | 99.00th=[  443], 99.50th=[  472], 99.90th=[  542], 99.95th=[  567],
+     | 99.99th=[  617]
+   bw (  KiB/s): min=52670, max=196902, per=100.00%, avg=134106.85, stdev=6198.56, samples=960
+   iops        : min=  410, max= 1536, avg=1046.62, stdev=48.39, samples=960
+  lat (msec)   : 20=0.01%, 50=0.01%, 100=0.66%, 250=67.58%, 500=31.40%
+  lat (msec)   : 750=0.34%
+  cpu          : usr=0.18%, sys=0.86%, ctx=21153, majf=0, minf=8244
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=125910,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=131MiB/s (137MB/s), 131MiB/s-131MiB/s (137MB/s-137MB/s), io=15.4GiB (16.5GB), run=120439-120439msec
+
+Disk stats (read/write):
+  sda: ios=21247/242, sectors=32217856/37370, merge=104652/48, ticks=5180846/92336, in_queue=5285706, util=97.27%

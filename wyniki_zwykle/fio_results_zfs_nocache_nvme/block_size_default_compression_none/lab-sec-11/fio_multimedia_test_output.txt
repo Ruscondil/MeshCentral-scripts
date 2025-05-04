@@ -1,0 +1,35 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=99315: Sat May  3 15:39:17 2025
+  read: IOPS=12.2k, BW=1522MiB/s (1596MB/s)(16.0GiB/10766msec)
+    slat (usec): min=57, max=4763, avg=322.58, stdev=247.22
+    clat (nsec): min=1485, max=78244k, avg=20465905.69, stdev=2984976.00
+     lat (usec): min=60, max=78728, avg=20788.49, stdev=3017.89
+    clat percentiles (usec):
+     |  1.00th=[14746],  5.00th=[17433], 10.00th=[18220], 20.00th=[19006],
+     | 30.00th=[19530], 40.00th=[20055], 50.00th=[20317], 60.00th=[20841],
+     | 70.00th=[21365], 80.00th=[21890], 90.00th=[22938], 95.00th=[23462],
+     | 99.00th=[25297], 99.50th=[26346], 99.90th=[64750], 99.95th=[69731],
+     | 99.99th=[76022]
+   bw (  MiB/s): min= 1106, max= 1608, per=99.85%, avg=1519.48, stdev=25.74, samples=84
+   iops        : min= 8852, max=12868, avg=12155.81, stdev=205.90, samples=84
+  lat (usec)   : 2=0.01%, 100=0.01%, 250=0.01%, 500=0.01%, 750=0.01%
+  lat (usec)   : 1000=0.01%
+  lat (msec)   : 2=0.01%, 4=0.03%, 10=0.52%, 20=40.12%, 50=59.11%
+  lat (msec)   : 100=0.18%
+  cpu          : usr=0.73%, sys=36.79%, ctx=69183, majf=0, minf=8238
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=1522MiB/s (1596MB/s), 1522MiB/s-1522MiB/s (1596MB/s-1596MB/s), io=16.0GiB (17.2GB), run=10766-10766msec

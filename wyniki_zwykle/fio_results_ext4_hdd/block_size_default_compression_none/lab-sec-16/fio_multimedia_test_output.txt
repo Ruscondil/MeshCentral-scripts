@@ -1,0 +1,35 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=143031: Fri May  2 17:11:22 2025
+  read: IOPS=1119, BW=140MiB/s (147MB/s)(16.0GiB/117102msec)
+    slat (usec): min=2, max=24169, avg=26.59, stdev=101.06
+    clat (msec): min=27, max=483, avg=228.19, stdev=58.10
+     lat (msec): min=27, max=483, avg=228.22, stdev=58.10
+    clat percentiles (msec):
+     |  1.00th=[   82],  5.00th=[  134], 10.00th=[  153], 20.00th=[  182],
+     | 30.00th=[  201], 40.00th=[  215], 50.00th=[  228], 60.00th=[  241],
+     | 70.00th=[  255], 80.00th=[  275], 90.00th=[  305], 95.00th=[  326],
+     | 99.00th=[  359], 99.50th=[  388], 99.90th=[  435], 99.95th=[  460],
+     | 99.99th=[  477]
+   bw (  KiB/s): min=70699, max=213417, per=100.00%, avg=143567.56, stdev=5768.87, samples=933
+   iops        : min=  552, max= 1665, avg=1121.22, stdev=45.06, samples=933
+  lat (msec)   : 50=0.08%, 100=1.38%, 250=65.10%, 500=33.44%
+  cpu          : usr=0.16%, sys=0.85%, ctx=24459, majf=0, minf=8238
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=140MiB/s (147MB/s), 140MiB/s-140MiB/s (147MB/s-147MB/s), io=16.0GiB (17.2GB), run=117102-117102msec
+
+Disk stats (read/write):
+  sda: ios=24628/60, sectors=33537536/984, merge=106415/51, ticks=5605834/18832, in_queue=5627082, util=98.18%

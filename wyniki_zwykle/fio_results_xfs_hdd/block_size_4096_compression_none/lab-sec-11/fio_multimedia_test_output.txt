@@ -1,0 +1,36 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=48227: Fri May  2 22:21:34 2025
+  read: IOPS=1118, BW=140MiB/s (147MB/s)(16.0GiB/117182msec)
+    slat (usec): min=2, max=16304, avg=29.97, stdev=91.30
+    clat (msec): min=14, max=509, avg=228.15, stdev=67.87
+     lat (msec): min=14, max=509, avg=228.18, stdev=67.87
+    clat percentiles (msec):
+     |  1.00th=[   81],  5.00th=[  122], 10.00th=[  144], 20.00th=[  169],
+     | 30.00th=[  188], 40.00th=[  209], 50.00th=[  228], 60.00th=[  247],
+     | 70.00th=[  266], 80.00th=[  284], 90.00th=[  317], 95.00th=[  342],
+     | 99.00th=[  393], 99.50th=[  409], 99.90th=[  460], 99.95th=[  464],
+     | 99.99th=[  485]
+   bw (  KiB/s): min=65503, max=204439, per=100.00%, avg=143571.24, stdev=5564.14, samples=932
+   iops        : min=  511, max= 1594, avg=1120.81, stdev=43.48, samples=932
+  lat (msec)   : 20=0.01%, 50=0.04%, 100=3.07%, 250=59.09%, 500=37.79%
+  lat (msec)   : 750=0.01%
+  cpu          : usr=0.21%, sys=0.97%, ctx=24913, majf=0, minf=8241
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=140MiB/s (147MB/s), 140MiB/s-140MiB/s (147MB/s-147MB/s), io=16.0GiB (17.2GB), run=117182-117182msec
+
+Disk stats (read/write):
+  sda: ios=25136/113, sectors=33549568/1200, merge=105924/28, ticks=5720492/31103, in_queue=5755030, util=97.49%

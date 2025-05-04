@@ -1,0 +1,33 @@
+multimedia_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=libaio, iodepth=64
+...
+fio-3.36
+Starting 4 processes
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+multimedia_test: Laying out IO file (1 file / 4096MiB)
+
+multimedia_test: (groupid=0, jobs=4): err= 0: pid=84008: Sat May  3 07:31:44 2025
+  read: IOPS=3637, BW=455MiB/s (477MB/s)(16.0GiB/36038msec)
+    slat (usec): min=18, max=3646, avg=36.00, stdev=30.26
+    clat (msec): min=4, max=1071, avg=66.75, stdev=61.70
+     lat (msec): min=4, max=1071, avg=66.78, stdev=61.70
+    clat percentiles (msec):
+     |  1.00th=[   16],  5.00th=[   17], 10.00th=[   18], 20.00th=[   65],
+     | 30.00th=[   68], 40.00th=[   69], 50.00th=[   70], 60.00th=[   71],
+     | 70.00th=[   72], 80.00th=[   73], 90.00th=[   74], 95.00th=[   75],
+     | 99.00th=[  113], 99.50th=[  567], 99.90th=[  919], 99.95th=[ 1070],
+     | 99.99th=[ 1070]
+   bw (  KiB/s): min=67584, max=1731718, per=100.00%, avg=482264.02, stdev=61438.55, samples=268
+   iops        : min=  528, max=13529, avg=3767.68, stdev=479.98, samples=268
+  lat (msec)   : 10=0.02%, 20=16.74%, 50=0.86%, 100=81.13%, 250=0.32%
+  lat (msec)   : 750=0.78%, 1000=0.05%, 2000=0.10%
+  cpu          : usr=0.72%, sys=4.00%, ctx=26360, majf=0, minf=8247
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=99.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwts: total=131072,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=455MiB/s (477MB/s), 455MiB/s-455MiB/s (477MB/s-477MB/s), io=16.0GiB (17.2GB), run=36038-36038msec
