@@ -1,7 +1,7 @@
 ---
 - name: Run FIO test
   ansible.builtin.shell: >
-    fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output.txt
+    fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output.json --output-format=json
   register: fio_result
   changed_when: false
   failed_when: fio_result.rc != 0
