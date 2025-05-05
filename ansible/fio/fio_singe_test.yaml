@@ -1,0 +1,35 @@
+---
+- name: Run FIO test
+  ansible.builtin.shell: >
+    fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output.txt
+  register: fio_result
+  changed_when: false
+  failed_when: fio_result.rc != 0
+
+- name: List test files in the mount point (files only)
+  ansible.builtin.shell: >
+    find {{ test_mount_point }} -maxdepth 1 -type f -printf "%f\n"
+  register: test_files
+  changed_when: false
+
+- name: Reset file_results for this test
+  ansible.builtin.set_fact:
+    file_results: []
+
+- name: Check size and attributes for each test file
+  when: test_files.stdout_lines is defined and compression_option != "none"
+  loop: "{{ test_files.stdout_lines }}"
+  loop_control:
+    loop_var: file_name
+  include_tasks: fio_check_attributes.yaml
+
+
+- name: Save file results to a JSON file on remote host
+  ansible.builtin.copy:
+    content: "{{ file_results | to_nice_json }}"
+    dest: "/tmp/file_results_{{ item.name }}.json"
+  when: compression_option != "none"
+
+- name: Clean up test files
+  ansible.builtin.shell: "rm -rf {{ test_mount_point }}/*"
+  changed_when: true

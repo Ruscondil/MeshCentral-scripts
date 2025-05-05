@@ -10,62 +10,7 @@
       - "Compression: {{ compression_option }}"
       
 - name: Run FIO tests, check files, and clean up after each test
-  block:
-    - name: Run FIO test
-      ansible.builtin.shell: >
-        fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output.txt
-      register: fio_result
-      changed_when: false
-      failed_when: fio_result.rc != 0
-
-    - name: List test files in the mount point (files only)
-      ansible.builtin.shell: >
-        find {{ test_mount_point }} -maxdepth 1 -type f -printf "%f\n"
-      register: test_files
-      changed_when: false
-
-    - name: Reset file_results for this test
-      ansible.builtin.set_fact:
-        file_results: []
-
-    - name: Check size and attributes for each test file
-      when: test_files.stdout_lines is defined and compression_option != "none"
-      loop: "{{ test_files.stdout_lines }}"
-      loop_control:
-        loop_var: file_name
-      block:
-        - name: Get file size
-          ansible.builtin.stat:
-            path: "{{ test_mount_point }}/{{ file_name }}"
-          register: file_stat
-
-        - name: Check file attributes using lsattr
-          ansible.builtin.shell: "lsattr {{ test_mount_point }}/{{ file_name }}"
-          register: file_attr
-          changed_when: false
-          ignore_errors: true
-
-        - name: Append file info to file_results
-          ansible.builtin.set_fact:
-            file_results: >-
-              {{
-                file_results + [ {
-                  'file': file_name,
-                  'size': file_stat.stat.size,
-                  'attributes': file_attr.stdout | default('N/A')
-                } ]
-              }}
-
-    - name: Save file results to a JSON file on remote host
-      ansible.builtin.copy:
-        content: "{{ file_results | to_nice_json }}"
-        dest: "/tmp/file_results_{{ item.name }}.json"
-      when: compression_option != "none"
-
-    - name: Clean up test files
-      ansible.builtin.shell: "rm -rf {{ test_mount_point }}/*"
-      changed_when: true
-
+  include_tasks: fio_single_test.yaml
   loop: "{{ fio_tests }}"
   loop_control:
     label: "{{ item.name }}"
@@ -85,6 +30,9 @@
     dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
     flat: yes
   when: compression_option != "none"
+  loop: "{{ fio_tests }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: Save FIO configuration to results folder on remote machine
   ansible.builtin.copy:

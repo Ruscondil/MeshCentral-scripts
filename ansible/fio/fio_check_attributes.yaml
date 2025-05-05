@@ -1,0 +1,28 @@
+---
+- name: Display the file name being checked
+  ansible.builtin.debug:
+    msg: "Checking file: {{ file_name }}"
+
+- name: Set the file's uncompressed attribute using chattr
+  ansible.builtin.command:
+    cmd: "chattr -c {{ test_mount_point }}/{{ file_name }}"
+
+- name: Get file stats
+  ansible.builtin.stat:
+    path: "{{ test_mount_point }}/{{ file_name }}"
+    get_attributes: true
+    get_checksum: false
+    get_mime: false
+  register: file_stat
+
+- name: Append file info to file_results
+  ansible.builtin.set_fact:
+    file_results: >-
+      {{
+        file_results + [ {
+          'file': file_name,
+          'size': file_stat.stat.size,
+          'attributes': file_stat.stat.attributes,
+          'block_size': file_stat.stat.block_size,
+        } ]
+      }}
