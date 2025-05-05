@@ -3,7 +3,9 @@
   ansible.builtin.apt:
     name: fio
     state: present
-  when: ansible_os_family == "Debian"
+  when: 
+    - ansible_os_family == "Debian"
+    - "'fio' in enabled_programs"
 
 - name: Install f2fs-tools
   ansible.builtin.apt:

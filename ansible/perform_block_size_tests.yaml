@@ -11,6 +11,7 @@
 - import_tasks: prepare_tasks.yaml
 
 - import_tasks: ./hdparm/hdparm_tests.yaml
+  when: "'hdparm' in enabled_programs"
 
 - name: Create filesystem
   block:
@@ -63,9 +64,11 @@
 
 - name: Run dd tests
   import_tasks: ./dd/dd_tests.yaml
+  when: "'dd' in enabled_programs"
 
 - name: Run fio tests
   import_tasks: ./fio/fio_run.yaml
+  when: "'fio' in enabled_programs"
 
 - name: Unmount the device
   ansible.posix.mount:

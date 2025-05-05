@@ -5,6 +5,10 @@
   become_method: sudo
   become_user: root
   vars:
+    enabled_programs:
+      - fio
+      - hdparm
+      - dd
     filesystems_to_test:
       - name: "ext4"
         block_sizes: [1024,2048] #możliwe wartości: ["default",1024,2048,4096]
