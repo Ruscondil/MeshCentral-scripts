@@ -3,10 +3,6 @@
   ansible.builtin.debug:
     msg: "Checking file: {{ file_name }}"
 
-- name: Set the file's uncompressed attribute using chattr
-  ansible.builtin.command:
-    cmd: "chattr -c {{ test_mount_point }}/{{ file_name }}"
-
 - name: Get file stats
   ansible.builtin.stat:
     path: "{{ test_mount_point }}/{{ file_name }}"
