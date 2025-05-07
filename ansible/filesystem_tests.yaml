@@ -9,6 +9,7 @@
       - fio
       - hdparm
       - dd
+      - sysbench
     filesystems_to_test:
       - name: "ext4"
         block_sizes: [1024,2048] #możliwe wartości: ["default",1024,2048,4096]
@@ -59,6 +60,7 @@
   vars_files:
     - ./fio/fio_configs_vars.yaml
     - ./dd/dd_vars.yaml
+    - ./sysbench/sysbench_configs_vars.yaml
 
   tasks:
     - name: Run tests for each filesystem and device

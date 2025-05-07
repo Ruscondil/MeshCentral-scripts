@@ -1,0 +1,8 @@
+---
+
+postgres_user: "sysbench"
+postgres_password: "sysbench"
+postgres_db: "sysbench"
+sysbench_tables: 5
+sysbench_table_size: 10000
+sysbench_threads: 4

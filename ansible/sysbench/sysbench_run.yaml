@@ -1,94 +1,90 @@
 ---
-- name: Setup PostgreSQL and run Sysbench test
-  hosts: dbserver
-  become: true
+- name: Import the PostgreSQL setup tasks
+  include_tasks: create_postgres.yaml
 
-  vars:
-    postgres_user: "sysbench"
-    postgres_password: "sysbench"
-    postgres_db: "sysbench"
-    sysbench_tables: 5
-    sysbench_table_size: 10000
-    sysbench_threads: 4
+- name: Install required dependencies
+  apt:
+    name:
+      - sysbench
+      - postgresql-client
+      - libpq-dev
+    state: present
+    update_cache: yes
+- name: Cleanup existing Sysbench tables (if any)
+  shell: >
+    PGPASSWORD="{{ postgres_password }}"
+    sysbench /usr/share/sysbench/oltp_read_write.lua
+    --db-driver=pgsql
+    --pgsql-host=127.0.0.1
+    --pgsql-port=5432
+    --pgsql-user={{ postgres_user }}
+    --pgsql-password={{ postgres_password }}
+    --pgsql-db={{ postgres_db }}
+    --tables={{ sysbench_tables }}
+    cleanup
+  args:
+    executable: /bin/bash
+  ignore_errors: true  # Avoid fatal errors if tables don't exist
 
-  tasks:
-    - name: Import the PostgreSQL setup tasks
-      include_tasks: create_postgres.yaml
+- name: Prepare Sysbench database schema
+  shell: >
+    PGPASSWORD="{{ postgres_password }}"
+    sysbench /usr/share/sysbench/oltp_read_write.lua
+    --db-driver=pgsql
+    --pgsql-host=127.0.0.1
+    --pgsql-port=5432
+    --pgsql-user={{ postgres_user }}
+    --pgsql-password={{ postgres_password }}
+    --pgsql-db={{ postgres_db }}
+    --tables={{ sysbench_tables }}
+    --table-size={{ sysbench_table_size }}
+    prepare
+  args:
+    executable: /bin/bash
 
-    - name: Install required dependencies
-      apt:
-        name:
-          - sysbench
-          - postgresql-client
-          - libpq-dev
-        state: present
-        update_cache: yes
-    - name: Cleanup existing Sysbench tables (if any)
-      shell: >
-        PGPASSWORD="{{ postgres_password }}"
-        sysbench /usr/share/sysbench/oltp_read_write.lua
-        --db-driver=pgsql
-        --pgsql-host=127.0.0.1
-        --pgsql-port=5432
-        --pgsql-user={{ postgres_user }}
-        --pgsql-password={{ postgres_password }}
-        --pgsql-db={{ postgres_db }}
-        --tables={{ sysbench_tables }}
-        cleanup
-      args:
-        executable: /bin/bash
-      ignore_errors: true  # Avoid fatal errors if tables don't exist
+- name: Run Sysbench OLTP read/write benchmark
+  shell: >
+    PGPASSWORD="{{ postgres_password }}"
+    sysbench /usr/share/sysbench/oltp_read_write.lua
+    --db-driver=pgsql
+    --pgsql-host=127.0.0.1
+    --pgsql-port=5432
+    --pgsql-user={{ postgres_user }}
+    --pgsql-password={{ postgres_password }}
+    --pgsql-db={{ postgres_db }}
+    --tables={{ sysbench_tables }}
+    --table-size={{ sysbench_table_size }}
+    --threads={{ sysbench_threads }}
+    --time=60
+    run
+  args:
+    executable: /bin/bash
+  register: sysbench_output
+  ignore_errors: false
 
-    - name: Prepare Sysbench database schema
-      shell: >
-        PGPASSWORD="{{ postgres_password }}"
-        sysbench /usr/share/sysbench/oltp_read_write.lua
-        --db-driver=pgsql
-        --pgsql-host=127.0.0.1
-        --pgsql-port=5432
-        --pgsql-user={{ postgres_user }}
-        --pgsql-password={{ postgres_password }}
-        --pgsql-db={{ postgres_db }}
-        --tables={{ sysbench_tables }}
-        --table-size={{ sysbench_table_size }}
-        prepare
-      args:
-        executable: /bin/bash
+- name: Save sysbench test result
+  ansible.builtin.copy:
+    content: |
+      {{ sysbench_output.stdout | default('No stdout captured') }}
+    dest: "/tmp/sysbench_test_output.txt"
 
-    - name: Run Sysbench OLTP read/write benchmark
-      shell: >
-        PGPASSWORD="{{ postgres_password }}"
-        sysbench /usr/share/sysbench/oltp_read_write.lua
-        --db-driver=pgsql
-        --pgsql-host=127.0.0.1
-        --pgsql-port=5432
-        --pgsql-user={{ postgres_user }}
-        --pgsql-password={{ postgres_password }}
-        --pgsql-db={{ postgres_db }}
-        --tables={{ sysbench_tables }}
-        --table-size={{ sysbench_table_size }}
-        --threads={{ sysbench_threads }}
-        --time=60
-        run
-      args:
-        executable: /bin/bash
-      register: sysbench_output
-      ignore_errors: false
+- name: Fetch sysbench test results
+  ansible.builtin.fetch:
+    src: "/tmp/sysbench_test_output.txt"
+    dest: "{{ sysbench_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
 
-    - name: Display Sysbench results
-      debug:
-        var: sysbench_output.stdout
 
-    - name: Cleanup Sysbench test tables
-      shell: >
-        PGPASSWORD="{{ postgres_password }}"
-        sysbench /usr/share/sysbench/oltp_read_write.lua
-        --db-driver=pgsql
-        --pgsql-host=127.0.0.1
-        --pgsql-port=5432
-        --pgsql-user={{ postgres_user }}
-        --pgsql-password={{ postgres_password }}
-        --pgsql-db={{ postgres_db }}
-        cleanup
-      args:
-        executable: /bin/bash
+- name: Cleanup Sysbench test tables
+  shell: >
+    PGPASSWORD="{{ postgres_password }}"
+    sysbench /usr/share/sysbench/oltp_read_write.lua
+    --db-driver=pgsql
+    --pgsql-host=127.0.0.1
+    --pgsql-port=5432
+    --pgsql-user={{ postgres_user }}
+    --pgsql-password={{ postgres_password }}
+    --pgsql-db={{ postgres_db }}
+    cleanup
+  args:
+    executable: /bin/bash

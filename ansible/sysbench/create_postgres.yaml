@@ -1,6 +1,4 @@
 ---
-
-
 - name: Install PostgreSQL
   apt:
     name: postgresql
