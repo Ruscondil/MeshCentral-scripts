@@ -35,7 +35,6 @@
       - name: "zfs"
         block_sizes: ["default"]
         mount_opts: "defaults,noatime"
-        l2arc_device_short: "ssd"
         #compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: false
@@ -45,8 +44,9 @@
         #compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
-      - name: "zfs_primary"
+      - name: "zfs_l2arc"
         block_sizes: ["default"]
+        l2arc_device_short: "ssd"
         mount_opts: "defaults,noatime"
         #compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]

@@ -16,7 +16,7 @@
          None) | trim 
       }}
   when:
-    - filesystem_type == "zfs"
+    - filesystem_type == "zfs_l2arc"
 
 - name: Skip task for unsupported devices
   ansible.builtin.debug:
