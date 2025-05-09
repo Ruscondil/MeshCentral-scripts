@@ -52,6 +52,7 @@
         {% if test.bssplit is defined %}BSSplit: {{ test.bssplit }}{% endif %}
         {% if test.stonewall is defined %}stonewall: {{ test.stonewall }}{% endif %}
         {% if test.time_based is defined %}time_based: {{ test.time_based }}{% endif %}
+        {% if test.repeat is defined %}Repeat: {{ test.repeat }}{% endif %}
       {% endfor %}
     dest: "/tmp/fio_config.txt"
 
