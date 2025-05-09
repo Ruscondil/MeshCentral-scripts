@@ -8,6 +8,16 @@
          None) | trim 
       }}
 
+- name: Set L2ARC device
+  set_fact:
+    l2arc_device: >-
+      {{ 
+        ("/dev/sdb1" if l2arc_device_short == "ssd" and inventory_hostname in groups['ssd_hosts'] else
+         None) | trim 
+      }}
+  when:
+    - filesystem_type == "zfs"
+
 - name: Skip task for unsupported devices
   ansible.builtin.debug:
     msg: "Skipping tests for device: {{ test_device_short }} on host: {{ inventory_hostname }}"

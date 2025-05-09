@@ -36,6 +36,7 @@
         block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
+        l2arc_device_short: "ssd"
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: false
       - name: "zfs_nocache"
