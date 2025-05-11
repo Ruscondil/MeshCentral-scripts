@@ -72,3 +72,4 @@
       vars:
         block_sizes: "{{ filesystem.block_sizes | default(['default']) }}"
         compression_options: "{{ filesystem.compression_options | default(['none']) }}"
+        l2arc_device_short: "{{ filesystem.l2arc_device_short | default('none') }}"

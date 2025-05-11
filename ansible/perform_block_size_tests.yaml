@@ -40,9 +40,9 @@
           shell: zfs set mountpoint={{ test_mount_point }} mypool/myfilesystem
 
         - name: Add ZFS cache device
-          shell: zfs add mypool cache {{ l2arc_device }}
+          shell: zpool add mypool cache {{ l2arc_device }}
           when: 
-            - l2arc_device != "none"
+            - l2arc_device is defined and l2arc_device != "none"
             - test_device_short == "hdd"
             - filesystem_type == "zfs_l2arc"
 
