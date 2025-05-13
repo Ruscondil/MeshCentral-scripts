@@ -19,3 +19,4 @@
     - test_device is defined
     - test_device | length > 0
     - test_device != "None"
+    - l2arc_device is not defined or (l2arc_device | length > 0 and l2arc_device != "None")

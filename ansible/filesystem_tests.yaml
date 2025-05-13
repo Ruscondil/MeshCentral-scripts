@@ -35,19 +35,20 @@
       - name: "zfs"
         block_sizes: ["default"]
         mount_opts: "defaults,noatime"
-        compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
+        #compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: false
       - name: "zfs_nocache"
         block_sizes: ["default"]
         mount_opts: "defaults,noatime"
-        compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
+        #compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
-      - name: "zfs_primary"
+      - name: "zfs_l2arc"
         block_sizes: ["default"]
+        l2arc_device_short: "ssd"
         mount_opts: "defaults,noatime"
-        compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
+        #compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
       - name: "exfat"
@@ -71,3 +72,4 @@
       vars:
         block_sizes: "{{ filesystem.block_sizes | default(['default']) }}"
         compression_options: "{{ filesystem.compression_options | default(['none']) }}"
+        l2arc_device_short: "{{ filesystem.l2arc_device_short | default('none') }}"

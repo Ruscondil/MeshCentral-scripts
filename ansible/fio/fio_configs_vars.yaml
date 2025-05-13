@@ -1,64 +1,67 @@
 ---
 fio_tests:
-  # - name: "database_test"
-  #   rw: "randrw"
-  #   rwmixread: "70"
-  #   numjobs: "8"
-  #   runtime: "60"
-  #   iodepth: "16"
-  #   bssplit: "4k/80:8k/20"
-  #   size: "1G"
-
-  # - name: "multimedia_test"
-  #   rw: "read"
-  #   numjobs: "4"
-  #   runtime: "120"
-  #   iodepth: "64"
-  #   bssplit: "128k"
-  #   size: "4G"
-
-  # - name: "webserver_test"
-  #   rw: "randread"
-  #   numjobs: "16"
-  #   runtime: "120"
-  #   iodepth: "32"
-  #   bssplit: "4k/90:8k/10"
-  #   size: "2G"
-
-  # - name: "archive_test"
-  #   rw: "write"
-  #   numjobs: "2"
-  #   runtime: "180"
-  #   iodepth: "128"
-  #   bssplit: "64k/70:128k/30"
-  #   size: "10G"
-
-  - name: "database_article_test"
+  - name: "database_test"
     rw: "randrw"
-    rwmixread: "50"
-    numjobs: "1"
+    rwmixread: "70"
+    numjobs: "8"
+    runtime: "60"
+    iodepth: "16"
+    bssplit: "4k/80:8k/20"
+    size: "1G"
+    repeat: 5 
+
+  - name: "multimedia_test"
+    rw: "read"
+    numjobs: "4"
+    runtime: "120"
+    iodepth: "64"
+    bssplit: "128k"
+    size: "4G"
+    repeat: 5 
+
+  - name: "webserver_test"
+    rw: "randread"
+    numjobs: "16"
+    runtime: "120"
+    iodepth: "32"
+    bssplit: "4k/90:8k/10"
+    size: "2G"
+    repeat: 5 
+
+  - name: "archive_test"
+    rw: "write"
+    numjobs: "2"
     runtime: "180"
     iodepth: "128"
-    bssplit: "8k-64k"
+    bssplit: "64k/70:128k/30"
     size: "10G"
-    time_based: true
-    stonewall: true
 
-  - name: "seq_read_article_test"
-    rw: "read"
-    numjobs: "1"
-    bs: "1M"
-    size: "10G"
-    runtime: "180"
-    time_based: true
-    stonewall: true
+  # - name: "database_article_test"
+  #   rw: "randrw"
+  #   rwmixread: "50"
+  #   numjobs: "1"
+  #   runtime: "180"
+  #   iodepth: "128"
+  #   bssplit: "8k-64k"
+  #   size: "10G"
+  #   time_based: true
+  #   stonewall: true
 
-  - name: "seq_write_article_test"
-    rw: "write"
-    numjobs: "1"
-    bs: "1M"
-    size: "10G"
-    runtime: "180"
-    time_based: true
-    stonewall: true
+  # - name: "seq_read_article_test"
+  #   rw: "read"
+  #   numjobs: "1"
+  #   bs: "1M"
+  #   size: "10G"
+  #   runtime: "180"
+  #   time_based: true
+  #   stonewall: true
+
+  # - name: "seq_write_article_test"
+  #   rw: "write"
+  #   numjobs: "1"
+  #   bs: "1M"
+  #   size: "10G"
+  #   runtime: "180"
+  #   time_based: true
+  #   stonewall: true
 

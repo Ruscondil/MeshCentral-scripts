@@ -22,7 +22,7 @@
         dev: "{{ test_device }}"
         opts: "{{ create_opts }}"
         force: true
-      when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "exfat"]
+      when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc", "exfat"]
 
     - name: Create EXFAT filesystem
       shell: "mkfs.exfat {{ test_device }}"
@@ -39,6 +39,13 @@
         - name: Set ZFS mountpoint
           shell: zfs set mountpoint={{ test_mount_point }} mypool/myfilesystem
 
+        - name: Add ZFS cache device
+          shell: zpool add mypool cache {{ l2arc_device }}
+          when: 
+            - l2arc_device is defined and l2arc_device != "none"
+            - test_device_short == "hdd"
+            - filesystem_type == "zfs_l2arc"
+
         - name: Set ZFS compression
           shell: zfs set compression={{ compression_option }} mypool/myfilesystem
           when: compression_option != "none"
@@ -51,7 +58,7 @@
           shell: zfs set secondarycache=none mypool/myfilesystem
           when: filesystem_type in ["zfs_nocache", "zfs_primary"]
 
-      when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary"]
+      when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
 
 - name: Mount the device
   ansible.posix.mount:
@@ -61,7 +68,7 @@
     opts: >-
       {% if filesystem_type == "btrfs" and compression_option != "none" %}compress={{ compression_option }},{{ mount_opts }}{% else %}{{ mount_opts }}{% endif %}
     state: ephemeral
-  when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary"]
+  when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
 
 - name: Run dd tests
   import_tasks: ./dd/dd_tests.yaml
@@ -79,7 +86,7 @@
   ansible.posix.mount:
     path: "{{ test_mount_point }}"
     state: unmounted
-  when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary"]
+  when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
 
 - name: Destroy ZFS filesystem and pool
   block:
@@ -94,4 +101,4 @@
     - name: Destroy ZFS pool
       shell: zpool destroy mypool
       ignore_errors: true
-  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary"]
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
