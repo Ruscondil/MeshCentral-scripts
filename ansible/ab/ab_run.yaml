@@ -1,0 +1,57 @@
+---
+- name: Install apache
+  apt: 
+    name:
+      - apache2-utils
+    state: present
+
+- name: Create website directory 
+  file:
+    path: "{{ web_dir }}/website"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Generate test HTML files 
+  copy:
+    dest: "{{ web_dir }}/website/file1.html"
+    content: "<html><body><h1>Test 1</h1></body></html>"
+    owner: www-data
+    group: www-data
+    mode: '0644'
+
+
+- name: Update Apache DocumentRoot 
+  lineinfile:
+    path: /etc/apache2/sites-available/000-default.conf
+    regexp: '^\s*DocumentRoot '
+    line: "    DocumentRoot {{ web_dir }}/website"
+
+- name: Restart Apache
+  service:
+    name: apache2
+    state: restarted
+
+- name: Drop Linux filesystem cache (forces disk read)
+  shell: echo 3 > /proc/sys/vm/drop_caches
+
+- name: Run ApacheBench test 
+  shell: "ab -n {{ ab_requests }} -c {{ ab_concurrency }} http://localhost/file1.html"
+  args:
+    executable: /bin/bash  
+  register: output
+
+- name: Save ApacheBench test result
+  ansible.builtin.copy:
+    content: |
+      {{ ab_output.stdout | default('No stdout captured') }}
+    dest: "/tmp/ab_test_output.txt"
+
+- name: Fetch ApacheBench test results
+  ansible.builtin.fetch:
+    src: "/tmp/ab_test_output.txt"
+    dest: "{{ ab_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
+
+- debug: msg="{{ output.stdout }}"
