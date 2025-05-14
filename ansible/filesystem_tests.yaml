@@ -62,6 +62,7 @@
     - ./fio/fio_configs_vars.yaml
     - ./dd/dd_vars.yaml
     - ./sysbench/sysbench_configs_vars.yaml
+    - ./ab/ab_configs_vars.yaml
 
   tasks:
     - name: Run tests for each filesystem and device
