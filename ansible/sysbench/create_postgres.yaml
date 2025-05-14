@@ -5,6 +5,12 @@
     state: present
     update_cache: true
 
+- name: Install psycopg2
+  apt:
+    name: python3-psycopg2
+    state: present
+    update_cache: true
+
 - name: Ensure PostgreSQL is started
   service:
     name: postgresql
