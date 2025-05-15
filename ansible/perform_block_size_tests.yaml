@@ -36,10 +36,10 @@
     - name: Create ZFS pool and filesystem
       block:
         - name: Create ZFS pool
-          shell: zpool create mypool {{ test_device }}
+          shell: zpool create -o ashift=12 mypool {{ test_device }}
 
         - name: Create ZFS filesystem
-          shell: zfs create -o ashift=12 mypool/myfilesystem
+          shell: zfs create mypool/myfilesystem
           
         - name: Set ZFS mountpoint
           shell: zfs set mountpoint={{ test_mount_point }} mypool/myfilesystem
