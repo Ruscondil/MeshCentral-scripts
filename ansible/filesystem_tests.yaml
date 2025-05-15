@@ -10,6 +10,7 @@
       - hdparm
       - dd
       - sysbench
+      - ab
     filesystems_to_test:
       - name: "ext4"
         block_sizes: [1024,2048] #możliwe wartości: ["default",1024,2048,4096]

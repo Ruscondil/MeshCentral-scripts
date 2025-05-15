@@ -3,6 +3,7 @@
   apt: 
     name:
       - apache2-utils
+      - apache2
     state: present
 
 - name: Create website directory 
@@ -60,7 +61,7 @@
 - name: Save ApacheBench test result
   ansible.builtin.copy:
     content: |
-      {{ ab_output.stdout | default('No stdout captured') }}
+      {{ output.stdout | default('No stdout captured') }}
     dest: "/tmp/ab_test_output.txt"
 
 - name: Fetch ApacheBench test results
