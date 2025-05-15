@@ -21,8 +21,7 @@
       community.general.filesystem:
         fstype: "{{ filesystem_type }}"
         dev: "{{ test_device }}"
-        opts: "{{ create_opts }}"
-        force: true
+        opts: "{{ create_opts }} {{ raid_opts }}"
       when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc", "exfat"]
 
     - name: Create EXFAT filesystem

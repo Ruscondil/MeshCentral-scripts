@@ -24,6 +24,7 @@
       - name: "btrfs"
         block_sizes: [8192,16384,32768,65536]  #możliwe wartości: ["default",4096,8192,16384,32768,65536]
         mount_opts: "defaults,noatime"
+        #raid_options: ["0", "1", "5", "6", "10"] #możliwe wartości: ["0", "1", "5", "6", "10"]
         #compression_options: ["zstd", "lzo", "none"] #możliwe wartości: ["zstd", "lzo", "zlib", "none"]
         test_devices: ["hdd", "ssd", "nvme"]
         enabled: true
@@ -72,5 +73,6 @@
         loop_var: filesystem
       vars:
         block_sizes: "{{ filesystem.block_sizes | default(['default']) }}"
+        raid_options: "{{ filesystem.raid_options | default(['none']) }}"
         compression_options: "{{ filesystem.compression_options | default(['none']) }}"
         l2arc_device_short: "{{ filesystem.l2arc_device_short | default('none') }}"

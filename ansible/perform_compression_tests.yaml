@@ -1,22 +1,21 @@
 ---
-- name: Run tests for each block size
-  include_tasks: perform_block_size_tests.yaml
-  loop: "{{ block_sizes }}"
+- name: Run tests for each raid
+  include_tasks: perform_raid_tests.yaml
+  loop: "{{ raid_options }}"
   loop_control:
-    loop_var: block_size
+    loop_var: raid_option
   vars:
-    create_opts: >-
-      {% if filesystem_type == "ext4" and block_size != "default" %}
-        -b {{ block_size }}
-      {% elif filesystem_type == "xfs" and block_size != "default" %}
-        -b size={{ block_size }}
-      {% elif filesystem_type == "btrfs" and block_size != "default" %}
-        -n {{ block_size }}
-      {% elif filesystem_type == "f2fs" %}
-        -f
+    raid_opts: >-
+      {% if filesystem_type == "btrfs" and inventory_hostname in groups['raid_hosts'] %}
+        {% if raid_option == '0' %}
+      -d raid0 -m raid0 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% elif raid_option == '1' %}
+      -d raid1 -m raid1 /dev/sda /dev/sdb
+        {% elif raid_option == '5' %}
+      -d raid5 -m raid1 /dev/sda /dev/sdb /dev/sdc
+        {% elif raid_option == '6' %}
+      -d raid6 -m raid1 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% elif raid_option == '10' %}
+      -d raid10 -m raid10 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% endif %}
       {% endif %}
-  when: 
-    - test_device is defined
-    - test_device | length > 0
-    - test_device != "None"
-    - l2arc_device is not defined or (l2arc_device | length > 0 and l2arc_device != "None")
