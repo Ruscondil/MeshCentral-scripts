@@ -35,7 +35,7 @@
           shell: zpool create mypool {{ test_device }}
 
         - name: Create ZFS filesystem
-          shell: zfs create mypool/myfilesystem
+          shell: zfs create -o ashift=12 mypool/myfilesystem
           
         - name: Set ZFS mountpoint
           shell: zfs set mountpoint={{ test_mount_point }} mypool/myfilesystem
