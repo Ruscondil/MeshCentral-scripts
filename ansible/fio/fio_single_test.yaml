@@ -7,6 +7,10 @@
       - "Block size: {{ block_size }}"
       - "Compression: {{ compression_option }}"
 
+- name: Set recordsize for ZFS filesystem
+  shell: zfs set recordsize={{ item.recordsize | default(128k)}} mypool/myfilesystem
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
+
 - name: Run FIO test
   ansible.builtin.shell: >
     fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output.json --output-format=json

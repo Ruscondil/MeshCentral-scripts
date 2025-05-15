@@ -9,6 +9,7 @@ fio_tests:
     bssplit: "4k/80:8k/20"
     size: "1G"
     repeat: 5 
+    recordsize: "8k"
 
   - name: "multimedia_test"
     rw: "read"
@@ -18,6 +19,7 @@ fio_tests:
     bssplit: "128k"
     size: "4G"
     repeat: 5 
+    recordsize: "128k"
 
   - name: "webserver_test"
     rw: "randread"
@@ -27,6 +29,7 @@ fio_tests:
     bssplit: "4k/90:8k/10"
     size: "2G"
     repeat: 5 
+    recordsize: "8k"
 
   - name: "archive_test"
     rw: "write"
@@ -35,6 +38,7 @@ fio_tests:
     iodepth: "128"
     bssplit: "64k/70:128k/30"
     size: "10G"
+    recordsize: "128k"
 
   # - name: "database_article_test"
   #   rw: "randrw"
