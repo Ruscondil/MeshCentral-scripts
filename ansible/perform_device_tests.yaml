@@ -1,3 +1,5 @@
+---
+#Dla ułatwienia raidy po prostu przechodzą dalej
 - name: Set test device
   set_fact:
     test_device: >-
@@ -5,6 +7,11 @@
         ("/dev/sda5" if test_device_short == "hdd" else
          "/dev/sdb1" if test_device_short == "ssd" and inventory_hostname in groups['ssd_hosts'] else
          "/dev/nvme0n1p4" if test_device_short == "nvme" else
+         "/dev/sda" if test_device_short == "raid1" and inventory_hostname in groups['raid_hosts'] else 
+         "/dev/sda" if test_device_short == "raid0" and inventory_hostname in groups['raid_hosts'] else
+         "/dev/sda" if test_device_short == "raid5" and inventory_hostname in groups['raid_hosts'] else
+         "/dev/sda" if test_device_short == "raid6" and inventory_hostname in groups['raid_hosts'] else
+         "/dev/sda" if test_device_short == "raid10" and inventory_hostname in groups['raid_hosts'] else
          None) | trim 
       }}
 
@@ -17,6 +24,25 @@
       }}
   when:
     - filesystem_type == "zfs_l2arc"
+
+- name: Set RAID options
+  when: inventory_hostname in groups['raid_hosts']
+  set_fact:
+    raid_opts: >-
+      {% if filesystem_type == "btrfs" %}
+        {% if test_device_short == 'raid0' %}
+      -d raid0 -m raid0 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% elif test_device_short == 'raid1' %}
+      -d raid1 -m raid1 /dev/sda /dev/sdb
+        {% elif test_device_short == 'raid5' %}
+      -d raid5 -m raid1 /dev/sda /dev/sdb /dev/sdc
+        {% elif test_device_short == 'raid6' %}
+      -d raid6 -m raid1 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% elif test_device_short == 'raid10' %}
+      -d raid10 -m raid10 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% endif %}
+      {% endif %}
+
 
 - name: Skip task for unsupported devices
   ansible.builtin.debug:

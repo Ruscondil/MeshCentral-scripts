@@ -42,6 +42,14 @@
   args:
     executable: /bin/bash
 
+- name: Log test details
+  ansible.builtin.debug:
+    msg:
+      - "Testing filesystem: {{ filesystem_type }}"
+      - "Testing device: {{ test_device_short }}"
+      - "Block size: {{ block_size }}"
+      - "Compression: {{ compression_option }}"
+
 - name: Run Sysbench OLTP read/write benchmark
   shell: >
     PGPASSWORD="{{ postgres_password }}"

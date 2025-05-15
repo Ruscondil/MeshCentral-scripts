@@ -23,7 +23,11 @@
         dev: "{{ test_device }}"
         opts: "{{ create_opts }}"
         force: true
-      when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc", "exfat"]
+      when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc", "exfat"] and raid_opts is not defined
+
+    - name: Create Btrfs RAID filesystem
+      shell: mkfs.btrfs -f {{ create_opts }} {{ raid_opts }}
+      when: filesystem_type == "btrfs" and inventory_hostname in groups['raid_hosts'] and raid_opts is defined
 
     - name: Create EXFAT filesystem
       shell: "mkfs.exfat {{ test_device }}"
@@ -35,7 +39,7 @@
           shell: zpool create mypool {{ test_device }}
 
         - name: Create ZFS filesystem
-          shell: zfs create mypool/myfilesystem
+          shell: zfs create -o ashift=12 mypool/myfilesystem
           
         - name: Set ZFS mountpoint
           shell: zfs set mountpoint={{ test_mount_point }} mypool/myfilesystem
