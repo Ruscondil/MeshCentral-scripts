@@ -21,6 +21,21 @@
     group: www-data
     mode: '0644'
 
+- name: Create a directory if it does not exist
+  file:
+    path: /etc/apache2/sites-available/
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Touch again the same file, but do not change times this makes the task idempotent
+  file:
+    path: /etc/apache2/sites-available/000-default.conf
+    state: touch
+    owner: www-data
+    group: www-data
+    mode: '0755'
 
 - name: Update Apache DocumentRoot 
   lineinfile:
