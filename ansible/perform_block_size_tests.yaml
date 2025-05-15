@@ -22,8 +22,9 @@
         fstype: "{{ filesystem_type }}"
         dev: "{{ test_device }}"
         opts: "{{ create_opts }} {{ raid_opts }}"
+        force: true
       when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc", "exfat"]
-
+  
     - name: Create EXFAT filesystem
       shell: "mkfs.exfat {{ test_device }}"
       when: filesystem_type in ["exfat"]
