@@ -37,20 +37,20 @@
         block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         #compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
-        test_devices: ["hdd", "ssd", "nvme"]
+        test_devices: ["hdd", "ssd", "nvme"]  # możliwe wartości: ["hdd", "ssd", "nvme", "mirror", "stripe", "raidz1", "raidz2", "raidz3", "raid10"]
         enabled: false
       - name: "zfs_nocache"
         block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         #compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
-        test_devices: ["hdd", "ssd", "nvme"]
+        test_devices: ["hdd", "ssd", "nvme"] # możliwe wartości: ["hdd", "ssd", "nvme", "mirror", "stripe", "raidz1", "raidz2", "raidz3", "raid10"]
         enabled: true
       - name: "zfs_l2arc"
         block_sizes: ["default"]
         l2arc_device_short: "ssd"
         mount_opts: "defaults,noatime"
         #compression_options: ["lz4"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
-        test_devices: ["hdd", "ssd", "nvme"]
+        test_devices: ["hdd", "ssd", "nvme"] # możliwe wartości: ["hdd", "ssd", "nvme", "mirror", "stripe", "raidz1", "raidz2", "raidz3", "raid10"]
         enabled: true
       - name: "exfat"
         block_sizes: ["default"]

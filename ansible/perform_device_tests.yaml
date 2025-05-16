@@ -12,6 +12,11 @@
          "/dev/sda" if test_device_short == "raid5" and inventory_hostname in groups['raid_hosts'] else
          "/dev/sda" if test_device_short == "raid6" and inventory_hostname in groups['raid_hosts'] else
          "/dev/sda" if test_device_short == "raid10" and inventory_hostname in groups['raid_hosts'] else
+         "/dev/sda" if test_device_short == "stripe" and inventory_hostname in groups['raid_hosts'] else
+         "/dev/sda" if test_device_short == "mirror" and inventory_hostname in groups['raid_hosts'] else
+         "/dev/sda" if test_device_short == "raidz1" and inventory_hostname in groups['raid_hosts'] else
+         "/dev/sda" if test_device_short == "raidz2" and inventory_hostname in groups['raid_hosts'] else
+         "/dev/sda" if test_device_short == "raidz3" and inventory_hostname in groups['raid_hosts'] else
          None) | trim 
       }}
 
@@ -40,6 +45,20 @@
       -d raid6 -m raid1 /dev/sda /dev/sdb /dev/sdc /dev/sdd
         {% elif test_device_short == 'raid10' %}
       -d raid10 -m raid10 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% endif %}
+      {% elif filesystem_type == "zfs" %}
+        {% if test_device_short == 'stripe' %}
+      stripe /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% elif test_device_short == 'mirror' %}
+      mirror /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% elif test_device_short == 'raidz1' %}
+      raidz1 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% elif test_device_short == 'raidz2' %}
+      raidz2 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% elif test_device_short == 'raidz3' %}
+      raidz3 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% elif test_device_short == 'raid10' %}
+      mirror /dev/sda /dev/sdb mirror /dev/sdc /dev/sdd
         {% endif %}
       {% endif %}
 
