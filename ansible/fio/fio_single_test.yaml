@@ -11,6 +11,7 @@
       - "Block size: {{ block_size }}"
       - "Compression: {{ compression_option }}"
       - "recordsize: {{ item.recordsize | default('128k') }}"
+      - "Test name: {{ item.name }}"
 
 - name: Run FIO test
   ansible.builtin.shell: >
