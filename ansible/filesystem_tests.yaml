@@ -26,7 +26,7 @@
         block_sizes: [8192,16384,32768,65536]  #możliwe wartości: ["default",4096,8192,16384,32768,65536]
         mount_opts: "defaults,noatime"
         #compression_options: ["zstd", "lzo", "none"] #możliwe wartości: ["zstd", "lzo", "zlib", "none"]
-        test_devices: ["hdd", "ssd", "nvme"] # możliwe wartości: ["hdd", "ssd", "nvme", "raid1", "raid0", "raid5", "raid6", "raid10"]
+        test_devices: ["hdd", "ssd", "nvme"] # możliwe wartości: ["hdd", "ssd", "nvme", "raid1", "raid0_4hdd", "raid0_2hdd" "raid5", "raid6", "raid10"]
         enabled: true
       - name: "f2fs"
         block_sizes: ["default"] 

@@ -38,5 +38,15 @@
       shell: zpool destroy mypool
       ignore_errors: true
 
+- name: Blank filesystem on the RAID devices
+  shell: "wipefs -af {{ item }}"
+  loop:
+    - /dev/sda
+    - /dev/sdb
+    - /dev/sdc
+    - /dev/sdd
+  when: raid_opts is defined
+
 - name: Blank filesystem on the device
   shell: "wipefs -af {{ test_device }}"
+  when: raid_opts is not defined
