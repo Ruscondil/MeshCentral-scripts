@@ -46,8 +46,8 @@
         {% elif test_device_short == 'raid10' %}-d raid10 -m raid10 /dev/sda /dev/sdb /dev/sdc /dev/sdd
         {% endif %}
       {% elif filesystem_type in ["zfs", "zfs_nocache", "zfs_l2arc"] %}
-        {% if test_device_short == 'stripe_2hdd' %}/dev/sda /dev/sdb /dev/sdc /dev/sdd
-        {% elif test_device_short == 'stripe_4hdd' %}/dev/sda /dev/sdb
+        {% if test_device_short == 'stripe_2hdd' %}/dev/sda /dev/sdb 
+        {% elif test_device_short == 'stripe_4hdd' %}/dev/sda /dev/sdb /dev/sdc /dev/sdd
         {% elif test_device_short == 'mirror' %}mirror /dev/sda /dev/sdb
         {% elif test_device_short == 'raidz1' %}raidz1 /dev/sda /dev/sdb /dev/sdc 
         {% elif test_device_short == 'raidz2' %}raidz2 /dev/sda /dev/sdb /dev/sdc /dev/sdd
