@@ -44,7 +44,10 @@
         {% if test.bssplit is defined %}BSSplit: {{ test.bssplit }}{% endif %}
         {% if test.stonewall is defined %}stonewall: {{ test.stonewall }}{% endif %}
         {% if test.time_based is defined %}time_based: {{ test.time_based }}{% endif %}
-        {% if test.repeat is defined %}Repeat: {{ test.repeat }}{% endif %}
+        {% if item.recordsize is defined %}recordsize={{ item.recordsize }}
+        {% endif %}
+        repeat={{ item.repeat | default(1) if filesystem_type in ["zfs", "zfs_l2arc"] else 1 }}  
+
       {% endfor %}
     dest: "/tmp/fio_config.txt"
 
