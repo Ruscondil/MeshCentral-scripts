@@ -2,6 +2,7 @@ wyniki_zwykle - podstawowe nasze, ale źle zestrojony zfs
 wyniki_zwykle_l2arc - dodanie l2arc
 wyniki_zwykle_nowe_zfs - poprawiony zfs z powtarzaniem
 wyniki_zwykle_powtarzanie - przestarzałe, też zfs powtarzanie bez ashifta chyba
+wyniki_zwykle_kompresja - ashift itd jest, różne kompresje
 
 wyniki_raid - podstawowe raid z ahiftem i recordsize w zfs
 wyniki_raid_article_50G - raid z ahiftem i recordsize w zfs z artykułu
