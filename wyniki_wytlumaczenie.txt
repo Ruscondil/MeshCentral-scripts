@@ -1,0 +1,10 @@
+wyniki_zwykle - podstawowe nasze, ale źle zestrojony zfs
+wyniki_zwykle_l2arc - dodanie l2arc
+wyniki_zwykle_nowe_zfs - poprawiony zfs z powtarzaniem
+wyniki_zwykle_powtarzanie - przestarzałe, też zfs powtarzanie bez ashifta chyba
+
+wyniki_raid - podstawowe raid z ahiftem i recordsize w zfs
+wyniki_raid_article_50G - raid z ahiftem i recordsize w zfs z artykułu
+
+wyniki_10G_article - przestrzałe, nie mają optymalizacji zfs 10G
+wyniki_50G_article - przestrzałe, nie mają optymalizacji zfs 50G
