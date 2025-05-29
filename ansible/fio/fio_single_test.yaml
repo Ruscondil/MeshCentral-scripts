@@ -36,16 +36,32 @@
     file_results: []
 
 - name: Check size and attributes for each test file
-  when: test_files.stdout_lines is defined and compression_option != "none"
+  when: test_files.stdout_lines is defined and compression_option != "none" and filesystem_type in ["btrfs"]
   loop: "{{ test_files.stdout_lines }}"
   loop_control:
     loop_var: file_name
   include_tasks: fio_check_attributes.yaml
 
 
+- name: Get zfs compressed size (raw output)
+  ansible.builtin.command: >
+    zfs get -Hp -o value used,compressratio mypool/myfilesystem
+  register: zfs_info
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
+
+- name: Set zfs_raw fact
+  ansible.builtin.set_fact:
+    zfs_raw: "{{ zfs_info.stdout_lines }}"
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"] and zfs_info.rc == 0
+
 - name: Save file results to a JSON file on remote host
   ansible.builtin.copy:
-    content: "{{ file_results | to_nice_json }}"
+    content: >-
+      {{
+        (file_results if filesystem_type == "btrfs" else
+        [ dict(zfs_raw = zfs_raw) ])
+        | to_nice_json
+      }}
     dest: "/tmp/file_results_{{ item.name }}.json"
   when: compression_option != "none"
 

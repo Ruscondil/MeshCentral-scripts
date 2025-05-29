@@ -11,14 +11,28 @@
     get_mime: false
   register: file_stat
 
+- name: Get btrfs compressed size (raw output)
+  ansible.builtin.command: >
+    btrfs filesystem du "{{ test_mount_point }}/{{ file_name }}"
+  register: btrfs_du
+  when: filesystem_type == "btrfs"
+
+- name: Set fact with raw btrfs output
+  ansible.builtin.set_fact:
+    btrfs_output: "{{ btrfs_du.stdout }}"
+  when: filesystem_type == "btrfs" and btrfs_du.rc == 0
+
 - name: Append file info to file_results
   ansible.builtin.set_fact:
     file_results: >-
       {{
-        file_results + [ {
-          'file': file_name,
-          'size': file_stat.stat.size,
-          'attributes': file_stat.stat.attributes,
-          'block_size': file_stat.stat.block_size,
-        } ]
+        file_results + [ dict(
+          file = file_name,
+          size = file_stat.stat.size,
+          attributes = file_stat.stat.attributes,
+          block_size = file_stat.stat.block_size,
+          btrfs_raw = (btrfs_output if filesystem_type == "btrfs" else omit),
+        ) ]
       }}
+
+      
