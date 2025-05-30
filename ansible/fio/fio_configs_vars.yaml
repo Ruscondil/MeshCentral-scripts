@@ -47,25 +47,30 @@ fio_tests:
   #   runtime: "180"
   #   iodepth: "128"
   #   bssplit: "8k-64k"
-  #   size: "10G"
+  #   size: "50G"
   #   time_based: true
   #   stonewall: true
-
+  #   recordsize: "64k"
+  #   repeat: 5
+  #
   # - name: "seq_read_article_test"
   #   rw: "read"
   #   numjobs: "1"
   #   bs: "1M"
-  #   size: "10G"
+  #   size: "50G"
   #   runtime: "180"
   #   time_based: true
   #   stonewall: true
-
+  #   recordsize: "1M"
+  #   repeat: 5
+  #
   # - name: "seq_write_article_test"
   #   rw: "write"
   #   numjobs: "1"
   #   bs: "1M"
-  #   size: "10G"
+  #   size: "50G"
   #   runtime: "180"
   #   time_based: true
   #   stonewall: true
-
+  #   recordsize: "1M"
+  #

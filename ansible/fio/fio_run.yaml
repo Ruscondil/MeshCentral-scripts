@@ -31,7 +31,7 @@
     content: |
       Test Device: {{ test_device }}
       Test Mount Point: {{ test_mount_point }}
-      Filesystem Type: ext4
+      Filesystem Type: {{ filesystem_type }}
 
       {% for test in fio_tests %}
       {{ test.name | capitalize }} Test:
@@ -47,6 +47,11 @@
         {% if item.recordsize is defined %}recordsize={{ item.recordsize }}
         {% endif %}
         repeat={{ item.repeat | default(1) if filesystem_type in ["zfs", "zfs_l2arc"] else 1 }}  
+        {% if compression_option != "none" %}
+        buffer_compress_percentage=50
+        refill_buffers
+        buffer_pattern=0xdeadbeef
+        {% endif %}
 
       {% endfor %}
     dest: "/tmp/fio_config.txt"
