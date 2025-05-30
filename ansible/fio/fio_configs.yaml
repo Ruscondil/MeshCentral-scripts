@@ -9,11 +9,11 @@
       group_reporting
       directory={{ test_mount_point }}
       {% if compression_option != "none" %}
-      buffer_compress_percentage=50
+      buffer_compress_percentage=70
       refill_buffers
       buffer_pattern=0xdeadbeef
       {% endif %}
-      
+
       [{{ item.name }}]
       rw={{ item.rw }}
       {% if item.rwmixread is defined %}rwmixread={{ item.rwmixread }}

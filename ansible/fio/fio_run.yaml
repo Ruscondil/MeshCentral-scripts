@@ -48,7 +48,7 @@
         {% endif %}
         repeat={{ item.repeat | default(1) if filesystem_type in ["zfs", "zfs_l2arc"] else 1 }}  
         {% if compression_option != "none" %}
-        buffer_compress_percentage=50
+        buffer_compress_percentage=70
         refill_buffers
         buffer_pattern=0xdeadbeef
         {% endif %}
