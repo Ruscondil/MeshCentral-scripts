@@ -1,2 +1,0 @@
-Test Command: hdparm -t --direct /dev/sda5
-Test Device: /dev/sda5

@@ -1,26 +1,8 @@
 [
     {
-        "attributes": [],
-        "block_size": 131072,
-        "file": "multimedia_test.0.0",
-        "size": 4294967296
-    },
-    {
-        "attributes": [],
-        "block_size": 131072,
-        "file": "multimedia_test.1.0",
-        "size": 4294967296
-    },
-    {
-        "attributes": [],
-        "block_size": 131072,
-        "file": "multimedia_test.3.0",
-        "size": 4294967296
-    },
-    {
-        "attributes": [],
-        "block_size": 131072,
-        "file": "multimedia_test.2.0",
-        "size": 4294967296
+        "zfs_raw": [
+            "5917278208",
+            "2.90"
+        ]
     }
 ]

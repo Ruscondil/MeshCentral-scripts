@@ -1,3 +1,0 @@
-
-/dev/nvme0n1p4:
- Timing O_DIRECT disk reads: 7510 MB in  3.00 seconds = 2502.98 MB/sec

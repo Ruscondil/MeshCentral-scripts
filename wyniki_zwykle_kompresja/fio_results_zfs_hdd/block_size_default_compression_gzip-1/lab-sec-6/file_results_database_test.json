@@ -1,50 +1,8 @@
 [
     {
-        "attributes": [],
-        "block_size": 8192,
-        "file": "database_test.4.0",
-        "size": 1073741824
-    },
-    {
-        "attributes": [],
-        "block_size": 8192,
-        "file": "database_test.5.0",
-        "size": 1073741824
-    },
-    {
-        "attributes": [],
-        "block_size": 8192,
-        "file": "database_test.7.0",
-        "size": 1073741824
-    },
-    {
-        "attributes": [],
-        "block_size": 8192,
-        "file": "database_test.6.0",
-        "size": 1073741824
-    },
-    {
-        "attributes": [],
-        "block_size": 8192,
-        "file": "database_test.2.0",
-        "size": 1073741824
-    },
-    {
-        "attributes": [],
-        "block_size": 8192,
-        "file": "database_test.3.0",
-        "size": 1073741824
-    },
-    {
-        "attributes": [],
-        "block_size": 8192,
-        "file": "database_test.1.0",
-        "size": 1073741824
-    },
-    {
-        "attributes": [],
-        "block_size": 8192,
-        "file": "database_test.0.0",
-        "size": 1073741824
+        "zfs_raw": [
+            "4387102720",
+            "1.98"
+        ]
     }
 ]

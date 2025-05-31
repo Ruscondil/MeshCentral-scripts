@@ -1,2 +1,0 @@
-Test Command: hdparm -t --direct /dev/nvme0n1p4
-Test Device: /dev/nvme0n1p4

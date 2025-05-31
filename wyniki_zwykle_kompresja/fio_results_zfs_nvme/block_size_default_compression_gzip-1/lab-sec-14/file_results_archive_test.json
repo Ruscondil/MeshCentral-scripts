@@ -1,14 +1,8 @@
 [
     {
-        "attributes": [],
-        "block_size": 131072,
-        "file": "archive_test.1.0",
-        "size": 10737418240
-    },
-    {
-        "attributes": [],
-        "block_size": 131072,
-        "file": "archive_test.0.0",
-        "size": 10737418240
+        "zfs_raw": [
+            "6354083840",
+            "3.19"
+        ]
     }
 ]

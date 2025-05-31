@@ -1,3 +1,3 @@
 1024+0 records in
 1024+0 records out
-1073741824 bytes (1.1 GB, 1.0 GiB) copied, 6.60475 s, 163 MB/s
+1073741824 bytes (1.1 GB, 1.0 GiB) copied, 6.60265 s, 163 MB/s
