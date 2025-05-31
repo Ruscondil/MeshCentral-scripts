@@ -11,3 +11,4 @@ formatted_output.xlsx
 
 # Ignore all files in directories starting with "wyniki_test"
 wyniki_test*/
+przetwarzanie_wynikow/wykresy/
