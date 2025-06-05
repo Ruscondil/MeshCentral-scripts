@@ -40,6 +40,27 @@ fio_tests:
     size: "10G"
     recordsize: "128k"
 
+  - name: "database_postgresql_test"
+    rw: "randread"
+    numjobs: "16"
+    runtime: "120"
+    iodepth: "32"
+    bssplit: "8k"
+    size: "2G"
+    repeat: 5
+    recordsize: "8k"
+
+  - name: "database_mysql_innodb_test"
+    rw: "randrw"
+    rwmixread: "70"
+    numjobs: "8"
+    runtime: "60"
+    iodepth: "16"
+    bssplit: "16k"
+    size: "1G"
+    repeat: 5
+    recordsize: "16k"
+
   # - name: "database_article_test"
   #   rw: "randrw"
   #   rwmixread: "50"

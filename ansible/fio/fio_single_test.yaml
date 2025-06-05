@@ -14,11 +14,11 @@
       - "Test name: {{ item.name }}"
 
 - name: Export the ZFS pool to clear ARC
-  ansible.builtin.shell: "zpool export {{ zfs_pool_name }}"
+  ansible.builtin.shell: "zpool export mypool"
   when: filesystem_type in ["zfs", "zfs_l2arc"] and arc_reset is defined and arc_reset == true
 
 - name: Import the ZFS pool to re-enable it
-  ansible.builtin.shell: "zpool import {{ zfs_pool_name }}"
+  ansible.builtin.shell: "zpool import mypool"
   when: filesystem_type in ["zfs", "zfs_l2arc"] and arc_reset is defined and arc_reset == true
 
 - name: Collect ZFS ARC statistics (before test)
