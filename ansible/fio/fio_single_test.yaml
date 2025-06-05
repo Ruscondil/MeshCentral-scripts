@@ -83,7 +83,7 @@
 - name: Set zfs_raw fact
   ansible.builtin.set_fact:
     zfs_raw: "{{ zfs_info.stdout_lines }}"
-  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"] and zfs_info.rc == 0  and compression_option != "none"
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"] and compression_option != "none" and zfs_info.rc == 0
 
 - name: Save file results to a JSON file on remote host
   ansible.builtin.copy:
