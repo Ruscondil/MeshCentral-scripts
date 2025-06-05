@@ -26,6 +26,16 @@
   loop_control:
     label: "{{ item.name }}"
 
+- name: Fetch ARC stats file to local machine
+  ansible.builtin.fetch:
+    src:  "/tmp/arcstats_{{ item.name }}.log"
+    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
+  when: filesystem_type in ["zfs", "zfs_l2arc"]
+  loop: "{{ fio_tests }}"
+  loop_control:
+    label: "{{ item.name }}"
+
 - name: Save FIO configuration to results folder on remote machine
   ansible.builtin.copy:
     content: |

@@ -13,6 +13,21 @@
       - "recordsize: {{ item.recordsize | default('128k') }}"
       - "Test name: {{ item.name }}"
 
+- name: Collect ZFS ARC statistics (before test)
+  shell: cat /proc/spl/kstat/zfs/arcstats
+  register: arcstats_before
+  when: filesystem_type in ["zfs", "zfs_l2arc"]
+
+- name: Write ARC stats to /tmp file (before test)
+  blockinfile:
+    path: "/tmp/arcstats_{{ item.name }}.log"
+    marker: ""
+    block: |
+      ===== ARC STATS BEFORE TEST =====
+      {{ arcstats_before.stdout }}
+  when: filesystem_type in ["zfs", "zfs_l2arc"]
+
+
 - name: Run FIO test
   ansible.builtin.shell: >
     fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output.json --output-format=json
@@ -41,6 +56,22 @@
   loop_control:
     loop_var: file_name
   include_tasks: fio_check_attributes.yaml
+
+- name: Collect ZFS ARC statistics (after test)
+  shell: cat /proc/spl/kstat/zfs/arcstats
+  register: arcstats_after
+  when: filesystem_type in ["zfs", "zfs_l2arc"]
+
+- name: Append ARC stats to /tmp file (after test)
+  blockinfile:
+    path: "/tmp/arcstats_{{ item.name }}.log"
+    marker: ""
+    insertafter: EOF
+    block: |
+      ===== ARC STATS AFTER TEST =====
+      {{ arcstats_after.stdout }}
+  when: filesystem_type in ["zfs", "zfs_l2arc"]
+
 
 
 - name: Get zfs compressed size (raw output)
