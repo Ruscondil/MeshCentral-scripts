@@ -37,6 +37,7 @@
         block_sizes: ["default"]
         mount_opts: "defaults,noatime"
         arc_limit: false
+        arc_reset: true
         #compression_options: ["lz4","gzip-1","gzip-3","gzip-9"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]  # możliwe wartości: ["hdd", "ssd", "nvme", "mirror", "stripe2hdd", "stripe4hdd", "raidz1", "raidz2", "raidz3", "raid10"]
         enabled: false
@@ -51,6 +52,7 @@
         l2arc_device_short: "ssd"
         mount_opts: "defaults,noatime"
         arc_limit: false
+        arc_reset: true
         #compression_options: ["lz4","gzip-1","gzip-3","gzip-9"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"] # możliwe wartości: ["hdd", "ssd", "nvme", "mirror", "stripe", "raidz1", "raidz2", "raidz3", "raid10"]
         enabled: true
@@ -61,6 +63,7 @@
         enabled: true
     test_mount_point: "/mnt/test"
     results_base_path: "./wyniki"
+    clear_caches: true
   vars_files:
     - ./fio/fio_configs_vars.yaml
     - ./dd/dd_vars.yaml
@@ -78,3 +81,4 @@
         compression_options: "{{ filesystem.compression_options | default(['none']) }}"
         l2arc_device_short: "{{ filesystem.l2arc_device_short | default('none') }}"
         arc_limit: "{{ filesystem.arc_limit | default(false) }}"
+        arc_reset: "{{ filesystem.arc_reset | default(false) }}"

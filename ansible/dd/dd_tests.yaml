@@ -1,4 +1,9 @@
 ---
+- name: Clear Linux caches (PageCache, dentries, inodes) before test
+  ansible.builtin.shell: "echo 3 > /proc/sys/vm/drop_caches"
+  changed_when: false
+  when: clear_caches is defined and clear_caches
+  
 - name: Run dd test
   ansible.builtin.shell: >
     dd if={{ item.if }} of={{ item.of }} bs={{ item.bs }} count={{ item.count }}

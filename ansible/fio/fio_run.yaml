@@ -1,6 +1,11 @@
 ---
 - import_tasks: fio_configs.yaml
       
+- name: Clear Linux caches (PageCache, dentries, inodes) before test
+  ansible.builtin.shell: "echo 3 > /proc/sys/vm/drop_caches"
+  changed_when: false
+  when: clear_caches is defined and clear_caches
+
 - name: Run FIO tests, check files, and clean up after each test
   include_tasks: fio_single_test.yaml
   loop: "{{ fio_tests }}"

@@ -50,3 +50,8 @@
 - name: Blank filesystem on the device
   shell: "wipefs -af {{ test_device }}"
   when: raid_opts is not defined
+
+- name: Clear Linux caches (PageCache, dentries, inodes) before test
+  ansible.builtin.shell: "echo 3 > /proc/sys/vm/drop_caches"
+  changed_when: false
+  when: clear_caches is defined and clear_caches
