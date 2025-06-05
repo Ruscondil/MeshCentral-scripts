@@ -2,3 +2,4 @@ Czemu dla zfs ssd i nvme nie wypada tak super jak hdd do reszty systemów.
 Czemu dla raid wychodzą równe wyniki.
 Czemu dla kompresji wychodzą równe wyniki.
 Czemu artykuł się tak mocno różni.
+Czemu f2fs najgorzej wypada na nvme xd
