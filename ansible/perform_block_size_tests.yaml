@@ -63,6 +63,15 @@
           shell: zfs set secondarycache=none mypool/myfilesystem
           when: filesystem_type in ["zfs_nocache", "zfs_primary"]
 
+        - name: Reset ZFS ARC to default
+          shell: echo 0 > /sys/module/zfs/parameters/zfs_arc_max
+          when: filesystem_type in ["zfs", "zfs_l2arc"]
+
+        - name: Limit ZFS ARC to 4GB
+          shell: echo 4294967296 > /sys/module/zfs/parameters/zfs_arc_max
+          when: filesystem_type in ["zfs", "zfs_l2arc"] and arc_limit is defined and arc_limit == true
+
+
       when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
 
 - name: Mount the device
