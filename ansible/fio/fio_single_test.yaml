@@ -17,6 +17,15 @@
   ansible.builtin.shell: "zpool export mypool"
   when: filesystem_type in ["zfs", "zfs_l2arc"] and arc_reset is defined and arc_reset == true
 
+- name: Wait until ARC size is below 1GB
+  ansible.builtin.shell: "awk '$1 == \"size\" {print $3}' /proc/spl/kstat/zfs/arcstats"
+  register: arc_size
+  until: arc_size.stdout|int < 1073741824
+  retries: 15
+  delay: 2
+  changed_when: false
+  when: filesystem_type in ["zfs", "zfs_l2arc"] and arc_reset is defined and arc_reset == true
+
 - name: Import the ZFS pool to re-enable it
   ansible.builtin.shell: "zpool import mypool"
   when: filesystem_type in ["zfs", "zfs_l2arc"] and arc_reset is defined and arc_reset == true
@@ -25,17 +34,6 @@
   shell: cat /proc/spl/kstat/zfs/arcstats
   register: arcstats_before
   when: filesystem_type in ["zfs", "zfs_l2arc"]
-
-- name: Write ARC stats to /tmp file (before test)
-  blockinfile:
-    path: "/tmp/arcstats_{{ item.name }}.log"
-    marker: ""
-    create: yes 
-    block: |
-      ===== ARC STATS BEFORE TEST =====
-      {{ arcstats_before.stdout }}
-  when: filesystem_type in ["zfs", "zfs_l2arc"]
-
 
 - name: Run FIO test
   ansible.builtin.shell: >
@@ -71,17 +69,16 @@
   register: arcstats_after
   when: filesystem_type in ["zfs", "zfs_l2arc"]
 
-- name: Append ARC stats to /tmp file (after test)
-  blockinfile:
-    path: "/tmp/arcstats_{{ item.name }}.log"
-    marker: ""
-    insertafter: EOF
-    block: |
+- name: Write ARC stats to /tmp file (before and after test)
+  copy:
+    dest: "/tmp/arcstats_{{ item.name }}.log"
+    content: |
+      ===== ARC STATS BEFORE TEST =====
+      {{ arcstats_before.stdout }}
+
       ===== ARC STATS AFTER TEST =====
       {{ arcstats_after.stdout }}
   when: filesystem_type in ["zfs", "zfs_l2arc"]
-
-
 
 - name: Get zfs compressed size (raw output)
   ansible.builtin.command: >
