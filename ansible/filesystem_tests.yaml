@@ -25,6 +25,7 @@
       - name: "btrfs"
         block_sizes: ["default"]  #możliwe wartości: ["default",4096,8192,16384,32768,65536]
         mount_opts: "defaults,noatime"
+        snapshot_count: 0
         #compression_options: ["zstd:1", "zstd:3", "zstd:9", "zstd:15", "zlib:1", "zlib:3", "zlib:9"] #możliwe wartości: ["zstd", "lzo", "zlib", "none"]
         test_devices: ["hdd", "ssd", "nvme"] # możliwe wartości: ["hdd", "ssd", "nvme", "raid1", "raid0_4hdd", "raid0_2hdd", "raid5", "raid6", "raid10"]
         enabled: true
@@ -38,12 +39,14 @@
         mount_opts: "defaults,noatime"
         arc_limit: false
         arc_reset: true
+        snapshot_count: 0
         #compression_options: ["lz4","gzip-1","gzip-3","gzip-9"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]  # możliwe wartości: ["hdd", "ssd", "nvme", "mirror", "stripe2hdd", "stripe4hdd", "raidz1", "raidz2", "raidz3", "raid10"]
         enabled: false
       - name: "zfs_nocache"
         block_sizes: ["default"]
         mount_opts: "defaults,noatime"
+        snapshot_count: 0
         #compression_options: ["lz4","gzip-1","gzip-3","gzip-9"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"] # możliwe wartości: ["hdd", "ssd", "nvme", "mirror", "stripe2hdd", "stripe4hdd", "raidz1", "raidz2", "raidz3", "raid10"]
         enabled: true
@@ -53,6 +56,7 @@
         mount_opts: "defaults,noatime"
         arc_limit: false
         arc_reset: true
+        snapshot_count: 0
         #compression_options: ["lz4","gzip-1","gzip-3","gzip-9"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"] # możliwe wartości: ["hdd", "ssd", "nvme", "mirror", "stripe", "raidz1", "raidz2", "raidz3", "raid10"]
         enabled: true
@@ -82,3 +86,4 @@
         l2arc_device_short: "{{ filesystem.l2arc_device_short | default('none') }}"
         arc_limit: "{{ filesystem.arc_limit | default(false) }}"
         arc_reset: "{{ filesystem.arc_reset | default(false) }}"
+        snapshot_count: "{{ filesystem.snapshot_count | default(0) }}"

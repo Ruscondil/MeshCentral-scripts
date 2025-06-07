@@ -67,7 +67,9 @@
         refill_buffers
         buffer_pattern=0xdeadbeef
         {% endif %}
-
+        {% if test.snapshot_count is defined and test.snapshot_count > 0 %}
+        Snapshot Count: {{ test.snapshot_count }}
+        {% endif %}
       {% endfor %}
     dest: "/tmp/fio_config.txt"
 

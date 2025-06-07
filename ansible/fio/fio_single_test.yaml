@@ -35,6 +35,22 @@
   register: arcstats_before
   when: filesystem_type in ["zfs", "zfs_l2arc"]
 
+- name: Prepare short randwrite FIO config file for snapshot test
+  ansible.builtin.shell: |
+    cp /tmp/fio_{{ item.name }}.fio /tmp/fio_pretest_{{ item.name }}.fio
+    sed -i 's/^rw=.*/rw=randwrite/' /tmp/fio_pretest_{{ item.name }}.fio
+    sed -i 's/^runtime=.*/runtime=1/' /tmp/fio_pretest_{{ item.name }}.fio
+  changed_when: true
+  failed_when: false
+  when:  item.snapshot_count is defined and item.snapshot_count|int > 0
+
+- name: Run snapshot tests (short randwrite)
+  include_tasks: fio_snapshot_test.yaml
+  with_sequence: start=1 end={{ item.snapshot_count }}
+  loop_control:
+    loop_var: repeat_index
+  when:  item.snapshot_count is defined and item.snapshot_count|int > 0
+
 - name: Run FIO test
   ansible.builtin.shell: >
     fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output.json --output-format=json
@@ -105,3 +121,22 @@
 - name: Clean up test files
   ansible.builtin.shell: "rm -rf {{ test_mount_point }}/*"
   changed_when: true
+
+- name: Remove all ZFS pretest snapshots after test
+  ansible.builtin.shell: |
+    zfs destroy -r mypool/myfilesystem@pretest_{{ item.name }}_{{ repeat_index }}
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"] and item.snapshot_count is defined and item.snapshot_count|int > 0
+  ignore_errors: true
+  with_sequence: start=1 end={{ item.snapshot_count }}
+  loop_control:
+    loop_var: repeat_index
+
+- name: Remove all Btrfs pretest snapshot directories after test
+  ansible.builtin.shell: |
+    rm -rf {{ test_mount_point }}/pretest_{{ item.name }}_{{ repeat_index }}
+  when: filesystem_type == "btrfs" and item.snapshot_count is defined and item.snapshot_count|int > 0
+  ignore_errors: true
+  with_sequence: start=1 end={{ item.snapshot_count }}
+  loop_control:
+    loop_var: repeat_index
+

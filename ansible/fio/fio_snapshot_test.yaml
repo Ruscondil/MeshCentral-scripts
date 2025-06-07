@@ -1,0 +1,21 @@
+# fio_snapshot_test.yaml
+---
+# Create snapshot before actual test
+- name: Create ZFS snapshot
+  ansible.builtin.shell: |
+    zfs snapshot mypool/myfilesystem@pretest_{{ item.name }}_{{ repeat_index }}
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
+
+- name: Create Btrfs snapshot
+  ansible.builtin.shell: |
+    btrfs subvolume snapshot {{ test_mount_point }} {{ test_mount_point }}/pretest_{{ item.name }}_{{ repeat_index }}
+  when: filesystem_type == "btrfs"
+
+# Run short FIO test on snapshot
+- name: Run short randwrite FIO test on snapshot
+  ansible.builtin.shell: >
+    fio /tmp/fio_pretest_{{ item.name }}.fio
+        --output=/tmp/pretest_fio_{{ item.name }}_{{ repeat_index }}.json
+        --output-format=json
+  changed_when: false
+  failed_when: false

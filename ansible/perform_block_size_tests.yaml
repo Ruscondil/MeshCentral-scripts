@@ -5,11 +5,11 @@
 
 - name: Set result paths
   set_fact:
-    dd_results_path: "{{ results_base_path }}/dd_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}"
-    fio_results_path: "{{ results_base_path }}/fio_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}"
-    hdparm_results_path: "{{ results_base_path }}/hdparm_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}"
-    sysbench_results_path: "{{ results_base_path }}/sysbench_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}"
-    ab_results_path: "{{ results_base_path }}/ab_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}"
+    dd_results_path: "{{ results_base_path }}/dd_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}_snapshots_{{ snapshot_count }}"
+    fio_results_path: "{{ results_base_path }}/fio_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}_snapshots_{{ snapshot_count }}"
+    hdparm_results_path: "{{ results_base_path }}/hdparm_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}_snapshots_{{ snapshot_count }}"
+    sysbench_results_path: "{{ results_base_path }}/sysbench_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}_snapshots_{{ snapshot_count }}"
+    ab_results_path: "{{ results_base_path }}/ab_results_{{ filesystem_type }}_{{ test_device_short }}/block_size_{{ block_size }}_compression_{{ compression_option }}_snapshots_{{ snapshot_count }}"
 - import_tasks: prepare_tasks.yaml
 
 - import_tasks: ./hdparm/hdparm_tests.yaml
