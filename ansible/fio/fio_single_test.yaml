@@ -3,16 +3,6 @@
   shell: zfs set recordsize={{ item.recordsize | default("128k")}} mypool/myfilesystem
   when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
 
-- name: Log test details
-  ansible.builtin.debug:
-    msg:
-      - "Testing filesystem: {{ filesystem_type }}"
-      - "Testing device: {{ test_device_short }}"
-      - "Block size: {{ block_size }}"
-      - "Compression: {{ compression_option }}"
-      - "recordsize: {{ item.recordsize | default('128k') }}"
-      - "Test name: {{ item.name }}"
-
 - name: Export the ZFS pool to clear ARC
   ansible.builtin.shell: "zpool export mypool"
   when: filesystem_type in ["zfs", "zfs_l2arc"] and arc_reset is defined and arc_reset == true
@@ -42,14 +32,25 @@
     sed -i 's/^runtime=.*/runtime=1/' /tmp/fio_pretest_{{ item.name }}.fio
   changed_when: true
   failed_when: false
-  when:  item.snapshot_count is defined and item.snapshot_count|int > 0
+  when:  snapshot_count is defined and snapshot_count|int > 0
 
 - name: Run snapshot tests (short randwrite)
   include_tasks: fio_snapshot_test.yaml
-  with_sequence: start=1 end={{ item.snapshot_count }}
+  loop: "{{ range(1, (snapshot_count | int) + 1) | list }}"
   loop_control:
     loop_var: repeat_index
-  when:  item.snapshot_count is defined and item.snapshot_count|int > 0
+  when:  snapshot_count is defined and snapshot_count|int > 0
+
+- name: Log test details
+  ansible.builtin.debug:
+    msg:
+      - "Testing filesystem: {{ filesystem_type }}"
+      - "Testing device: {{ test_device_short }}"
+      - "Block size: {{ block_size }}"
+      - "Compression: {{ compression_option }}"
+      - "recordsize: {{ item.recordsize | default('128k') }}"
+      - "Test name: {{ item.name }}"
+      - "Snapshot count: {{ snapshot_count }}"
 
 - name: Run FIO test
   ansible.builtin.shell: >
@@ -118,6 +119,21 @@
     dest: "/tmp/file_results_{{ item.name }}.json"
   when: compression_option != "none"
 
+- name: Collect snapshot outputs and merge into one JSON file
+  ansible.builtin.set_fact:
+    snapshot_outputs: >-
+      {%- set results = {} -%}
+      {%- for i in range(1, (item.repeat | default(1)) + 1) -%}
+        {%- set file_content = lookup('file', '/tmp/pretest_fio_{{ item.name }}_{{ i }}.json') | from_json -%}
+        {%- set _ = results.update({ i: file_content }) -%}
+      {%- endfor -%}
+      {{ results }}
+
+- name: Save merged snapshot outputs to a JSON file
+  ansible.builtin.copy:
+    dest: "/tmp/snapshot_output_{{ item.name }}.json"
+    content: "{{ snapshot_outputs | to_nice_json }}"
+
 - name: Clean up test files
   ansible.builtin.shell: "rm -rf {{ test_mount_point }}/*"
   changed_when: true
@@ -125,18 +141,18 @@
 - name: Remove all ZFS pretest snapshots after test
   ansible.builtin.shell: |
     zfs destroy -r mypool/myfilesystem@pretest_{{ item.name }}_{{ repeat_index }}
-  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"] and item.snapshot_count is defined and item.snapshot_count|int > 0
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"] and snapshot_count is defined and snapshot_count|int > 0
   ignore_errors: true
-  with_sequence: start=1 end={{ item.snapshot_count }}
+  loop: "{{ range(1, (snapshot_count | int) + 1) | list }}"
   loop_control:
     loop_var: repeat_index
 
 - name: Remove all Btrfs pretest snapshot directories after test
   ansible.builtin.shell: |
     rm -rf {{ test_mount_point }}/pretest_{{ item.name }}_{{ repeat_index }}
-  when: filesystem_type == "btrfs" and item.snapshot_count is defined and item.snapshot_count|int > 0
+  when: filesystem_type == "btrfs" and snapshot_count is defined and snapshot_count|int > 0
   ignore_errors: true
-  with_sequence: start=1 end={{ item.snapshot_count }}
+  loop: "{{ range(1, (snapshot_count | int) + 1) | list }}"
   loop_control:
     loop_var: repeat_index
 

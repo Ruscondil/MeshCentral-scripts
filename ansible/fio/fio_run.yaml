@@ -41,6 +41,17 @@
   loop_control:
     label: "{{ item.name }}"
 
+- name: Fetch snapshot merged output to local machine
+  ansible.builtin.fetch:
+    src: "/tmp/snapshot_output_{{ item.name }}.json"
+    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
+  when: snapshot_count is defined and snapshot_count|int > 0
+  loop: "{{ fio_tests }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+
 - name: Save FIO configuration to results folder on remote machine
   ansible.builtin.copy:
     content: |
