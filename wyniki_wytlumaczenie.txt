@@ -4,6 +4,8 @@ wyniki_zwykle_nowe_zfs - poprawiony zfs z powtarzaniem
 wyniki_zwykle_powtarzanie - przestarzałe, też zfs powtarzanie bez ashifta chyba
 wyniki_zwykle_kompresja - ashift itd jest, różne kompresje
 wyniki_raid - podstawowe raid z ahiftem i recordsize w zfs
+wyniki_zwykle_zfs_stats - nowsza wersja zwykle l2arc. Dodane są statsy odnośnie arc i l2arc
+wyniki_zwykle_zfs_stats_limit - to samo co wyniki_zwykle_zfs_stats, ale z limitem arc 4gb
 
 wyniki_raid_article_50G - raid z ahiftem i recordsize w zfs z artykułu
 wyniki_raid_article_50G_kompresja - raid z ahiftem i recordsize w zfs z artykułu + kompresja
