@@ -30,16 +30,15 @@
     cp /tmp/fio_{{ item.name }}.fio /tmp/fio_pretest_{{ item.name }}.fio
     sed -i 's/^rw=.*/rw=randwrite/' /tmp/fio_pretest_{{ item.name }}.fio
     sed -i 's/^runtime=.*/runtime=1/' /tmp/fio_pretest_{{ item.name }}.fio
+    sed -i -E 's/^(size=[0-9]+)G/\1M/' /tmp/fio_pretest_{{ item.name }}.fio
+    sed -i -E 's/^(size=[0-9]+)G/\1M/' /tmp/fio_{{ item.name }}.fio
   changed_when: true
   failed_when: false
   when:  snapshot_count is defined and snapshot_count|int > 0
 
-- name: Run snapshot tests (short randwrite)
-  include_tasks: fio_snapshot_test.yaml
-  loop: "{{ range(1, (snapshot_count | int) + 1) | list }}"
-  loop_control:
-    loop_var: repeat_index
-  when:  snapshot_count is defined and snapshot_count|int > 0
+- name: Run snapshot tests (in batches)
+  include_tasks: fio_snapshot_batch_test.yaml
+  when: snapshot_count is defined and snapshot_count|int > 0
 
 - name: Log test details
   ansible.builtin.debug:
@@ -63,7 +62,8 @@
     end={{ item.repeat | default(1) if filesystem_type in ["zfs", "zfs_l2arc"] else 1 }}
   loop_control:
     loop_var: repeat_index
-
+  when: snapshot_count is not defined or (snapshot_count | int) == 0
+  
 - name: List test files in the mount point (files only)
   ansible.builtin.shell: >
     find {{ test_mount_point }} -maxdepth 1 -type f -printf "%f\n"
@@ -118,21 +118,6 @@
       }}
     dest: "/tmp/file_results_{{ item.name }}.json"
   when: compression_option != "none"
-
-- name: Collect snapshot outputs and merge into one JSON file
-  ansible.builtin.set_fact:
-    snapshot_outputs: >-
-      {%- set results = {} -%}
-      {%- for i in range(1, (item.repeat | default(1)) + 1) -%}
-        {%- set file_content = lookup('file', '/tmp/pretest_fio_{{ item.name }}_{{ i }}.json') | from_json -%}
-        {%- set _ = results.update({ i: file_content }) -%}
-      {%- endfor -%}
-      {{ results }}
-
-- name: Save merged snapshot outputs to a JSON file
-  ansible.builtin.copy:
-    dest: "/tmp/snapshot_output_{{ item.name }}.json"
-    content: "{{ snapshot_outputs | to_nice_json }}"
 
 - name: Clean up test files
   ansible.builtin.shell: "rm -rf {{ test_mount_point }}/*"

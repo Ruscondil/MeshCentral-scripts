@@ -1,0 +1,18 @@
+---
+- name: Set snapshot batch size
+  set_fact:
+    snapshot_batch_size: 120
+
+- name: Prepare list of snapshot ranges
+  set_fact:
+    snapshot_batches: "{{ range(1, (snapshot_count | int) + 1) | batch(snapshot_batch_size) }}"
+
+- name: Run each snapshot batch
+  include_tasks: fio_snapshot_batch_single_test.yaml
+  loop: "{{ snapshot_batches }}"
+  loop_control:
+    loop_var: snapshot_batch
+  vars:
+    snapshot_batch_name: "{{ snapshot_batch[-1] }}"
+
+

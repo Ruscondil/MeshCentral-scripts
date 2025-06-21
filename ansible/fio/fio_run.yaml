@@ -17,6 +17,7 @@
     src: "/tmp/fio_{{ item.name }}_output.json"
     dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
     flat: yes
+  when: snapshot_count is not defined or (snapshot_count | int) == 0
   loop: "{{ fio_tests }}"
   loop_control:
     label: "{{ item.name }}"
@@ -41,17 +42,28 @@
   loop_control:
     label: "{{ item.name }}"
 
-- name: Fetch snapshot merged output to local machine
-  ansible.builtin.fetch:
-    src: "/tmp/snapshot_output_{{ item.name }}.json"
-    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
-    flat: yes
-  when: snapshot_count is defined and snapshot_count|int > 0
+- name: Find all per-batch FIO output JSON files
+  ansible.builtin.find:
+    paths: "/tmp"
+    patterns: "fio_{{ item.name }}_output_snapshots_*.json"
+  register: fio_batch_outputs
   loop: "{{ fio_tests }}"
   loop_control:
     label: "{{ item.name }}"
 
+- name: Flatten list of found files
+  set_fact:
+    all_fio_batch_files: "{{ fio_batch_outputs.results | map(attribute='files') | sum(start=[]) }}"
 
+- name: Fetch all FIO per-batch output files
+  ansible.builtin.fetch:
+    src: "{{ item.path }}"
+    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
+  loop: "{{ all_fio_batch_files }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
+  
 - name: Save FIO configuration to results folder on remote machine
   ansible.builtin.copy:
     content: |
