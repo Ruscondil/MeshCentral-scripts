@@ -30,8 +30,10 @@
     cp /tmp/fio_{{ item.name }}.fio /tmp/fio_pretest_{{ item.name }}.fio
     sed -i 's/^rw=.*/rw=randwrite/' /tmp/fio_pretest_{{ item.name }}.fio
     sed -i 's/^runtime=.*/runtime=1/' /tmp/fio_pretest_{{ item.name }}.fio
+    sed -i 's/^runtime=.*/runtime=5/' /tmp/fio_{{ item.name }}.fio
     sed -i -E 's/^(size=[0-9]+)G/\1M/' /tmp/fio_pretest_{{ item.name }}.fio
     sed -i -E 's/^(size=[0-9]+)G/\1M/' /tmp/fio_{{ item.name }}.fio
+    echo "time_based" >> /tmp/fio_{{ item.name }}.fio
   changed_when: true
   failed_when: false
   when:  snapshot_count is defined and snapshot_count|int > 0

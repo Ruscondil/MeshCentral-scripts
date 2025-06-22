@@ -8,9 +8,7 @@
 
 - name: Run FIO test for snapshot batch
   ansible.builtin.shell: >
-    fio /tmp/fio_{{ item.name }}.fio
-    --output /tmp/fio_{{ item.name }}_output_snapshots_{{ snapshot_batch_name }}.json
-    --output-format=json
+    fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output_snapshots_{{ snapshot_batch_name }}.json --output-format=json
   register: fio_result_batch
   changed_when: false
   failed_when: fio_result_batch.rc != 0
