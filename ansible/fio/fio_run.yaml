@@ -42,28 +42,6 @@
   loop_control:
     label: "{{ item.name }}"
 
-- name: Find all per-batch FIO output JSON files
-  ansible.builtin.find:
-    paths: "/tmp"
-    patterns: "fio_{{ item.name }}_output_snapshots_*.json"
-  register: fio_batch_outputs
-  loop: "{{ fio_tests }}"
-  loop_control:
-    label: "{{ item.name }}"
-
-- name: Flatten list of found files
-  set_fact:
-    all_fio_batch_files: "{{ fio_batch_outputs.results | map(attribute='files') | sum(start=[]) }}"
-
-- name: Fetch all FIO per-batch output files
-  ansible.builtin.fetch:
-    src: "{{ item.path }}"
-    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
-    flat: yes
-  loop: "{{ all_fio_batch_files }}"
-  loop_control:
-    label: "{{ item.path | basename }}"
-  
 - name: Save FIO configuration to results folder on remote machine
   ansible.builtin.copy:
     content: |

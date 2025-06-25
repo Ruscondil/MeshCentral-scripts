@@ -12,3 +12,9 @@
   register: fio_result_batch
   changed_when: false
   failed_when: fio_result_batch.rc != 0
+
+- name: Fetch all FIO per-batch output files
+  ansible.builtin.fetch:
+    src: "/tmp/fio_{{ item.name }}_output_snapshots_{{ snapshot_batch_name }}.json"
+    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
