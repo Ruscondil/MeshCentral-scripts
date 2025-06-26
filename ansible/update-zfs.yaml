@@ -1,0 +1,106 @@
+---
+- name: Instalacja ZFS {{ zfs_version }} ze źródeł
+  hosts: all
+  become: true
+
+  vars:
+    zfs_version: "2.3.3"
+    zfs_tarball: "zfs-{{ zfs_version }}.tar.gz"
+    zfs_url: "https://github.com/openzfs/zfs/releases/download/zfs-{{ zfs_version }}/{{ zfs_tarball }}"
+    zfs_dir: "zfs-{{ zfs_version }}"
+
+  handlers:
+    - name: run ldconfig
+      command: ldconfig
+
+  tasks:
+    - name: Usuń istniejące pakiety ZFS
+      apt:
+        name:
+          - zfs-dkms
+          - zfsutils-linux
+          - zfs-zed
+          - zfs-initramfs
+        state: absent
+        purge: yes
+        autoremove: yes
+        update_cache: yes
+
+    - name: Instaluj pakiety build-dependencies
+      apt:
+        name:
+          - build-essential
+          - autoconf
+          - libtool
+          - gawk
+          - alien
+          - fakeroot
+          - libssl-dev
+          - libelf-dev
+          - libudev-dev
+          - libblkid-dev     
+          - uuid-dev
+          - libdevmapper-dev
+          - python3
+          - python3-distro
+          - dkms
+        state: present
+        update_cache: yes
+
+    - name: Pobierz źródła ZFS
+      get_url:
+        url: "{{ zfs_url }}"
+        dest: "/tmp/{{ zfs_tarball }}"    
+        mode: "0644"
+
+    - name: Rozpakuj źródła
+      unarchive:
+        src: "/tmp/{{ zfs_tarball }}"
+        dest: "/tmp/"
+        remote_src: yes
+
+    - name: Skonfiguruj ZFS
+      command: ./configure
+      args:
+        chdir: "/tmp/{{ zfs_dir }}"       
+        creates: "/tmp/{{ zfs_dir }}/config.log"
+
+    - name: Kompiluj ZFS
+      command: make -j{{ ansible_facts.processor_vcpus | default(1) }}  
+      args:
+        chdir: "/tmp/{{ zfs_dir }}"
+
+    - name: Instaluj ZFS
+      command: make install
+      args:
+        chdir: "/tmp/{{ zfs_dir }}"
+        creates: "/usr/local/sbin/zfs"      
+      notify: run ldconfig                
+    
+    - name: Depmod
+      command: depmod -a
+
+    - name: Usuń moduł zfs (jeśli załadowany)
+      command: modprobe -r zfs
+      ignore_errors: yes
+
+    - name: Załaduj moduł zfs
+      command: modprobe zfs
+
+    - name: Dodaj /usr/local/lib do ld.so.conf.d
+      copy:
+        dest: /etc/ld.so.conf.d/zfs.conf
+        content: "/usr/local/lib\n"
+        owner: root
+        group: root
+        mode: "0644"
+      notify: run ldconfig               
+
+    - name: Sprawdź wersję ZFS
+      command: zfs --version
+      register: zfs_version_output
+      changed_when: false
+
+    - name: Pokaż wersję ZFS
+      debug:
+        var: zfs_version_output.stdout
