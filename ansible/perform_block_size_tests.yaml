@@ -80,7 +80,7 @@
     src: "{{ test_device }}"
     fstype: "{{ filesystem_type }}"
     opts: >-
-      {% if filesystem_type == "btrfs" and compression_option != "none" %}{% if force_compress is defined and force_compress %}compress-force={{ compression_option_value }},{{ mount_opts }}{% else %}compress={{ compression_option }},{{ mount_opts }}{% endif %}{% else %}{{ mount_opts }}{% endif %}
+      {% if filesystem_type == "btrfs" and compression_option != "none" %}{% if force_compress is defined and force_compress %}compress-force={{ compression_option }},{{ mount_opts }}{% else %}compress={{ compression_option }},{{ mount_opts }}{% endif %}{% else %}{{ mount_opts }}{% endif %}
     state: ephemeral
   when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
 
