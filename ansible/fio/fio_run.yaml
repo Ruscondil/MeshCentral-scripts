@@ -1,43 +1,8 @@
 ---
 - import_tasks: fio_configs.yaml
       
-- name: Clear Linux caches (PageCache, dentries, inodes) before test
-  ansible.builtin.shell: "echo 3 > /proc/sys/vm/drop_caches"
-  changed_when: false
-  when: clear_caches is defined and clear_caches
-
 - name: Run FIO tests, check files, and clean up after each test
   include_tasks: fio_single_test.yaml
-  loop: "{{ fio_tests }}"
-  loop_control:
-    label: "{{ item.name }}"
-
-- name: Gather FIO results
-  ansible.builtin.fetch:
-    src: "/tmp/fio_{{ item.name }}_output.json"
-    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
-    flat: yes
-  when: snapshot_count is not defined or (snapshot_count | int) == 0
-  loop: "{{ fio_tests }}"
-  loop_control:
-    label: "{{ item.name }}"
-
-- name: Fetch file results to local results directory
-  ansible.builtin.fetch:
-    src: "/tmp/file_results_{{ item.name }}.json"
-    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
-    flat: yes
-  when: compression_option != "none"
-  loop: "{{ fio_tests }}"
-  loop_control:
-    label: "{{ item.name }}"
-
-- name: Fetch ARC stats file to local machine
-  ansible.builtin.fetch:
-    src:  "/tmp/arcstats_{{ item.name }}.log"
-    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
-    flat: yes
-  when: filesystem_type in ["zfs", "zfs_l2arc"]
   loop: "{{ fio_tests }}"
   loop_control:
     label: "{{ item.name }}"

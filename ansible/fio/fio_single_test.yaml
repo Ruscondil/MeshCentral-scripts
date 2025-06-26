@@ -1,4 +1,9 @@
 ---
+- name: Clear Linux caches (PageCache, dentries, inodes) before test
+  ansible.builtin.shell: "echo 3 > /proc/sys/vm/drop_caches"
+  changed_when: false
+  when: clear_caches is defined and clear_caches
+
 - name: Set recordsize for ZFS filesystem
   shell: zfs set recordsize={{ item.recordsize | default("128k")}} mypool/myfilesystem
   when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
@@ -65,6 +70,18 @@
   loop_control:
     loop_var: repeat_index
   when: snapshot_count is not defined or (snapshot_count | int) == 0
+
+- name: Collect ZFS ARC statistics (after test)
+  shell: cat /proc/spl/kstat/zfs/arcstats
+  register: arcstats_after
+  when: filesystem_type in ["zfs", "zfs_l2arc"]
+
+- name: Gather FIO results
+  ansible.builtin.fetch:
+    src: "/tmp/fio_{{ item.name }}_output.json"
+    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
+  when: snapshot_count is not defined or (snapshot_count | int) == 0
   
 - name: List test files in the mount point (files only)
   ansible.builtin.shell: >
@@ -83,11 +100,6 @@
     loop_var: file_name
   include_tasks: fio_check_attributes.yaml
 
-- name: Collect ZFS ARC statistics (after test)
-  shell: cat /proc/spl/kstat/zfs/arcstats
-  register: arcstats_after
-  when: filesystem_type in ["zfs", "zfs_l2arc"]
-
 - name: Write ARC stats to /tmp file (before and after test)
   copy:
     dest: "/tmp/arcstats_{{ item.name }}.log"
@@ -97,6 +109,13 @@
 
       ===== ARC STATS AFTER TEST =====
       {{ arcstats_after.stdout }}
+  when: filesystem_type in ["zfs", "zfs_l2arc"]
+
+- name: Fetch ARC stats file to local machine
+  ansible.builtin.fetch:
+    src:  "/tmp/arcstats_{{ item.name }}.log"
+    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
   when: filesystem_type in ["zfs", "zfs_l2arc"]
 
 - name: Get zfs compressed size (raw output)
@@ -119,6 +138,13 @@
         | to_nice_json
       }}
     dest: "/tmp/file_results_{{ item.name }}.json"
+  when: compression_option != "none"
+
+- name: Fetch file results to local results directory
+  ansible.builtin.fetch:
+    src: "/tmp/file_results_{{ item.name }}.json"
+    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
   when: compression_option != "none"
 
 - name: Clean up test files
