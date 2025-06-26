@@ -6,10 +6,24 @@ lab-net-57
 lab-sec-[1:16]
 
 [1_half_hosts]
-lab-sec-[1:8]
+lab-sec-[1:4]
+lab-sec-[10:13]
 
 [2_half_hosts]
-lab-sec-[9:16]
+lab-sec-[5:9]
+lab-sec-[14:16]
+
+[1_part_hosts]
+lab-sec-[1:3]
+lab-sec-[10:12]
+
+[2_part_hosts]
+lab-sec-[4:7]
+lab-sec-[13:14]
+
+[3_part_hosts]
+lab-sec-[7:9]
+lab-sec-[15:16]
 
 [ssd_hosts]
 lab-sec-[10:16]
