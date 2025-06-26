@@ -1,22 +1,6 @@
 ---
-- name: Run tests for each block size
-  include_tasks: perform_block_size_tests.yaml
-  loop: "{{ block_sizes }}"
+- name: Run tests for direct modes
+  include_tasks: perform_direct_tests.yaml
+  loop: "{{ direct_modes }}"
   loop_control:
-    loop_var: block_size
-  vars:
-    create_opts: >-
-      {% if filesystem_type == "ext4" and block_size != "default" %}
-        -b {{ block_size }}
-      {% elif filesystem_type == "xfs" and block_size != "default" %}
-        -b size={{ block_size }}
-      {% elif filesystem_type == "btrfs" and block_size != "default" %}
-        -n {{ block_size }}
-      {% elif filesystem_type == "f2fs" %}
-        -f
-      {% endif %}
-  when: 
-    - test_device is defined
-    - test_device | length > 0
-    - test_device != "None"
-    - l2arc_device is not defined or (l2arc_device | length > 0 and l2arc_device != "None")
+    loop_var: direct_mode

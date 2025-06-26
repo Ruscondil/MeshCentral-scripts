@@ -5,7 +5,7 @@
     content: |
       [global]
       ioengine=libaio
-      direct=1
+      direct={{ direct_mode }}
       group_reporting
       directory={{ test_mount_point }}
       {% if compression_option != "none" %}
