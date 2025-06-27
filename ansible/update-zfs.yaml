@@ -84,6 +84,7 @@
       command: make uninstall
       args:
         chdir: "/tmp/{{ zfs_dir }}"
+      ignore_errors: yes
 
     - name: Instaluj ZFS
       command: make install
