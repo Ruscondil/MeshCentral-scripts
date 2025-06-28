@@ -1,0 +1,16 @@
+[
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   8.62GiB     8.62GiB       0.00B  /mnt/test/archive_test.0.0",
+        "file": "archive_test.0.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   8.62GiB     8.62GiB       0.00B  /mnt/test/archive_test.1.0",
+        "file": "archive_test.1.0",
+        "size": 10737418240
+    }
+]
