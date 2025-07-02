@@ -1,0 +1,20 @@
+Test Device: /dev/nvme0n1p4
+Test Mount Point: /mnt/test
+Filesystem Type: btrfs
+
+Database_article_test Test:
+  RW: randrw
+  RWMixRead: 50  NumJobs: 1
+  Runtime: 180  Runtime: 180
+  IOdepth: 128  BSSplit: 8k-64k  stonewall: True  time_based: True    repeat=1  
+    Seq_read_article_test Test:
+  RW: read
+    NumJobs: 1
+  Runtime: 180  Runtime: 180
+      stonewall: True  time_based: True    repeat=1  
+    Seq_write_article_test Test:
+  RW: write
+    NumJobs: 1
+  Runtime: 180  Runtime: 180
+      stonewall: True  time_based: True    repeat=1  
+    
