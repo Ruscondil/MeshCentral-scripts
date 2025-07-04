@@ -77,6 +77,7 @@
     test_mount_point: "/mnt/test"
     results_base_path: "./wyniki"
     clear_caches: true
+    snapshot_batch_size: 120
   vars_files:
     - ./fio/fio_configs_vars.yaml
     - ./dd/dd_vars.yaml

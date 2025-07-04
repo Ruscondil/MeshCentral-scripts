@@ -1,8 +1,4 @@
 ---
-- name: Set snapshot batch size
-  set_fact:
-    snapshot_batch_size: 120
-
 - name: Prepare list of snapshot ranges
   set_fact:
     snapshot_batches: "{{ range(1, (snapshot_count | int) + 1) | batch(snapshot_batch_size) }}"
