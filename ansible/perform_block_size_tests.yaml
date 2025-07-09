@@ -36,7 +36,7 @@
     - name: Create ZFS pool and filesystem
       block:
         - name: Create ZFS pool
-          shell: zpool create -o ashift=12 mypool {{ raid_opts if raid_opts is defined else test_device }}
+          shell: zpool create -o ashift={{ ashift_value }} mypool {{ raid_opts if raid_opts is defined else test_device }}
 
         - name: Create ZFS filesystem
           shell: zfs create mypool/myfilesystem

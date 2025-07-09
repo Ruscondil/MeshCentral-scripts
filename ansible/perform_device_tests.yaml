@@ -9,8 +9,8 @@
          "/dev/sdb1" if test_device_short == "ssd" and inventory_hostname in groups['ssd_hosts'] else
          "/dev/nvme0n1p4" if test_device_short == "nvme" and inventory_hostname in groups['lab-sec'] else
          "/dev/sda" if test_device_short == "raid1" and inventory_hostname in groups['raid_hosts'] else 
-         "/dev/sda" if test_device_short == "raid0_2hdd" and inventory_hostname in groups['raid_hosts'] else
-         "/dev/sda" if test_device_short == "raid0_4hdd" and inventory_hostname in groups['raid_hosts'] else
+         "/dev/sda" if test_device_short == "raid02hdd" and inventory_hostname in groups['raid_hosts'] else
+         "/dev/sda" if test_device_short == "raid04hdd" and inventory_hostname in groups['raid_hosts'] else
          "/dev/sda" if test_device_short == "raid5" and inventory_hostname in groups['raid_hosts'] else
          "/dev/sda" if test_device_short == "raid6" and inventory_hostname in groups['raid_hosts'] else
          "/dev/sda" if test_device_short == "raid10" and inventory_hostname in groups['raid_hosts'] else
@@ -34,12 +34,12 @@
     - filesystem_type == "zfs_l2arc"
 
 - name: Set RAID options
-  when: inventory_hostname in groups['raid_hosts']
+  when: inventory_hostname in groups['raid_hosts'] and test_device_short in ['raid04hdd', 'raid02hdd', 'raid1', 'raid5', 'raid6', 'raid10', 'stripe2hdd', 'stripe4hdd', 'mirror', 'raidz1', 'raidz2', 'raidz3']
   set_fact:
     raid_opts: >-
       {% if filesystem_type == "btrfs" %}
-        {% if test_device_short == 'raid0_4hdd' %}-d raid0 -m raid0 /dev/sda /dev/sdb /dev/sdc /dev/sdd
-        {% elif test_device_short == 'raid0_2hdd' %}-d raid0 -m raid0 /dev/sda /dev/sdb
+        {% if test_device_short == 'raid04hdd' %}-d raid0 -m raid0 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+        {% elif test_device_short == 'raid02hdd' %}-d raid0 -m raid0 /dev/sda /dev/sdb
         {% elif test_device_short == 'raid1' %}-d raid1 -m raid1 /dev/sda /dev/sdb
         {% elif test_device_short == 'raid5' %}-d raid5 -m raid1 /dev/sda /dev/sdb /dev/sdc
         {% elif test_device_short == 'raid6' %}-d raid6 -m raid1 /dev/sda /dev/sdb /dev/sdc /dev/sdd
@@ -56,6 +56,10 @@
         {% endif %}
       {% endif %}
 
+- name: Set ashift value
+  set_fact:
+    ashift_value: "{{ 9 if inventory_hostname in groups['raid_hosts'] else 12 }}"
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]   
 
 - name: Skip task for unsupported devices
   ansible.builtin.debug:
