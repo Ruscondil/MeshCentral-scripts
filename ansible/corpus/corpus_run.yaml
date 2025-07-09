@@ -1,4 +1,4 @@
-
+---
 - name: Install btrfs-compsize
   ansible.builtin.apt:
     name: btrfs-compsize
@@ -14,7 +14,7 @@
 
 - name: Set corpuses path
   set_fact:
-    corpuses_path: "../../corpuses/"
+    corpuses_path: "/home/fsbench/corpuses/"
 
 - name: Run corpus_single_test for each corpus type
   include_tasks: corpus_single_test.yaml

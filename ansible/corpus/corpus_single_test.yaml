@@ -1,10 +1,11 @@
+---
 - name: Copy calgary directory to /mnt/test
   ansible.builtin.command:
     cmd: "cp -r {{corpuses_path}}{{ corpus_type }}/ /mnt/test"
 
 - name: Wait for 5 seconds
   ansible.builtin.pause:
-    seconds: 5
+    seconds: 10
 
 - name: Get ZFS used and compressratio for mypool/myfilesystem
   ansible.builtin.command:

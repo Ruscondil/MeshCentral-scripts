@@ -87,7 +87,7 @@
 
 - name: Run corpus tests
   import_tasks: ./corpus/corpus_run.yaml
-  when: "'corpus' in enabled_programs"
+  when: "'corpus' in enabled_programs and compression_option != \"none\""
 
 - name: Run dd tests
   import_tasks: ./dd/dd_tests.yaml
