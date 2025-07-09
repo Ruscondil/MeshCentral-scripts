@@ -3,7 +3,7 @@
   ansible.builtin.command:
     cmd: "cp -r {{corpuses_path}}{{ corpus_type }}/ /mnt/test"
 
-- name: Wait for 5 seconds
+- name: Wait some time
   ansible.builtin.pause:
     seconds: 10
 
@@ -21,8 +21,7 @@
 
 
 - name: Remove all files from /mnt/test
-  ansible.builtin.command:
-    cmd: "rm -fr /mnt/test/*"
+  ansible.builtin.shell:  "rm -fr /mnt/test/*"
 
 - name: Save results to a file on remote host
   ansible.builtin.copy:
