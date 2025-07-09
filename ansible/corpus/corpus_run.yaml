@@ -1,0 +1,24 @@
+
+- name: Install btrfs-compsize
+  ansible.builtin.apt:
+    name: btrfs-compsize
+    state: present
+  when: ansible_os_family == "Debian" and filesystem_type == "btrfs"
+
+- name: Set corpus types
+  set_fact:
+    corpus_types:
+      - silesia
+      - canterbury
+      - calgary
+
+- name: Set corpuses path
+  set_fact:
+    corpuses_path: "../../corpuses/"
+
+- name: Run corpus_single_test for each corpus type
+  include_tasks: corpus_single_test.yaml
+  loop: "{{ corpus_types }}"
+  loop_control:
+    loop_var: corpus_type
+

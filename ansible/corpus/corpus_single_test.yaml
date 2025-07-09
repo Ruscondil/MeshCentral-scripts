@@ -1,0 +1,40 @@
+- name: Copy calgary directory to /mnt/test
+  ansible.builtin.command:
+    cmd: "cp -r {{corpuses_path}}{{ corpus_type }}/ /mnt/test"
+
+- name: Wait for 5 seconds
+  ansible.builtin.pause:
+    seconds: 5
+
+- name: Get ZFS used and compressratio for mypool/myfilesystem
+  ansible.builtin.command:
+    cmd: "zfs get -Hp -o value used,compressratio mypool/myfilesystem"
+  register: zfs_output
+  when: filesystem_type in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
+
+- name: Check Btrfs compression using compsize
+  ansible.builtin.command:
+    cmd: "compsize -x /mnt/test"
+  register: compsize_output
+  when: filesystem_type in ["btrfs"]
+
+
+- name: Remove all files from /mnt/test
+  ansible.builtin.command:
+    cmd: "rm -fr /mnt/test/*"
+
+- name: Save results to a file on remote host
+  ansible.builtin.copy:
+    content: >-
+      {{
+        (compsize_output.stdout if filesystem_type == "btrfs" else
+        zfs_output.stdout)
+      }}
+    dest: "/tmp/corpus_results_{{ corpus_type }}.txt"
+
+
+- name: Fetch results to local results directory
+  ansible.builtin.fetch:
+    src: "/tmp/corpus_results_{{ corpus_type }}.txt"
+    dest: "{{ corpus_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
