@@ -3,7 +3,7 @@ fio_tests:
   - name: "database_test"
     rw: "randrw"
     rwmixread: "70"
-    numjobs: "8"
+    numjobs: "24"
     runtime: "60"
     iodepth: "16"
     bssplit: "4k/80:8k/20"
@@ -17,7 +17,7 @@ fio_tests:
     runtime: "120"
     iodepth: "64"
     bssplit: "128k"
-    size: "4G"
+    size: "8G"
     repeat: 5 
     recordsize: "128k"
 
@@ -33,7 +33,7 @@ fio_tests:
 
   - name: "archive_test"
     rw: "write"
-    numjobs: "2"
+    numjobs: "3"
     runtime: "180"
     iodepth: "128"
     bssplit: "64k/70:128k/30"
@@ -53,12 +53,10 @@ fio_tests:
   - name: "database_mysql_innodb_test"
     rw: "randrw"
     rwmixread: "70"
-    numjobs: "8"
+    numjobs: "24"
     runtime: "60"
     iodepth: "16"
     bssplit: "16k"
     size: "1G"
     repeat: 5
     recordsize: "16k"
-
-

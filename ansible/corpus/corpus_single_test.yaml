@@ -3,6 +3,10 @@
   ansible.builtin.command:
     cmd: "cp -r {{corpuses_path}}{{ corpus_type }}/ /mnt/test"
 
+- name: Flush pending writes to disk
+  ansible.builtin.command:
+    cmd: "sync"
+
 - name: Wait some time
   ansible.builtin.pause:
     seconds: 10

@@ -1,6 +1,12 @@
 ---
 - import_tasks: fio_configs.yaml
-      
+
+- name: Install btrfs-compsize
+  ansible.builtin.apt:
+    name: btrfs-compsize
+    state: present
+  when: ansible_os_family == "Debian" and filesystem_type == "btrfs" and compression_option != "none"
+
 - name: Run FIO tests, check files, and clean up after each test
   include_tasks: fio_single_test.yaml
   loop: "{{ fio_tests }}"
