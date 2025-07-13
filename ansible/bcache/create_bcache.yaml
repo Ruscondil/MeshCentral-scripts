@@ -26,8 +26,8 @@
   - name: Create bcache on cache device
     shell: make-bcache --wipe-bcache --block 4k --bucket 2M -B /dev/sda5 -C {{ cache_device }}
 
-  # - name: Register cache device to backing device
-  #   shell: echo {{ cache_device }} > /sys/fs/bcache/register
+  - name: Register cache device to backing device
+    shell: echo {{ cache_device }} > /sys/fs/bcache/register
 
   # - name: Show bcache cset for /dev/zram0
   #   shell: bcache-super-show {{ cache_device }}| grep cset.uuid | awk '{print $2}'
