@@ -1,0 +1,38 @@
+---
+
+  - name: Set bcache facts
+    set_fact:
+      cache_device: "/dev/zram0"  # Path to the zram device
+
+
+  # - name: Create bcache backing device on /dev/sda5
+  #   shell: make-bcache -B /dev/sda5
+  - name: Load zram module
+    modprobe:
+      name: zram
+      state: present
+    when: cache_device is defined and cache_device == "/dev/zram0"
+
+  - name: Set zram disk size to 16G
+    shell: zramctl --find --size 16G 
+    when: cache_device is defined and cache_device == "/dev/zram0"
+
+  - name: Wipe filesystem signatures on /dev/zram0
+    shell: wipefs -af {{ cache_device }}
+
+  # - name: Create bcache cache device on /dev/zram0
+  #   shell: make-bcache -C {{ cache_device }}
+  #   ignore_errors: true
+  - name: Create bcache on cache device
+    shell: make-bcache --wipe-bcache --block 4k --bucket 2M -B /dev/sda5 -C {{ cache_device }}
+
+  # - name: Register cache device to backing device
+  #   shell: echo {{ cache_device }} > /sys/fs/bcache/register
+
+  # - name: Show bcache cset for /dev/zram0
+  #   shell: bcache-super-show {{ cache_device }}| grep cset.uuid | awk '{print $2}'
+  #   register: bcache_cset_uuid
+
+  # - name: Attach cache device to backing device
+  #   shell: echo {{ bcache_cset_uuid.stdout }} | sudo tee /sys/block/bcache0/bcache/attach
+

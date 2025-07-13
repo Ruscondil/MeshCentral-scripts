@@ -30,7 +30,9 @@
       {% endif %}
       {% if item.time_based is defined and item.time_based %}time_based;
       {% endif %}
-
+      {% if item.cpus_allowed_policy is defined %}cpus_allowed_policy={{ item.cpus_allowed_policy }}
+      {% endif %}
+  
   loop: "{{ fio_tests }}"
   loop_control:
     label: "{{ item.name }}"

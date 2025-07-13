@@ -80,7 +80,7 @@
     clear_caches: true
     snapshot_batch_size: 120
   vars_files:
-    - ./fio/fio_configs_vars.yaml
+    - ./fio/fio_configs_vars.yaml #SPRAWDZIĆ PRZED ODPALENIEM
     - ./dd/dd_vars.yaml
     - ./sysbench/sysbench_configs_vars.yaml
     - ./ab/ab_configs_vars.yaml

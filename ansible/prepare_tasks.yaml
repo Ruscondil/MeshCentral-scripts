@@ -24,6 +24,9 @@
     path: "{{ test_mount_point }}"
     state: unmounted 
 
+- name: Delete bcache cache device
+  include_tasks: bcache/delete_bcache.yaml
+
 - name: Destroy ZFS filesystem and pool
   block:
     - name: Unmount ZFS filesystem

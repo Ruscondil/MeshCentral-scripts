@@ -1,0 +1,23 @@
+---
+
+  - name: Stop bcache0 if exists
+    shell: echo 1 > /sys/block/bcache0/bcache/stop
+    ignore_errors: yes
+
+  - name: Clear bcache superblock on /dev/sda5
+    shell: wipefs -af /dev/sda5
+    ignore_errors: yes
+
+  - name: Clear bcache superblock on /dev/zram0 (if exists)
+    shell: wipefs -af /dev/zram0
+    ignore_errors: yes
+
+  - name: Reset zram0
+    shell: echo 1 | tee /sys/block/zram0/reset
+    ignore_errors: yes
+
+  - name: Unload zram module
+    modprobe:
+      name: zram
+      state: absent
+    ignore_errors: yes

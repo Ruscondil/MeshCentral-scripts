@@ -8,6 +8,7 @@
          "/dev/sda" if test_device_short == "hdd" and inventory_hostname in groups['raid_hosts'] else
          "/dev/sdb1" if test_device_short == "ssd" and inventory_hostname in groups['ssd_hosts'] else
          "/dev/nvme0n1p4" if test_device_short == "nvme" and inventory_hostname in groups['lab-sec'] else
+         "/dev/bcache0" if test_device_short == "bcache" and inventory_hostname in groups['lab-sec'] else
          "/dev/sda" if test_device_short == "raid1" and inventory_hostname in groups['raid_hosts'] else 
          "/dev/sda" if test_device_short == "raid02hdd" and inventory_hostname in groups['raid_hosts'] else
          "/dev/sda" if test_device_short == "raid04hdd" and inventory_hostname in groups['raid_hosts'] else

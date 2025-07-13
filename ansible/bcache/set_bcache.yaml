@@ -1,0 +1,22 @@
+---
+  - name: Set bcache mode fact
+    set_fact:
+      bcache_mode: "writeback"  # Set to "writeback", "writethrough", or "none"
+
+  - name: Set bcache cache mode to writeback
+    shell: echo {{ bcache_mode }} > /sys/block/bcache0/bcache/cache_mode
+
+  - name: Set bcache parameters only if cache_mode is writeback
+    block:
+      - name: Set congested_write_threshold_us to 0
+        shell: echo 0 | tee /sys/block/bcache0/bcache/cache/congested_write_threshold_us
+
+      - name: Set congested_read_threshold_us to 0
+        shell: echo 0 | tee /sys/block/bcache0/bcache/cache/congested_read_threshold_us
+        
+      - name: Set sequential_cutoff to 600MB
+        shell: echo 600000000 | tee /sys/block/bcache0/bcache/sequential_cutoff
+
+      - name: Set writeback_percent to 40
+        shell: echo 40 | tee /sys/block/bcache0/bcache/writeback_percent
+    when: bcache_mode is defined and bcache_mode == "writeback"

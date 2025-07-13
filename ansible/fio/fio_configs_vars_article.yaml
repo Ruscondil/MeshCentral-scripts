@@ -10,6 +10,7 @@ fio_tests:
     size: "50G"
     time_based: true
     stonewall: true
+    cpus_allowed_policy: "split"
     recordsize: "64k"
     repeat: 5
   
@@ -21,6 +22,7 @@ fio_tests:
     runtime: "180"
     time_based: true
     stonewall: true
+    cpus_allowed_policy: "split"
     recordsize: "1M"
     repeat: 5
   
@@ -32,5 +34,6 @@ fio_tests:
     runtime: "180"
     time_based: true
     stonewall: true
+    cpus_allowed_policy: "split"
     recordsize: "1M"
   

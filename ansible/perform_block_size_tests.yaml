@@ -16,6 +16,10 @@
 - import_tasks: ./hdparm/hdparm_tests.yaml
   when: "'hdparm' in enabled_programs"
 
+- name: Create bcache cache device
+  include_tasks: bcache/create_bcache.yaml
+  when: test_device_short == "bcache"
+  
 - name: Create filesystem
   block:
     - name: Create EXT4, XFS, BTRFS, F2FS filesystem
@@ -84,6 +88,10 @@
       {% if filesystem_type == "btrfs" and compression_option != "none" %}{% if force_compress is defined and force_compress %}compress-force={{ compression_option }},{{ mount_opts }}{% else %}compress={{ compression_option }},{{ mount_opts }}{% endif %}{% else %}{{ mount_opts }}{% endif %}
     state: ephemeral
   when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
+
+- name: Set bcache mode
+  include_tasks: bcache/set_bcache.yaml
+  when: test_device_short == "bcache"
 
 - name: Run corpus tests
   import_tasks: ./corpus/corpus_run.yaml
