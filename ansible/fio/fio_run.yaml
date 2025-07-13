@@ -33,7 +33,7 @@
         {% if test.time_based is defined %}time_based: {{ test.time_based }}{% endif %}
         {% if item.recordsize is defined %}recordsize={{ item.recordsize }}
         {% endif %}
-        repeat={{ item.repeat | default(1) if filesystem_type in ["zfs", "zfs_l2arc"] else 1 }}  
+        repeat={{ item.repeat | default(1) if filesystem_type in ["zfs", "zfs_l2arc"] or test_device_short == "bcache" else 1 }}  
         {% if compression_option != "none" %}
         buffer_compress_percentage=70
         refill_buffers
