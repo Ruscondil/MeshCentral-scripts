@@ -82,7 +82,7 @@
 - name: Mount the device
   ansible.posix.mount:
     path: "{{ test_mount_point }}"
-    src: "{{ test_device }}"
+    src: "{{ '/dev/bcache0' if bcache_enabled else test_device }}"     
     fstype: "{{ filesystem_type }}"
     opts: >-
       {% if filesystem_type == "btrfs" and compression_option != "none" %}{% if force_compress is defined and force_compress %}compress-force={{ compression_option }},{{ mount_opts }}{% else %}compress={{ compression_option }},{{ mount_opts }}{% endif %}{% else %}{{ mount_opts }}{% endif %}
@@ -115,7 +115,7 @@
 
 - name: Unmount the device
   ansible.posix.mount:
-    path: "{{ test_mount_point }}"
+    path: "{{ '/dev/bcache0' if bcache_enabled else test_device }}"  
     state: unmounted
   when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc"]
 
