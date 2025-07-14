@@ -30,7 +30,7 @@
         mount_opts: "defaults,noatime"
         snapshot_count: 0
         #compression_options: ["zstd:1", "zstd:3", "zstd:9", "zstd:15", "zlib:1", "zlib:3", "zlib:9"] #możliwe wartości: ["zstd", "lzo", "zlib", "none"]
-        force_compress: true
+        force_compress: false
         test_devices: ["hdd", "ssd", "nvme"] # możliwe wartości: ["hdd", "ssd", "nvme", "raid1", "raid04hdd", "raid02hdd", "raid5", "raid6", "raid10"]
         direct_modes: ["0", "1"]
         enabled: true
@@ -49,7 +49,7 @@
         #compression_options: ["lz4","gzip-1","gzip-3","gzip-9"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
         test_devices: ["hdd", "ssd", "nvme"]  # możliwe wartości: ["hdd", "ssd", "nvme", "mirror", "stripe2hdd", "stripe4hdd", "raidz1", "raidz2", "raidz3", "raid10"]
         direct_modes: ["0", "1"]
-        enabled: false
+        enabled: true
       - name: "zfs_nocache"
         block_sizes: ["default"]
         mount_opts: "defaults,noatime"
@@ -66,7 +66,7 @@
         arc_reset: true
         snapshot_count: 0
         #compression_options: ["lz4","gzip-1","gzip-3","gzip-9"] #możliwe wartości: ["gzip","lz4","lzjb","zle","zstd","zstd-fast"]
-        test_devices: ["hdd", "ssd", "nvme"] # możliwe wartości: ["hdd", "ssd", "nvme", "mirror", "stripe", "raidz1", "raidz2", "raidz3", "raid10"]
+        test_devices: ["hdd"] 
         direct_modes: ["0", "1"]
         enabled: true
       - name: "exfat"
@@ -79,6 +79,7 @@
     results_base_path: "./wyniki"
     clear_caches: true
     snapshot_batch_size: 120
+    bcache_enabled: false
   vars_files:
     - ./fio/fio_configs_vars.yaml #SPRAWDZIĆ PRZED ODPALENIEM
     - ./dd/dd_vars.yaml

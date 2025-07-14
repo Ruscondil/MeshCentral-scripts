@@ -18,14 +18,14 @@
 
 - name: Create bcache cache device
   include_tasks: bcache/create_bcache.yaml
-  when: test_device_short == "bcache"
+  when: bcache_enabled == true
   
 - name: Create filesystem
   block:
     - name: Create EXT4, XFS, BTRFS, F2FS filesystem
       community.general.filesystem:
         fstype: "{{ filesystem_type }}"
-        dev: "{{ test_device }}"
+        dev: "{{ '/dev/bcache0' if bcache_enabled else test_device }}"     
         opts: "{{ create_opts }}"
         force: true
       when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc", "exfat"] and raid_opts is not defined
@@ -35,7 +35,7 @@
       when: filesystem_type == "btrfs" and inventory_hostname in groups['raid_hosts'] and raid_opts is defined
 
     - name: Create EXFAT filesystem
-      shell: "mkfs.exfat {{ test_device }}"
+      shell: "mkfs.exfat {{ '/dev/bcache0' if bcache_enabled else test_device } }}"
       when: filesystem_type in ["exfat"]
 
     - name: Create ZFS pool and filesystem
@@ -91,7 +91,7 @@
 
 - name: Set bcache mode
   include_tasks: bcache/set_bcache.yaml
-  when: test_device_short == "bcache"
+  when: bcache_enabled == true
 
 - name: Run corpus tests
   import_tasks: ./corpus/corpus_run.yaml

@@ -1,11 +1,36 @@
 ---
 
+  - name: Set bcache facts
+    set_fact:
+      cache_device: "/dev/zram0"  
   - name: Stop bcache0 if exists
-    shell: echo 1 > /sys/block/bcache0/bcache/stop
+    shell: echo 1 | tee /sys/block/bcache0/bcache/stop
+    ignore_errors: yes
+  
+  
+  - name: Show bcache cset for /dev/zram0
+    shell: bcache-super-show /dev/zram0 | grep cset.uuid | awk '{print $2}'
+    register: bcache_cset_uuid
+    when: test_device_short == "bcache"
+
+  - name: Unregister /dev/zram0 from bcache (if cset.uuid exists)
+    shell: echo /dev/zram0 | tee /sys/fs/bcache/{{ bcache_cset_uuid.stdout }}/unregister
+    when: bcache_cset_uuid.stdout != ""
     ignore_errors: yes
 
-  - name: Clear bcache superblock on /dev/sda5
-    shell: wipefs -af /dev/sda5
+  - name: Unregister all bcache devices
+    shell: |
+      for uuid in /sys/fs/bcache/*; do
+        if [[ -d "$uuid" ]] && [[ "$uuid" =~ [0-9a-f-]{36} ]]; then
+          echo 1 > "$uuid/unregister"
+        fi
+      done
+    args:
+      executable: /bin/bash
+    ignore_errors: yes
+
+  - name: Clear bcache superblock on test device
+    shell: wipefs -af {{ test_device }}
     ignore_errors: yes
 
   - name: Clear bcache superblock on /dev/zram0 (if exists)
@@ -17,7 +42,7 @@
     ignore_errors: yes
 
   - name: Unload zram module
-    modprobe:
+    community.general.modprobe:
       name: zram
       state: absent
     ignore_errors: yes

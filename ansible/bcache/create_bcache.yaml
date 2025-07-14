@@ -5,10 +5,10 @@
       cache_device: "/dev/zram0"  # Path to the zram device
 
 
-  # - name: Create bcache backing device on /dev/sda5
-  #   shell: make-bcache -B /dev/sda5
+  # - name: Create bcache backing device on test device
+  #   shell: make-bcache -B {{ test_device }}
   - name: Load zram module
-    modprobe:
+    community.general.modprobe:
       name: zram
       state: present
     when: cache_device is defined and cache_device == "/dev/zram0"
@@ -24,7 +24,7 @@
   #   shell: make-bcache -C {{ cache_device }}
   #   ignore_errors: true
   - name: Create bcache on cache device
-    shell: make-bcache --wipe-bcache --block 4k --bucket 2M -B /dev/sda5 -C {{ cache_device }}
+    shell: make-bcache --wipe-bcache --block 4k --bucket 2M -B {{test_device }} -C {{ cache_device }}
 
   - name: Register cache device to backing device
     shell: echo {{ cache_device }} > /sys/fs/bcache/register
