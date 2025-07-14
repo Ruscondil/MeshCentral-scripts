@@ -21,7 +21,7 @@
 
 - name: Unmount a mounted volume
   ansible.posix.mount:
-    path: "{{ '/dev/bcache0' if bcache_enabled else test_device }}"  
+    path: "{{ test_mount_point  }}"  
     state: unmounted 
 
 - name: Delete bcache cache device
