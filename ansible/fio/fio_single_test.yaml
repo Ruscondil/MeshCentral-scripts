@@ -67,7 +67,7 @@
   failed_when: fio_result.rc != 0
   with_sequence: >
     start=1 
-    end={{ item.repeat | default(1) if filesystem_type in ["zfs", "zfs_l2arc"] or test_device_short == "bcache" else 1 }}
+    end={{ item.repeat | default(1) if filesystem_type in ["zfs", "zfs_l2arc"] or bcache_enabled == true else 1 }}
   loop_control:
     loop_var: repeat_index
   when: snapshot_count is not defined or (snapshot_count | int) == 0

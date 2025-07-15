@@ -11,7 +11,6 @@
   - name: Show bcache cset for /dev/zram0
     shell: bcache-super-show /dev/zram0 | grep cset.uuid | awk '{print $2}'
     register: bcache_cset_uuid
-    when: test_device_short == "bcache"
 
   - name: Unregister /dev/zram0 from bcache (if cset.uuid exists)
     shell: echo /dev/zram0 | tee /sys/fs/bcache/{{ bcache_cset_uuid.stdout }}/unregister
