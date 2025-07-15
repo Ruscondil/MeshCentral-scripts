@@ -35,7 +35,7 @@
       when: filesystem_type == "btrfs" and inventory_hostname in groups['raid_hosts'] and raid_opts is defined
 
     - name: Create EXFAT filesystem
-      shell: "mkfs.exfat {{ '/dev/bcache0' if bcache_enabled else test_device } }}"
+      shell: "mkfs.exfat {{ '/dev/bcache0' if bcache_enabled else test_device }}"
       when: filesystem_type in ["exfat"]
 
     - name: Create ZFS pool and filesystem
