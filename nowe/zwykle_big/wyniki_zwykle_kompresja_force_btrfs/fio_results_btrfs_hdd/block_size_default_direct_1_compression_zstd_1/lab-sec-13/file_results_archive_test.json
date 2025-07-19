@@ -1,0 +1,26 @@
+[
+    {
+        "compsize_output": "Processed 3 files, 120 regular extents (123 refs), 0 inline.\nType       Perc     Disk Usage   Uncompressed Referenced  \nTOTAL      100%       30G          30G          30G       \nnone       100%       24G          24G          23G       \nprealloc   100%      5.7G         5.7G         6.0G       "
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.0.0",
+        "file": "archive_test.0.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.2.0",
+        "file": "archive_test.2.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.1.0",
+        "file": "archive_test.1.0",
+        "size": 10737418240
+    }
+]

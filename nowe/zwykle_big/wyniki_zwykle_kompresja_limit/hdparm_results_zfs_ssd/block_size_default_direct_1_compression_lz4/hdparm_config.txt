@@ -1,0 +1,2 @@
+Test Command: hdparm -t --direct /dev/sdb1
+Test Device: /dev/sdb1
