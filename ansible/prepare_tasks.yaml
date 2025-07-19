@@ -48,11 +48,12 @@
     - /dev/sdb
     - /dev/sdc
     - /dev/sdd
-  when: raid_opts is defined
+  when: inventory_hostname in groups['raid_hosts'] and test_device_short in ['raid04hdd', 'raid02hdd', 'raid1', 'raid5', 'raid6', 'raid10', 'stripe2hdd', 'stripe4hdd', 'mirror', 'raidz1', 'raidz2', 'raidz3']
 
 - name: Blank filesystem on the device
   shell: "wipefs -af {{ test_device }}"
-  when: raid_opts is not defined
+  when: test_device_short not in ['raid04hdd', 'raid02hdd', 'raid1', 'raid5', 'raid6', 'raid10', 'stripe2hdd', 'stripe4hdd', 'mirror', 'raidz1', 'raidz2', 'raidz3']
+
 
 - name: Clear Linux caches (PageCache, dentries, inodes) before test
   ansible.builtin.shell: "echo 3 > /proc/sys/vm/drop_caches"

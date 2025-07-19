@@ -28,11 +28,11 @@
         dev: "{{ '/dev/bcache0' if bcache_enabled else test_device }}"     
         opts: "{{ create_opts }}"
         force: true
-      when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc", "exfat"] and raid_opts is not defined
+      when: filesystem_type not in ["zfs", "zfs_nocache", "zfs_primary", "zfs_l2arc", "exfat"] and test_device_short not in ['raid04hdd', 'raid02hdd', 'raid1', 'raid5', 'raid6', 'raid10', 'stripe2hdd', 'stripe4hdd', 'mirror', 'raidz1', 'raidz2', 'raidz3']
 
     - name: Create Btrfs RAID filesystem
       shell: mkfs.btrfs -f {{ create_opts }} {{ raid_opts }}
-      when: filesystem_type == "btrfs" and inventory_hostname in groups['raid_hosts'] and raid_opts is defined
+      when: filesystem_type == "btrfs" and inventory_hostname in groups['raid_hosts'] and test_device_short in ['raid04hdd', 'raid02hdd', 'raid1', 'raid5', 'raid6', 'raid10']
 
     - name: Create EXFAT filesystem
       shell: "mkfs.exfat {{ '/dev/bcache0' if bcache_enabled else test_device }}"
@@ -41,7 +41,7 @@
     - name: Create ZFS pool and filesystem
       block:
         - name: Create ZFS pool
-          shell: zpool create -o ashift={{ ashift_value }} mypool {{ raid_opts if raid_opts is defined else test_device }}
+          shell: zpool create -o ashift={{ ashift_value }} mypool {{ raid_opts if inventory_hostname in groups['raid_hosts'] and test_device_short in ['raid10', 'stripe2hdd', 'stripe4hdd', 'mirror', 'raidz1', 'raidz2', 'raidz3'] else test_device }}
 
         - name: Create ZFS filesystem
           shell: zfs create mypool/myfilesystem
