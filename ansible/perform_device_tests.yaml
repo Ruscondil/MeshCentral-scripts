@@ -34,26 +34,29 @@
     - filesystem_type == "zfs_l2arc"
 
 - name: Set RAID options
-  when: inventory_hostname in groups['raid_hosts'] and test_device_short in ['raid04hdd', 'raid02hdd', 'raid1', 'raid5', 'raid6', 'raid10', 'stripe2hdd', 'stripe4hdd', 'mirror', 'raidz1', 'raidz2', 'raidz3']
   set_fact:
     raid_opts: >-
-      {% if filesystem_type == "btrfs" %}
-        {% if test_device_short == 'raid04hdd' %}-d raid0 -m raid0 /dev/sda /dev/sdb /dev/sdc /dev/sdd
-        {% elif test_device_short == 'raid02hdd' %}-d raid0 -m raid0 /dev/sda /dev/sdb
-        {% elif test_device_short == 'raid1' %}-d raid1 -m raid1 /dev/sda /dev/sdb
-        {% elif test_device_short == 'raid5' %}-d raid5 -m raid1 /dev/sda /dev/sdb /dev/sdc
-        {% elif test_device_short == 'raid6' %}-d raid6 -m raid1 /dev/sda /dev/sdb /dev/sdc /dev/sdd
-        {% elif test_device_short == 'raid10' %}-d raid10 -m raid10 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+      {% if inventory_hostname in groups['raid_hosts'] and test_device_short in ['raid04hdd', 'raid02hdd', 'raid1', 'raid5', 'raid6', 'raid10', 'stripe2hdd', 'stripe4hdd', 'mirror', 'raidz1', 'raidz2', 'raidz3'] %}
+        {% if filesystem_type == "btrfs" %}
+          {% if test_device_short == 'raid04hdd' %}-d raid0 -m raid0 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+          {% elif test_device_short == 'raid02hdd' %}-d raid0 -m raid0 /dev/sda /dev/sdb
+          {% elif test_device_short == 'raid1' %}-d raid1 -m raid1 /dev/sda /dev/sdb
+          {% elif test_device_short == 'raid5' %}-d raid5 -m raid1 /dev/sda /dev/sdb /dev/sdc
+          {% elif test_device_short == 'raid6' %}-d raid6 -m raid1 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+          {% elif test_device_short == 'raid10' %}-d raid10 -m raid10 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+          {% endif %}
+        {% elif filesystem_type in ["zfs", "zfs_nocache", "zfs_l2arc"] %}
+          {% if test_device_short == 'stripe2hdd' %}/dev/sda /dev/sdb 
+          {% elif test_device_short == 'stripe4hdd' %}/dev/sda /dev/sdb /dev/sdc /dev/sdd
+          {% elif test_device_short == 'mirror' %}mirror /dev/sda /dev/sdb
+          {% elif test_device_short == 'raidz1' %}raidz1 /dev/sda /dev/sdb /dev/sdc 
+          {% elif test_device_short == 'raidz2' %}raidz2 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+          {% elif test_device_short == 'raidz3' %}raidz3 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+          {% elif test_device_short == 'raid10' %}mirror /dev/sda /dev/sdb mirror /dev/sdc /dev/sdd
+          {% endif %}
         {% endif %}
-      {% elif filesystem_type in ["zfs", "zfs_nocache", "zfs_l2arc"] %}
-        {% if test_device_short == 'stripe2hdd' %}/dev/sda /dev/sdb 
-        {% elif test_device_short == 'stripe4hdd' %}/dev/sda /dev/sdb /dev/sdc /dev/sdd
-        {% elif test_device_short == 'mirror' %}mirror /dev/sda /dev/sdb
-        {% elif test_device_short == 'raidz1' %}raidz1 /dev/sda /dev/sdb /dev/sdc 
-        {% elif test_device_short == 'raidz2' %}raidz2 /dev/sda /dev/sdb /dev/sdc /dev/sdd
-        {% elif test_device_short == 'raidz3' %}raidz3 /dev/sda /dev/sdb /dev/sdc /dev/sdd
-        {% elif test_device_short == 'raid10' %}mirror /dev/sda /dev/sdb mirror /dev/sdc /dev/sdd
-        {% endif %}
+      {% else %}
+        None
       {% endif %}
 
 - name: Set ashift value
