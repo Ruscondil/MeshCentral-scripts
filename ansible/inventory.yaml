@@ -31,6 +31,16 @@ lab-sec-[10:16]
 [raid_hosts]
 lab-net-57
 
+[janek_1_half_hosts]
+lab-sec-[1:4]
+lab-sec-11
+lab-sec-13
+
+[janek_2_half_hosts]
+lab-sec-[5:9]
+lab-sec-14 
+lab-sec-16
+
 [all:vars]
 ansible_user=fsbench
 ansible_password=

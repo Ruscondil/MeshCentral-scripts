@@ -1,0 +1,62 @@
+---
+fio_tests:
+  - name: "database_test"
+    rw: "randrw"
+    rwmixread: "70"
+    numjobs: "24"
+    runtime: "60"
+    iodepth: "16"
+    bssplit: "4k/80:8k/20"
+    size: "3G"
+    repeat: 5 
+    recordsize: "8k"
+
+  - name: "multimedia_test"
+    rw: "read"
+    numjobs: "4"
+    runtime: "120"
+    iodepth: "64"
+    bssplit: "128k"
+    size: "16G"
+    repeat: 5 
+    recordsize: "128k"
+
+  - name: "webserver_test"
+    rw: "randread"
+    numjobs: "16"
+    runtime: "120"
+    iodepth: "32"
+    bssplit: "4k/90:8k/10"
+    size: "4G"
+    repeat: 5 
+    recordsize: "8k"
+
+  - name: "archive_test"
+    rw: "write"
+    numjobs: "9"
+    runtime: "180"
+    iodepth: "128"
+    bssplit: "64k/70:128k/30"
+    size: "10G"
+    recordsize: "128k"
+
+  # - name: "database_postgresql_test"
+  #   rw: "randread"
+  #   numjobs: "16"
+  #   runtime: "120"
+  #   iodepth: "32"
+  #   bssplit: "8k"
+  #   size: "2G"
+  #   repeat: 5
+  #   recordsize: "8k"
+
+  - name: "database_mysql_innodb_test"
+    rw: "randrw"
+    rwmixread: "70"
+    numjobs: "24"
+    runtime: "60"
+    iodepth: "16"
+    bssplit: "16k"
+    size: "1G"
+    repeat: 5
+    recordsize: "16k"
