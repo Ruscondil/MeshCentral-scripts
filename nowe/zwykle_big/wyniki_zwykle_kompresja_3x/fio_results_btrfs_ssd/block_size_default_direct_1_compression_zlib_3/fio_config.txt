@@ -1,0 +1,45 @@
+Test Device: /dev/sdb1
+Test Mount Point: /mnt/test
+Filesystem Type: btrfs
+
+Database_test Test:
+  RW: randrw
+  RWMixRead: 70  NumJobs: 24
+  Runtime: 60  Runtime: 60
+  IOdepth: 16  BSSplit: 4k/80:8k/20        repeat=1  
+    buffer_compress_percentage=70
+  refill_buffers
+  buffer_pattern=0xdeadbeef
+      Multimedia_test Test:
+  RW: read
+    NumJobs: 4
+  Runtime: 120  Runtime: 120
+  IOdepth: 64  BSSplit: 128k        repeat=1  
+    buffer_compress_percentage=70
+  refill_buffers
+  buffer_pattern=0xdeadbeef
+      Webserver_test Test:
+  RW: randread
+    NumJobs: 16
+  Runtime: 120  Runtime: 120
+  IOdepth: 32  BSSplit: 4k/90:8k/10        repeat=1  
+    buffer_compress_percentage=70
+  refill_buffers
+  buffer_pattern=0xdeadbeef
+      Archive_test Test:
+  RW: write
+    NumJobs: 9
+  Runtime: 180  Runtime: 180
+  IOdepth: 128  BSSplit: 64k/70:128k/30        repeat=1  
+    buffer_compress_percentage=70
+  refill_buffers
+  buffer_pattern=0xdeadbeef
+      Database_mysql_innodb_test Test:
+  RW: randrw
+  RWMixRead: 70  NumJobs: 24
+  Runtime: 60  Runtime: 60
+  IOdepth: 16  BSSplit: 16k        repeat=1  
+    buffer_compress_percentage=70
+  refill_buffers
+  buffer_pattern=0xdeadbeef
+      

@@ -1,0 +1,68 @@
+[
+    {
+        "compsize_output": "Processed 9 files, 360 regular extents (369 refs), 0 inline.\nType       Perc     Disk Usage   Uncompressed Referenced  \nTOTAL      100%       90G          90G          90G       \nnone       100%       28G          28G          27G       \nprealloc   100%       61G          61G          62G       "
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.0.0",
+        "file": "archive_test.0.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.8.0",
+        "file": "archive_test.8.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.7.0",
+        "file": "archive_test.7.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.6.0",
+        "file": "archive_test.6.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.5.0",
+        "file": "archive_test.5.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.4.0",
+        "file": "archive_test.4.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.3.0",
+        "file": "archive_test.3.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.2.0",
+        "file": "archive_test.2.0",
+        "size": 10737418240
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  10.00GiB    10.00GiB       0.00B  /mnt/test/archive_test.1.0",
+        "file": "archive_test.1.0",
+        "size": 10737418240
+    }
+]

@@ -1,0 +1,33 @@
+[
+    {
+        "compsize_output": "Processed 4 files, 256 regular extents (256 refs), 0 inline.\nType       Perc     Disk Usage   Uncompressed Referenced  \nTOTAL      100%       64G          64G          64G       \nnone       100%       64G          64G          64G       "
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  16.00GiB    16.00GiB       0.00B  /mnt/test/multimedia_test.0.0",
+        "file": "multimedia_test.0.0",
+        "size": 17179869184
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  16.00GiB    16.00GiB       0.00B  /mnt/test/multimedia_test.3.0",
+        "file": "multimedia_test.3.0",
+        "size": 17179869184
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  16.00GiB    16.00GiB       0.00B  /mnt/test/multimedia_test.2.0",
+        "file": "multimedia_test.2.0",
+        "size": 17179869184
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n  16.00GiB    16.00GiB       0.00B  /mnt/test/multimedia_test.1.0",
+        "file": "multimedia_test.1.0",
+        "size": 17179869184
+    }
+]

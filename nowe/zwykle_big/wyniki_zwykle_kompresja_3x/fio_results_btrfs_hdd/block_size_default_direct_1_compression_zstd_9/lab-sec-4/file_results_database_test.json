@@ -1,0 +1,173 @@
+[
+    {
+        "compsize_output": "Processed 24 files, 7050 regular extents (13803 refs), 0 inline.\nType       Perc     Disk Usage   Uncompressed Referenced  \nTOTAL      100%       72G          72G          72G       \nnone       100%       72G          72G          72G       "
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.0.0",
+        "file": "database_test.0.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.23.0",
+        "file": "database_test.23.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.22.0",
+        "file": "database_test.22.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.21.0",
+        "file": "database_test.21.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.20.0",
+        "file": "database_test.20.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.19.0",
+        "file": "database_test.19.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.18.0",
+        "file": "database_test.18.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.17.0",
+        "file": "database_test.17.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.16.0",
+        "file": "database_test.16.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.15.0",
+        "file": "database_test.15.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.14.0",
+        "file": "database_test.14.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.13.0",
+        "file": "database_test.13.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.12.0",
+        "file": "database_test.12.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.11.0",
+        "file": "database_test.11.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.10.0",
+        "file": "database_test.10.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.9.0",
+        "file": "database_test.9.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.8.0",
+        "file": "database_test.8.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.7.0",
+        "file": "database_test.7.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.6.0",
+        "file": "database_test.6.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.5.0",
+        "file": "database_test.5.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.4.0",
+        "file": "database_test.4.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.3.0",
+        "file": "database_test.3.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.2.0",
+        "file": "database_test.2.0",
+        "size": 3221225472
+    },
+    {
+        "attributes": [],
+        "block_size": 4096,
+        "btrfs_raw": "     Total   Exclusive  Set shared  Filename\n   3.00GiB     3.00GiB       0.00B  /mnt/test/database_test.1.0",
+        "file": "database_test.1.0",
+        "size": 3221225472
+    }
+]
