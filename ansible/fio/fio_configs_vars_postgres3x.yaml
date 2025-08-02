@@ -1,0 +1,12 @@
+---
+fio_tests:
+  - name: "database_postgresql_test"
+    rw: "randrw"
+    rwmixread: "70"
+    numjobs: "24"
+    runtime: "60"
+    iodepth: "16"
+    bssplit: "8k/90:16k/10"
+    size: "3G"
+    repeat: 5
+    recordsize: "8k"
