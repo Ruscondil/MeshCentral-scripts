@@ -10,3 +10,14 @@ fio_tests:
     size: "3G"
     repeat: 5
     recordsize: "8k"
+
+  - name: "multimedia_edit_test"
+    rw: "rw"
+    rwmixread: "90"
+    numjobs: "4"
+    runtime: "120"
+    iodepth: "64"
+    bssplit: "128k"
+    size: "16G"
+    repeat: 5
+    recordsize: "128k"
