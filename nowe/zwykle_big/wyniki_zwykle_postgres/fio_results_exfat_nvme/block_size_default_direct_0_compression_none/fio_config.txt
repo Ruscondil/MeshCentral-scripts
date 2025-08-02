@@ -1,0 +1,10 @@
+Test Device: /dev/nvme0n1p4
+Test Mount Point: /mnt/test
+Filesystem Type: exfat
+
+Database_postgresql_test Test:
+  RW: randrw
+  RWMixRead: 70  NumJobs: 24
+  Runtime: 60  Runtime: 60
+  IOdepth: 16  BSSplit: 8k/90:16k/10        repeat=1  
+      
