@@ -1,0 +1,12 @@
+---
+fio_tests:
+  - name: "multimedia_edit_test"
+    rw: "rw"
+    rwmixread: "90"
+    numjobs: "4"
+    runtime: "120"
+    iodepth: "64"
+    bssplit: "128k"
+    size: "8G"
+    repeat: 5
+    recordsize: "128k"
