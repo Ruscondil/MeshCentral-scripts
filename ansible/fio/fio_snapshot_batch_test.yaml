@@ -1,4 +1,17 @@
 ---
+- name: Run FIO test at start of snapshot test
+  ansible.builtin.shell: >
+    fio /tmp/fio_{{ item.name }}.fio --output /tmp/fio_{{ item.name }}_output_snapshots_0.json --output-format=json
+  register: fio_result_batch
+  changed_when: false
+  failed_when: fio_result_batch.rc != 0
+
+- name: Fetch all FIO per-batch output files
+  ansible.builtin.fetch:
+    src: "/tmp/fio_{{ item.name }}_output_snapshots_0.json"
+    dest: "{{ fio_results_path }}/{{ inventory_hostname }}/"
+    flat: yes
+
 - name: Prepare list of snapshot ranges
   set_fact:
     snapshot_batches: "{{ range(1, (snapshot_count | int) + 1) | batch(snapshot_batch_size) }}"

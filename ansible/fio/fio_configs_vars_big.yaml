@@ -50,16 +50,16 @@ fio_tests:
   #   repeat: 5
   #   recordsize: "8k"
 
-  - name: "database_mysql_innodb_test"
-    rw: "randrw"
-    rwmixread: "70"
-    numjobs: "24"
-    runtime: "60"
-    iodepth: "16"
-    bssplit: "16k"
-    size: "1G"
-    repeat: 5
-    recordsize: "16k"
+  # - name: "database_mysql_innodb_test"
+  #   rw: "randrw"
+  #   rwmixread: "70"
+  #   numjobs: "24"
+  #   runtime: "60"
+  #   iodepth: "16"
+  #   bssplit: "16k"
+  #   size: "1G"
+  #   repeat: 5
+  #   recordsize: "16k"
 
   - name: "database_postgresql_test"
     rw: "randrw"
@@ -71,3 +71,14 @@ fio_tests:
     size: "1G"
     repeat: 5
     recordsize: "8k"
+
+  - name: "multimedia_edit_test"
+    rw: "rw"
+    rwmixread: "90"
+    numjobs: "4"
+    runtime: "120"
+    iodepth: "64"
+    bssplit: "128k"
+    size: "8G"
+    repeat: 5
+    recordsize: "128k"
