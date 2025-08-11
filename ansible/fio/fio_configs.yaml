@@ -12,6 +12,9 @@
       buffer_compress_percentage=70
       refill_buffers
       buffer_pattern=0xdeadbeef
+      {% if filesystem_type == "btrfs" %}
+      fallocate=none
+      {% endif %}
       {% endif %}
 
       [{{ item.name }}]
