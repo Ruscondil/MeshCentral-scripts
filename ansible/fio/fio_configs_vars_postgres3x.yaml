@@ -21,3 +21,13 @@ fio_tests:
     size: "16G"
     repeat: 5
     recordsize: "128k"
+
+  - name: "webserver_new_test"
+    rw: "randread"
+    numjobs: "16"
+    runtime: "120"
+    iodepth: "32"
+    bssplit: "4k/60:8k/20:16k/10:32k/4:64k/4:128k/2"
+    size: "4G"
+    repeat: 5 
+    recordsize: "8k"
